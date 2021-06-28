@@ -273,7 +273,7 @@
     <ClCompile Include="PainterEngine\platform\windows\px_file.c">
       <Filter>PainterEngine</Filter>
     </ClCompile>
-    <ClCompile Include="PainterEngine\platform\windows\px_main.c">
+    <ClCompile Include="PainterEngine\platform\windows\px_main.cpp">
       <Filter>PainterEngine</Filter>
     </ClCompile>
     <ClCompile Include="PainterEngine\platform\windows\px_serialport.c">
@@ -288,7 +288,7 @@
     <ClCompile Include="PainterEngine\platform\windows\px_udp.c">
       <Filter>PainterEngine</Filter>
     </ClCompile>
-    <ClCompile Include="PainterEngine\project\PainterEngine_Application.c">
+    <ClCompile Include="PainterEngine\project\PainterEngine_Application.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PainterEngine\project\PainterEngine_Startup.c">

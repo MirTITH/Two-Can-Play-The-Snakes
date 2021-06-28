@@ -228,12 +228,12 @@
     <ClCompile Include="PainterEngine\platform\windows\px_audio.cpp" />
     <ClCompile Include="PainterEngine\platform\windows\px_display.cpp" />
     <ClCompile Include="PainterEngine\platform\windows\px_file.c" />
-    <ClCompile Include="PainterEngine\platform\windows\px_main.c" />
+    <ClCompile Include="PainterEngine\platform\windows\px_main.cpp" />
     <ClCompile Include="PainterEngine\platform\windows\px_serialport.c" />
     <ClCompile Include="PainterEngine\platform\windows\px_tcp.c" />
     <ClCompile Include="PainterEngine\platform\windows\px_time.c" />
     <ClCompile Include="PainterEngine\platform\windows\px_udp.c" />
-    <ClCompile Include="PainterEngine\project\PainterEngine_Application.c" />
+    <ClCompile Include="PainterEngine\project\PainterEngine_Application.cpp" />
     <ClCompile Include="PainterEngine\project\PainterEngine_Startup.c" />
   </ItemGroup>
   <ItemGroup>
