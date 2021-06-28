@@ -16,6 +16,7 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 {
 	px_surface *pRenderSurface=&pApp->runtime.RenderSurface;
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 255, 155, 125));
+	//test
 }
 
 px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
