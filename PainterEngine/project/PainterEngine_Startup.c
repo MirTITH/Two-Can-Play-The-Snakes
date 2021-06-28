@@ -9,13 +9,11 @@ px_bool PX_ApplicationInitializeDefault(PX_Runtime *runtime, px_int screen_width
 	px_int surface_width=0,surface_height=0;
 	px_int window_width=0,window_height=0;
 	px_double wdh;
-	wdh=screen_width*1.0/screen_height;
-	surface_height=(px_int)(PX_sqrtd(PX_APPLICATION_SURFACE_SIZE*PX_APPLICATION_SURFACE_SIZE/wdh));
-	surface_width=(px_int)(surface_height*wdh);
-
-
-	window_width=screen_width/2;
-	window_height=screen_height/2;
+	window_width = PX_APPLICATION_SURFACE_WIDTH;
+	window_height = PX_APPLICATION_SURFACE_HEIGHT;
+	//wdh = (double)window_width / window_height;
+	surface_height= PX_APPLICATION_SURFACE_HEIGHT;
+	surface_width= PX_APPLICATION_SURFACE_WIDTH;
 
 
 	if(!PX_RuntimeInitialize(runtime,surface_width,surface_height,window_width,window_height,PX_ApplicationRuntime,sizeof(PX_ApplicationRuntime),PX_APPLICATION_MEMORYPOOL_UI_SIZE,PX_APPLICATION_MEMORYPOOL_RESOURCES_SIZE,PX_APPLICATION_MEMORYPOOL_GAME_SIZE))
@@ -26,14 +24,14 @@ px_void PX_ApplicationEventDefault(PX_Runtime *runtime,PX_Object_Event e)
 {
 	if (e.Event==PX_OBJECT_EVENT_WINDOWRESIZE)
 	{
-		px_int surface_width=0,surface_height=0;
-		px_double wdh;
+		//px_int surface_width=0,surface_height=0;
+		//px_double wdh;
 
-		wdh=PX_Object_Event_GetWidth(e)*1.0/PX_Object_Event_GetHeight(e);
-		surface_height=(px_int)(PX_sqrtd(PX_APPLICATION_SURFACE_SIZE*PX_APPLICATION_SURFACE_SIZE/wdh));
-		surface_width=(px_int)(surface_height*wdh);
+		//wdh=PX_Object_Event_GetWidth(e)*1.0/PX_Object_Event_GetHeight(e);
+		//surface_height= PX_APPLICATION_SURFACE_HEIGHT;
+		//surface_width= PX_APPLICATION_SURFACE_WIDTH;
 
-		PX_RuntimeResize(runtime,surface_width,surface_height,(px_int)PX_Object_Event_GetWidth(e),(px_int)PX_Object_Event_GetHeight(e));
+		PX_RuntimeResize(runtime, PX_APPLICATION_SURFACE_WIDTH, PX_APPLICATION_SURFACE_HEIGHT,(px_int)PX_Object_Event_GetWidth(e),(px_int)PX_Object_Event_GetHeight(e));
 		return;
 	}
 }

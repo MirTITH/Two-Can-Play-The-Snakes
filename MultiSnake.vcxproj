@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Code\cursor.cpp" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Console.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Executer.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Runtime.c" />
@@ -239,6 +240,7 @@
     <ClCompile Include="PainterEngine\project\PainterEngine_Startup.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\cursor.h" />
     <ClInclude Include="Code\myheadfile.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Executer.h" />

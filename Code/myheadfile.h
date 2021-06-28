@@ -1,10 +1,10 @@
 #pragma once
 
 #include "PainterEngine_Application.h"
-#include <Windows.h>
 
+//  Û±ÍŒª÷√
 typedef struct pointer_pos
 {
-	px_float x = 0;
-	px_float y = 0;
-}POINTER_POS;		
+	px_float x;
+	px_float y;
+}POINTER_POS;
