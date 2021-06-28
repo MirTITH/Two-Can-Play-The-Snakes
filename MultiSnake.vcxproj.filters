@@ -566,5 +566,8 @@
     <ClInclude Include="PainterEngine\project\PainterEngine_Startup.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Code\myheadfile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
