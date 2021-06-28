@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="PainterEngine">
+      <UniqueIdentifier>{117541f0-26d6-4068-8a6f-64d989bb7774}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PainterEngine\architecture\PainterEngine_Console.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\architecture\PainterEngine_Executer.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\architecture\PainterEngine_Runtime.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_3D.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_AES.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_ANN.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Arle.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Base64.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_BaseGeo.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Bitmap.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_curve25519.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Delaunay.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Effect.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Font.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Hashmap.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Huffman.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_ImageFilter.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_KalmanFilter.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Linker.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_List.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Log.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Memory.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_MemoryPool.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_MFCC.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Packet.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_PointsMesh.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Quadtree.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Quicksort.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_rbtree.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Sha256.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Sound.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_SoundModule.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_String.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Surface.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Texture.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_TRaw.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_TriangleCross.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Tuning.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Typedef.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Vector.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\core\PX_Wave.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_3D_ObjData.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Animation.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Compiler.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Json.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Lexer.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_LiveFramework.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_MODBUS.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_MQTT.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Animation.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_AutoText.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_CheckBox.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Coordinate.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_CursorButton.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Edit.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Explorer.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Image.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Label.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_List.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Menu.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_MessageBox.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Panc.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Processbar.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Protractor.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_PushButton.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_RadioBox.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_ScaleBox.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_ScrollArea.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Selectbar.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Sliderbar.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_TransformAdapter.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_VirtualKeyboard.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Object_Widget.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Partical.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Resource.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Script_ASMCompiler.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Script_Interpreter.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Script_VM.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_Sync.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_UI.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\kernel\PX_World.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_audio.cpp">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_display.cpp">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_file.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_main.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_serialport.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_tcp.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_time.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\platform\windows\px_udp.c">
+      <Filter>PainterEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\project\PainterEngine_Application.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PainterEngine\project\PainterEngine_Startup.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\architecture\PainterEngine_Executer.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\architecture\PainterEngine_FoxLogo.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\architecture\PainterEngine_Runtime.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_3D.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_AES.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_ANN.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Arle.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Base64.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_BaseGeo.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Bitmap.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Core.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_curve25519.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Delaunay.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Effect.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Font.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Hashmap.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Huffman.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_ImageFilter.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_KalmanFilter.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Linker.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_List.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Log.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_MathTable.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Memory.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_MemoryPool.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_MFCC.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Packet.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_PointsMesh.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Quadtree.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Quicksort.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_rbtree.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Sha256.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Sound.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_SoundModule.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_String.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Surface.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Texture.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_TRaw.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Tuning.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Typedef.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Vector.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\core\PX_Wave.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_2dxCommon.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_3D_ObjData.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Animation.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Compiler.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Json.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Kernel.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Lexer.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_LiveFramework.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_MODBUS.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_MQTT.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Animation.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_AutoText.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_CheckBox.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Coordinate.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_CursorButton.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Edit.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Explorer.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Image.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Label.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_List.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Menu.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_MessageBox.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Panc.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Processbar.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Protractor.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_PushButton.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_RadioBox.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_ScaleBox.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_ScrollArea.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Selectbar.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Sliderbar.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_TransformAdapter.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_VirtualKeyboard.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Object_Widget.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Partical.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Resource.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_ScriptCore.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Script_ASMCompiler.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Script_Interpreter.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Script_VM.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_Sync.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_UI.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\kernel\PX_World.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\platform\windows\px_display.h">
+      <Filter>PainterEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\project\PainterEngine_Application.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PainterEngine\project\PainterEngine_Startup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
