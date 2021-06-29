@@ -1,69 +1,109 @@
-#include "keyboard.h"
-
 #include <iostream>
-#include <thread>
+#include "keyboard.h"
 #include "PainterEngine_Application.h"
-#include <Windows.h>
-#include <conio.h>
 
 using namespace std;
 
-std::atomic<bool> kb_w(true);
-
-//bool kb_w = true;
-
-void keyboard_processor();
-
-void keyboard_init()
+void KeyInput::up(bool IsDown)
 {
-	thread keyboard(keyboard_processor);
-	keyboard.detach();
+	if (IsDown && key_up) // 持续长按
+	{
+		if (GetDirKeyNum() == 1)
+		{
+			dir = direct::up;
+		}
+	}
+	else if (IsDown && !key_up) // 按下瞬间
+	{
+		dir = direct::up;
+	}
+	else // 未按下
+	{
+	}
+
+	key_up = IsDown;
 	return;
 }
 
-void keyboard_processor()
+void KeyInput::down(bool IsDown)
 {
-	while (true)
+	if (IsDown && key_down) // 持续长按
 	{
-		if (_kbhit())
+		if (GetDirKeyNum() == 1)
 		{
-			kb_w = true;
+			dir = direct::down;
 		}
-		else
-		{
-			kb_w = false;
-		}
-		Sleep(100);
 	}
-	
+	else if (IsDown && !key_down) // 按下瞬间
+	{
+		dir = direct::down;
+	}
+	else // 未按下
+	{
+	}
+
+	key_down = IsDown;
+	return;
 }
 
-int KeyQueue::get()
+void KeyInput::left(bool IsDown)
 {
-	int result = -1;
-
-	if (Key[0] != 0)
+	if (IsDown && key_left) // 持续长按
 	{
-		result = Key[0];
-		for (int i = 0; i < MAX_Queue - 1; i++)
+		if (GetDirKeyNum() == 1)
 		{
-			Key[i] = Key[i + 1];
+			dir = direct::left;
 		}
 	}
+	else if (IsDown && !key_left) // 按下瞬间
+	{
+		dir = direct::left;
+	}
+	else // 未按下
+	{
+	}
 
+	key_left = IsDown;
+	return;
+}
+
+void KeyInput::right(bool IsDown)
+{
+	if (IsDown && key_right) // 持续长按
+	{
+		if (GetDirKeyNum() == 1)
+		{
+			dir = direct::right;
+		}
+	}
+	else if (IsDown && !key_right) // 按下瞬间
+	{
+		dir = direct::right;
+	}
+	else // 未按下
+	{
+	}
+
+	key_right = IsDown;
+	return;
+}
+
+direct KeyInput::GetDir()
+{
+	if (GetDirKeyNum() != 0)
+	{
+		return dir;
+	}
+
+	return direct::unassign;
+}
+
+int KeyInput::GetDirKeyNum()
+{
+	int result = 0;
+	if (key_right) result++;
+	if (key_left) result++;
+	if (key_up) result++;
+	if (key_down) result++;
 	return result;
-}
-
-int KeyQueue::put(int n)
-{
-	for (int i = 0; i < MAX_Queue; i++)
-	{
-		if (Key[i] == 0)
-		{
-			Key[i] = n;
-			return 0;
-		}
-			
-	}
-	return -1;
 }
