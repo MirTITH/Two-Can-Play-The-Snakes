@@ -297,6 +297,9 @@
     <ClCompile Include="Code\cursor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Code\keyboard.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h">
@@ -575,7 +578,7 @@
     <ClInclude Include="Code\cursor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Code\keyboard.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

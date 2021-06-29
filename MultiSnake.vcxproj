@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Code\cursor.cpp" />
+    <ClCompile Include="Code\keyboard.cpp" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Console.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Executer.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Runtime.c" />
@@ -241,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\cursor.h" />
+    <ClInclude Include="Code\keyboard.h" />
     <ClInclude Include="Code\myheadfile.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Executer.h" />
@@ -332,7 +334,6 @@
     <ClInclude Include="PainterEngine\platform\windows\px_display.h" />
     <ClInclude Include="PainterEngine\project\PainterEngine_Application.h" />
     <ClInclude Include="PainterEngine\project\PainterEngine_Startup.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

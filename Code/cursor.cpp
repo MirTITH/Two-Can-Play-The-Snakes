@@ -3,7 +3,7 @@
 #include <Windows.h>
 
 px_int cursor_r = cursor_r_default;
-extern POINTER_POS pt;
+extern POINTER_POS cursor;
 
 void cursor_init()
 {
@@ -12,7 +12,7 @@ void cursor_init()
 
 void cursor_draw(px_surface* psurface)
 {
-	PX_GeoDrawCircle(psurface, (px_int)pt.x, (px_int)pt.y, (px_int)cursor_r, 4, cursor_color);
+	PX_GeoDrawCircle(psurface, (px_int)cursor.x, (px_int)cursor.y, (px_int)cursor_r, 4, cursor_color);
 }
 
 void cursor_CURSORDOWN()
