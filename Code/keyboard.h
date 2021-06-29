@@ -20,6 +20,7 @@ typedef struct key_map
 	int skill_2;//大技能
 }KeyMap;
 
+// 按键输入
 class KeyInput
 {
 public:
