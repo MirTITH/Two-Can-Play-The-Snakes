@@ -11,6 +11,7 @@ extern "C"{
 #endif
 typedef struct
 {
+	PX_FontModule fm;
 	PX_Runtime runtime;
 }PX_Application;
 

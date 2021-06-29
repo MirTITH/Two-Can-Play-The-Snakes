@@ -1,7 +1,6 @@
 #include "myheadfile.h"
 #include <Windows.h>
 #include "cursor.h"
-
 PX_Application App;
 POINTER_POS pt = { 0,0 };
 POINTER_POS ball_pos = { PX_APPLICATION_SURFACE_HEIGHT / 2, PX_APPLICATION_SURFACE_WIDTH / 2 };
@@ -10,6 +9,8 @@ POINTER_POS ball_pos = { PX_APPLICATION_SURFACE_HEIGHT / 2, PX_APPLICATION_SURFA
 px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int screen_height)
 {
 	PX_ApplicationInitializeDefault(&pApp->runtime, screen_width, screen_height);
+	if (!PX_FontModuleInitialize(&pApp->runtime.mp_resources, &pApp->fm)) return PX_FALSE;//字模
+	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
 	return PX_TRUE;
 }
@@ -27,6 +28,8 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 255, 255, 255));
 	PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
 	PX_GeoDrawCircle(pRenderSurface, (px_int)ball_pos.x, (px_int)ball_pos.y, (px_int)5, 4, PX_COLOR(255, 145, 224, 200));
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 100, PX_ALIGN_LEFTTOP, "你好,PainterEngine", PX_COLOR(255, 255, 255, 255));
+
 	cursor_draw(pRenderSurface); //请保持鼠标最后绘制
 }
 
