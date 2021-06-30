@@ -55,7 +55,6 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	PX_GeoDrawCircle(pRenderSurface, (px_int)ball_pos.x, (px_int)ball_pos.y, (px_int)5, 4, PX_COLOR(255, 145, 224, 200));
 
 	
-
 	sprintf_s(text,"P1:%d P2:%d", player1.input.GetDir(), player2.input.GetDir());
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 100, PX_ALIGN_LEFTTOP, text, PX_COLOR(255, 255, 255, 255));
 
