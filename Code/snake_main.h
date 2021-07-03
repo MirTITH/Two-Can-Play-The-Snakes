@@ -38,5 +38,7 @@ public:
 	int T; //多少周期后前进一格
 private:
 	Snake* snake_head = NULL; //蛇头
+	int timer = 0;
 };
 
+int Snake_main_init();

@@ -25,10 +25,6 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_FontModuleInitialize(&pApp->runtime.mp_resources, &pApp->fm)) return PX_FALSE;//字模
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
-	cout << sizeof(long) << endl;
-	cout << sizeof(long long) << endl;
-	int16_t 
-
 	return PX_TRUE;
 }
 
@@ -41,7 +37,7 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 {
 	px_surface *pRenderSurface=&pApp->runtime.RenderSurface;
 	//GetCursorPos(&pt); //Windows 函数，获取鼠标绝对坐标
-	//Sleep(10);
+	//Sleep(1000);
 
 	player1.get_input();
 	player1.move();

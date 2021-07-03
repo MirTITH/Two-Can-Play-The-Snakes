@@ -23,25 +23,21 @@ Player::Player(int PlayerID)
 		this->snake_head->food = 150;
 		this->snake_head->next = NULL;
 		this->T = 2;
-		this->snake_head->x = MAP_SIZE_X / 2;
+		this->snake_head->x = MAP_SIZE_X / 3;
 		this->snake_head->y = MAP_SIZE_Y / 4;
 		break;
 	case 2:
-		this->keymap.up = VK_UP;//w
-		this->keymap.down = VK_DOWN;//s
-		this->keymap.left = VK_LEFT;//a
-		this->keymap.right = VK_RIGHT;//d
-		this->keymap.accelerate = 16;//shift
-		this->keymap.skill_1 = 69;//e
-		this->keymap.skill_2 = 81;//q
-		this->keymap.slowdown = 32;//space
+		this->keymap.up = VK_UP;
+		this->keymap.down = VK_DOWN;
+		this->keymap.left = VK_LEFT;
+		this->keymap.right = VK_RIGHT;
 
 		this->snake_head->color = PX_COLOR(255, 30, 132, 244);
 		this->snake_head->Dir = direct::up;
 		this->snake_head->food = 150;
 		this->snake_head->next = NULL;
-		this->T = 2;
-		this->snake_head->x = MAP_SIZE_X / 2;
+		this->T = 4;
+		this->snake_head->x = MAP_SIZE_X / 1.5;
 		this->snake_head->y = MAP_SIZE_Y / 4;
 
 
@@ -75,10 +71,10 @@ Player::~Player()
 
 void Player::get_input()
 {
-	this->input.up(GetKeyState(this->keymap.up) & 0x8000);
-	this->input.down(GetKeyState(this->keymap.down) & 0x8000);
-	this->input.left(GetKeyState(this->keymap.left) & 0x8000);
-	this->input.right(GetKeyState(this->keymap.right) & 0x8000);
+	this->input.up(GetAsyncKeyState(this->keymap.up));
+	this->input.down(GetAsyncKeyState(this->keymap.down));
+	this->input.left(GetAsyncKeyState(this->keymap.left));
+	this->input.right(GetAsyncKeyState(this->keymap.right));
 }
 
 Snake* Player::snake(int length)
@@ -152,14 +148,13 @@ int Player::snake_delfromhead(int num)
 
 int Player::move()
 {
-	//static int timer = 0;
-	//timer++;
-	//if (timer < T)
-	//{
-	//	return 0;
-	//}
+	timer++;
+	if (timer < T)
+	{
+		return 0;
+	}
 
-	//timer = 0;
+	timer = 0;
 
 
 
@@ -243,4 +238,9 @@ int Player::move()
 	}
 
 	return 1;
+}
+
+int Snake_main_init()
+{
+	return 0;
 }
