@@ -9,36 +9,58 @@ Player::Player(int PlayerID)
 	switch (PlayerID)
 	{
 	case 1:
-		keymap.up = 87;//w
-		keymap.down = 83;//s
-		keymap.left = 65;//a
-		keymap.right = 68;//d
-		keymap.accelerate = 16;//shift
-		keymap.skill_1 = 69;//e
-		keymap.skill_2 = 81;//q
-		keymap.slowdown = 32;//space
+		this->keymap.up = 87;//w
+		this->keymap.down = 83;//s
+		this->keymap.left = 65;//a
+		this->keymap.right = 68;//d
+		this->keymap.accelerate = 16;//shift
+		this->keymap.skill_1 = 69;//e
+		this->keymap.skill_2 = 81;//q
+		this->keymap.slowdown = 32;//space
 
-		snake_head->color = PX_COLOR(255, 30, 132, 244);
-		snake_head->Dir = direct::up;
-		snake_head->food = 50;
-		snake_head->next = NULL;
-		T = 2;
-		snake_head->x = MAP_SIZE_X / 2;
-		snake_head->y = MAP_SIZE_Y / 4;
+		this->snake_head->color = PX_COLOR(255, 30, 132, 244);
+		this->snake_head->Dir = direct::up;
+		this->snake_head->food = 150;
+		this->snake_head->next = NULL;
+		this->T = 2;
+		this->snake_head->x = MAP_SIZE_X / 2;
+		this->snake_head->y = MAP_SIZE_Y / 4;
 		break;
 	case 2:
-		keymap.up = VK_UP;
-		keymap.down = VK_DOWN;
-		keymap.left = VK_LEFT;
-		keymap.right = VK_RIGHT;
+		this->keymap.up = VK_UP;//w
+		this->keymap.down = VK_DOWN;//s
+		this->keymap.left = VK_LEFT;//a
+		this->keymap.right = VK_RIGHT;//d
+		this->keymap.accelerate = 16;//shift
+		this->keymap.skill_1 = 69;//e
+		this->keymap.skill_2 = 81;//q
+		this->keymap.slowdown = 32;//space
 
-		snake_head->color = PX_COLOR(255, 224, 99, 131);
-		snake_head->Dir = direct::up;
-		snake_head->food = 1;
-		snake_head->next = NULL;
-		T = 10;
-		snake_head->x = MAP_SIZE_X / 2;
-		snake_head->y = MAP_SIZE_Y / 1.5;
+		this->snake_head->color = PX_COLOR(255, 30, 132, 244);
+		this->snake_head->Dir = direct::up;
+		this->snake_head->food = 150;
+		this->snake_head->next = NULL;
+		this->T = 2;
+		this->snake_head->x = MAP_SIZE_X / 2;
+		this->snake_head->y = MAP_SIZE_Y / 4;
+
+
+
+		//keymap.up = VK_UP;
+		//keymap.down = VK_DOWN;
+		//keymap.left = VK_LEFT;
+		//keymap.right = VK_RIGHT;
+		//keymap.skill_1 = 69;//e
+		//keymap.skill_2 = 81;//q
+		//keymap.slowdown = 32;//space
+
+		//snake_head->color = PX_COLOR(255, 224, 99, 131);
+		//snake_head->Dir = direct::left;
+		//snake_head->food = 50;
+		//snake_head->next = NULL;
+		//T = 2;
+		//snake_head->x = MAP_SIZE_X / 2;
+		//snake_head->y = MAP_SIZE_Y / 4;
 		break;
 	default:
 
@@ -130,14 +152,14 @@ int Player::snake_delfromhead(int num)
 
 int Player::move()
 {
-	static int timer = 0;
-	timer++;
-	if (timer < T)
-	{
-		return 0;
-	}
+	//static int timer = 0;
+	//timer++;
+	//if (timer < T)
+	//{
+	//	return 0;
+	//}
 
-	timer = 0;
+	//timer = 0;
 
 
 

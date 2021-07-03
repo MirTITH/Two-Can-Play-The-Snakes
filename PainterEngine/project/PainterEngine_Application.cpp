@@ -25,6 +25,9 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_FontModuleInitialize(&pApp->runtime.mp_resources, &pApp->fm)) return PX_FALSE;//字模
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
+	cout << sizeof(long) << endl;
+	cout << sizeof(long long) << endl;
+	int16_t 
 
 	return PX_TRUE;
 }
@@ -41,8 +44,9 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	//Sleep(10);
 
 	player1.get_input();
-	player2.get_input();
 	player1.move();
+	player2.get_input();
+	player2.move();
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 255, 255, 255));
 	PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
@@ -52,10 +56,16 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 
 		PX_GeoDrawCircle(pRenderSurface, 2*player1.snake(i)->x, 2 * player1.snake(i)->y, (px_int)2, 1, PX_COLOR(255, 145, 224, 200));
 	}
+	for (int i = 0; ; i++)
+	{
+		if (player2.snake(i) == NULL) break;
+
+		PX_GeoDrawCircle(pRenderSurface, 2 * player2.snake(i)->x, 2 * player2.snake(i)->y, (px_int)2, 1, PX_COLOR(255, 224, 115, 200));
+	}
 	PX_GeoDrawCircle(pRenderSurface, (px_int)ball_pos.x, (px_int)ball_pos.y, (px_int)5, 4, PX_COLOR(255, 145, 224, 200));
 
 	
-	sprintf_s(text,"P1:%d P2:%d", player1.input.GetDir(), player2.input.GetDir());
+	//sprintf_s(text,"P1:%d P2:%d", player1.input.GetDir(), player2.input.GetDir());
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 100, PX_ALIGN_LEFTTOP, text, PX_COLOR(255, 255, 255, 255));
 
 	cursor_draw(pRenderSurface); //请保持鼠标最后绘制
