@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <thread>
 
+using namespace std;
+
 Player::Player(int PlayerID)
 {
 	snake_head = new Snake;
@@ -9,22 +11,22 @@ Player::Player(int PlayerID)
 	switch (PlayerID)
 	{
 	case 1:
-		this->keymap.up = 87;//w
-		this->keymap.down = 83;//s
-		this->keymap.left = 65;//a
-		this->keymap.right = 68;//d
-		this->keymap.accelerate = 16;//shift
-		this->keymap.skill_1 = 69;//e
-		this->keymap.skill_2 = 81;//q
-		this->keymap.slowdown = 32;//space
+		keymap.up = 87;//w
+		keymap.down = 83;//s
+		keymap.left = 65;//a
+		keymap.right = 68;//d
+		keymap.accelerate = 16;//shift
+		keymap.skill_1 = 69;//e
+		keymap.skill_2 = 81;//q
+		keymap.slowdown = 32;//space
 
-		this->snake_head->color = PX_COLOR(255, 30, 132, 244);
-		this->snake_head->Dir = direct::up;
-		this->snake_head->food = 150;
-		this->snake_head->next = NULL;
-		this->T = 2;
-		this->snake_head->x = MAP_SIZE_X / 3;
-		this->snake_head->y = MAP_SIZE_Y / 4;
+		snake_head->color = PX_COLOR(255, 30, 132, 244);
+		snake_head->Dir = direct::up;
+		snake_head->food = 150;
+		snake_head->next = NULL;
+		T = 10;
+		snake_head->x = MAP_SIZE_X / 3;
+		snake_head->y = MAP_SIZE_Y / 4;
 		break;
 	case 2:
 		this->keymap.up = VK_UP;
@@ -36,7 +38,7 @@ Player::Player(int PlayerID)
 		this->snake_head->Dir = direct::up;
 		this->snake_head->food = 150;
 		this->snake_head->next = NULL;
-		this->T = 4;
+		this->T = 20;
 		this->snake_head->x = MAP_SIZE_X / 1.5;
 		this->snake_head->y = MAP_SIZE_Y / 4;
 
@@ -71,10 +73,10 @@ Player::~Player()
 
 void Player::get_input()
 {
-	this->input.up(GetAsyncKeyState(this->keymap.up));
-	this->input.down(GetAsyncKeyState(this->keymap.down));
-	this->input.left(GetAsyncKeyState(this->keymap.left));
-	this->input.right(GetAsyncKeyState(this->keymap.right));
+	input.up(GetAsyncKeyState(keymap.up));
+	input.down(GetAsyncKeyState(keymap.down));
+	input.left(GetAsyncKeyState(keymap.left));
+	input.right(GetAsyncKeyState(keymap.right));
 }
 
 Snake* Player::snake(int length)
@@ -238,9 +240,4 @@ int Player::move()
 	}
 
 	return 1;
-}
-
-int Snake_main_init()
-{
-	return 0;
 }

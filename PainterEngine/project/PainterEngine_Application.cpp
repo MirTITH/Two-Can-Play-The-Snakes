@@ -6,6 +6,7 @@
 #include "cursor.h"
 #include "keyboard.h"
 #include "snake_main.h"
+#include <chrono>
 
 using namespace std;
 
@@ -13,6 +14,8 @@ PX_Application App;
 POINTER_POS cursor = { 0,0 };
 POINTER_POS ball_pos = { PX_APPLICATION_SURFACE_HEIGHT / 2, PX_APPLICATION_SURFACE_WIDTH / 2 };
 char text[20];
+
+CRITICAL_SECTION g_cs;
 
 Player player1(1);
 Player player2(2);
@@ -25,6 +28,10 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_FontModuleInitialize(&pApp->runtime.mp_resources, &pApp->fm)) return PX_FALSE;//字模
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
+
+	InitializeCriticalSection(&g_cs);//初始化临界区
+	thread sys_tick(Sys_tick_f);
+	sys_tick.detach();
 	return PX_TRUE;
 }
 
@@ -40,9 +47,7 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	//Sleep(1000);
 
 	player1.get_input();
-	player1.move();
 	player2.get_input();
-	player2.move();
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 255, 255, 255));
 	PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
@@ -126,3 +131,18 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 	
 }
 
+void Sys_tick_f()
+{
+	chrono::system_clock::time_point until;
+	while (true)
+	{
+		until = chrono::system_clock::now();
+		until += chrono::milliseconds(1);
+		EnterCriticalSection(&g_cs);
+		player1.move();
+		player2.move();
+		LeaveCriticalSection(&g_cs);
+		while (until > chrono::system_clock::now());
+		//this_thread::sleep_until(until);
+	}
+}

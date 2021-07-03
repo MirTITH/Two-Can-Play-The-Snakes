@@ -35,7 +35,7 @@ public:
 			1 成功移动一格
 	*/
 	int move(); 
-	int T; //多少周期后前进一格
+	int T = 1; //多少周期后前进一格
 private:
 	Snake* snake_head = NULL; //蛇头
 	int timer = 0;
