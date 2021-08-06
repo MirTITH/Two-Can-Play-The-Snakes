@@ -6,7 +6,7 @@ using namespace std;
 
 Player::Player(int PlayerID)
 {
-	snake_head = new Snake;
+	snake_head = new Snake_Unit;
 
 	switch (PlayerID)
 	{
@@ -79,9 +79,9 @@ void Player::get_input()
 	input.right(GetAsyncKeyState(keymap.right));
 }
 
-Snake* Player::snake(int length)
+Snake_Unit* Player::snake(int length)
 {
-	Snake* pointer = snake_head;
+	Snake_Unit* pointer = snake_head;
 
 	if (length > 0)
 	{
@@ -122,17 +122,17 @@ Snake* Player::snake(int length)
 	return pointer;
 }
 
-void Player::snake_addtotail(Snake* NewSnake)
+void Player::snake_addtotail(Snake_Unit* NewSnake)
 {
-	Snake* tail = snake(-1);
+	Snake_Unit* tail = snake(-1);
 	tail->next = NewSnake;
 
 }
 
 int Player::snake_delfromhead(int num)
 {
-	Snake* pointer = NULL;
-	Snake* pointertodel = NULL;
+	Snake_Unit* pointer = NULL;
+	Snake_Unit* pointertodel = NULL;
 	for (int i = 1; i <= num; i++)
 	{
 		pointer = snake(1);
@@ -160,8 +160,8 @@ int Player::move()
 
 
 
-	Snake* pointer = NULL;
-	Snake* NewSnake = NULL;
+	Snake_Unit* pointer = NULL;
+	Snake_Unit* NewSnake = NULL;
 
 	if (input.GetDir() != direct::unassign)
 	{
@@ -172,7 +172,7 @@ int Player::move()
 	if (pointer->food > 0)
 	{
 		pointer->food--;
-		NewSnake = new Snake;
+		NewSnake = new Snake_Unit;
 		NewSnake->color = pointer->color;
 		NewSnake->Dir = pointer->Dir;
 		NewSnake->food = pointer->food;
@@ -185,6 +185,7 @@ int Player::move()
 	{
 	case direct::up:
 		snake_head->y--;
+
 		break;
 	case direct::down:
 		snake_head->y++;
@@ -237,6 +238,169 @@ int Player::move()
 	if (NewSnake != NULL)
 	{
 		snake_addtotail(NewSnake);
+	}
+
+	return 1;
+}
+
+Snake::Snake(int x, int y, int length, px_color color)
+{
+	this->dir = direct::up;
+
+	snake_head = new Snake_Unit;
+
+	//snake_head->color = PX_COLOR(255, 30, 132, 244);
+	snake_head->color = color;
+	snake_head->Dir = direct::up;
+	snake_head->food = length;
+	snake_head->next = NULL;
+	//snake_head->x = MAP_SIZE_X / 3;
+	//snake_head->y = MAP_SIZE_Y / 4;
+	snake_head->x = x;
+	snake_head->y = y;
+}
+
+Snake_Unit* Snake::Get(int length)
+{
+	Snake_Unit* pointer = snake_head;
+
+	if (length > 0)
+	{
+		for (int i = 0; i < length; i++)
+		{
+			pointer = pointer->next;
+			if (pointer == NULL)
+			{
+				break;
+			}
+		}
+	}
+	else if (length < 0)
+	{
+		int max_length;
+		for (int i = 1; ; i++)
+		{
+			pointer = pointer->next;
+			if (pointer == NULL)
+			{
+				max_length = i;
+				break;
+			}
+		}
+
+		if (max_length + length < 0) return NULL;
+		pointer = snake_head;
+		for (int i = 0; i < max_length + length; i++)
+		{
+			pointer = pointer->next;
+			if (pointer == NULL)
+			{
+				break;
+			}
+		}
+	}
+
+	return pointer;
+}
+
+int Snake::move()
+{
+	timer++;
+	if (timer < T)
+	{
+		return 0;
+	}
+
+	timer = 0;
+
+
+	Snake_Unit* tail_pre = NULL; // 倒数第二节
+	Snake_Unit* tail_this = NULL; // 蛇尾巴
+	Snake_Unit* tail_new = NULL; // 新尾巴
+
+
+	tail_this = this->Get(-1);
+	tail_pre = this->Get(-2);
+
+	if (tail_pre == NULL) // 说明蛇的长度为1
+	{
+		if (tail_this->food > 0)
+		{
+			tail_new = new Snake_Unit;
+
+			tail_new->color = tail_this->color;
+			tail_new->Dir = tail_this->Dir;
+			tail_new->food = tail_this->food - 1;
+			tail_this->food = 0;
+			tail_new->next = NULL;
+			tail_new->x = tail_this->x;
+			tail_new->y = tail_this->y;
+			tail_this->next = tail_new;
+		}
+
+		switch (this->dir)
+		{
+		case direct::up:
+			//tail_this->y = snake_head->y - 1;
+			tail_this->y--;
+			break;
+		case direct::down:
+			//tail_this->y = snake_head->y + 1;
+			tail_this->y++;
+			break;
+		case direct::left:
+			//tail_this->x = snake_head->x - 1;
+			tail_this->x--;
+			break;
+		case direct::right:
+			//tail_this->x = snake_head->x + 1;
+			tail_this->x++;
+			break;
+		default:
+			break;
+		}
+		
+	}
+	else
+	{
+		if (tail_this->food > 0)
+		{
+			tail_new = new Snake_Unit;
+
+			tail_new->color = tail_this->color;
+			tail_new->Dir = tail_this->Dir;
+			tail_new->food = tail_this->food - 1;
+			tail_this->food = 0;
+			tail_new->next = NULL;
+			tail_new->x = tail_this->x;
+			tail_new->y = tail_this->y;
+			tail_pre->next = tail_new;
+		}
+
+		switch (this->dir)
+		{
+		case direct::up:
+			tail_this->y = snake_head->y - 1;
+			//snake_head->y--;
+			break;
+		case direct::down:
+			tail_this->y = snake_head->y + 1;
+			//snake_head->y++;
+			break;
+		case direct::left:
+			tail_this->x = snake_head->x - 1;
+			//snake_head->x--;
+			break;
+		case direct::right:
+			tail_this->x = snake_head->x + 1;
+			//snake_head->x++;
+			break;
+		default:
+			break;
+		}
+
+		tail_this->next = this->snake_head;
+		this->snake_head = tail_this;
 	}
 
 	return 1;
