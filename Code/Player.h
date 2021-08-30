@@ -24,16 +24,44 @@ class Snake
 {
 public:
 	/**
-	* @brief 初始化一条蛇
+	* @brief 定义一条蛇，之后需要执行Init()初始化
 	* @param num 蛇的初始长度
 	* @param color 蛇的初始颜色
 	*/
-	Snake(int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
+	Snake()
+	{
+		snakeHead = NULL;
+		//if (snakeHead == NULL)
+		//{
+		//	cerr << "Err. [Snake::Snake] snakeHead = new SnakeBlock fail" << endl;
+		//}
+
+		defaultColor = PX_COLOR(255, 30, 132, 244);
+
+		chainLength = 0;
+		lastDir = Direct::unassign;
+
+		//snakeHead->color = defaultColor;
+		//snakeHead->food = num;
+		//snakeHead->next = NULL;
+
+		////snakeHead->x = MAP_SIZE_X / 3;
+		////snakeHead->y = MAP_SIZE_Y / 4;
+	}
+
+	~Snake();
+
+	/**
+	* @brief 初始化一条蛇，只能在初始化后立即执行
+	* @param num 蛇的初始长度
+	* @param color 蛇的初始颜色
+	*/
+	void Init(int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
 	{
 		snakeHead = new SnakeBlock;
 		if (snakeHead == NULL)
 		{
-			cerr << "Err. [Snake::Snake] snakeHead = new SnakeBlock fail" << endl;
+			cerr << "Err. [Snake::ReInit] snakeHead == NULL" << endl;
 		}
 
 		defaultColor = color;
@@ -44,12 +72,7 @@ public:
 		snakeHead->color = defaultColor;
 		snakeHead->food = num;
 		snakeHead->next = NULL;
-
-		//snakeHead->x = MAP_SIZE_X / 3;
-		//snakeHead->y = MAP_SIZE_Y / 4;
 	}
-
-	~Snake();
 
 	// 执行一次就向 dir 方向移动一次
 	void Move(Direct dir);
@@ -105,18 +128,39 @@ private:
 class Player
 {
 public:
-	Player()
+	/**
+	* @brief 创建一位玩家
+	* @param pid 玩家ID
+	* @param _keyMap 键位映射
+	* @param num 蛇初始长度
+	* @param color 蛇的颜色
+	*/
+	Player(uint32_t pid, KeyMap _keyMap, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
 	{
-
+		snake.Init(num, color);
+		ID = pid;
+		T = 20;
+		dir = Direct::up;
+		name = "id_" + to_string(ID);
+		keyMap = _keyMap;
+		nowTick = 0;
 	}
 
 	/**
 	* @brief 节拍加1（节拍加T次后蛇移动一格）
 	* @return void
 	*/
-	void tick();
+	void Tick()
+	{
+		nowTick++;
+		if (nowTick >= T)
+		{
+			nowTick = 0;
+			snake.Move(dir);
+		}
+	}
 
-	KeyMap keymap;
+	KeyMap keyMap;
 
 	string name;
 
@@ -127,4 +171,5 @@ public:
 	Snake snake;
 private:
 	Direct dir; // 即将向该方向移动
+	int nowTick;
 };

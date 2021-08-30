@@ -11,14 +11,14 @@ Player::Player(int PlayerID)
 	switch (PlayerID)
 	{
 	case 1:
-		keymap.up = 87;//w
-		keymap.down = 83;//s
-		keymap.left = 65;//a
-		keymap.right = 68;//d
-		keymap.accelerate = 16;//shift
-		keymap.skill_1 = 69;//e
-		keymap.skill_2 = 81;//q
-		keymap.slowdown = 32;//space
+		keyMap.up = 87;//w
+		keyMap.down = 83;//s
+		keyMap.left = 65;//a
+		keyMap.right = 68;//d
+		keyMap.accelerate = 16;//shift
+		keyMap.skill_1 = 69;//e
+		keyMap.skill_2 = 81;//q
+		keyMap.slowdown = 32;//space
 
 		snakeHead->color = PX_COLOR(255, 30, 132, 244);
 		snakeHead->Dir = Direct::up;
@@ -29,10 +29,10 @@ Player::Player(int PlayerID)
 		snakeHead->y = MAP_SIZE_Y / 4;
 		break;
 	case 2:
-		this->keymap.up = VK_UP;
-		this->keymap.down = VK_DOWN;
-		this->keymap.left = VK_LEFT;
-		this->keymap.right = VK_RIGHT;
+		this->keyMap.up = VK_UP;
+		this->keyMap.down = VK_DOWN;
+		this->keyMap.left = VK_LEFT;
+		this->keyMap.right = VK_RIGHT;
 
 		this->snakeHead->color = PX_COLOR(255, 30, 132, 244);
 		this->snakeHead->Dir = Direct::up;
@@ -44,13 +44,13 @@ Player::Player(int PlayerID)
 
 
 
-		//keymap.up = VK_UP;
-		//keymap.down = VK_DOWN;
-		//keymap.left = VK_LEFT;
-		//keymap.right = VK_RIGHT;
-		//keymap.skill_1 = 69;//e
-		//keymap.skill_2 = 81;//q
-		//keymap.slowdown = 32;//space
+		//keyMap.up = VK_UP;
+		//keyMap.down = VK_DOWN;
+		//keyMap.left = VK_LEFT;
+		//keyMap.right = VK_RIGHT;
+		//keyMap.skill_1 = 69;//e
+		//keyMap.skill_2 = 81;//q
+		//keyMap.slowdown = 32;//space
 
 		//snakeHead->color = PX_COLOR(255, 224, 99, 131);
 		//snakeHead->Dir = Direct::left;
@@ -73,10 +73,10 @@ Player::~Player()
 
 void Player::get_input()
 {
-	input.up(GetAsyncKeyState(keymap.up));
-	input.down(GetAsyncKeyState(keymap.down));
-	input.left(GetAsyncKeyState(keymap.left));
-	input.right(GetAsyncKeyState(keymap.right));
+	input.up(GetAsyncKeyState(keyMap.up));
+	input.down(GetAsyncKeyState(keyMap.down));
+	input.left(GetAsyncKeyState(keyMap.left));
+	input.right(GetAsyncKeyState(keyMap.right));
 }
 
 Snake_Unit* Player::snake(int length)

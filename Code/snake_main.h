@@ -23,7 +23,7 @@ public:
 	~Player();
 	void get_input();
 	KeyInput input;// 按键输入与输出
-	KeyMap keymap;// 键位映射
+	KeyMap keyMap;// 键位映射
 	Snake_Unit* snake(int length);// 头length=0，尾length = -1，返回NULL表示不存在
 	void snake_addtotail(Snake_Unit* NewSnake); // 在尾部增加
 	int snake_delfromhead(int num);// 从头部删除num节，返回成功删除的节数
