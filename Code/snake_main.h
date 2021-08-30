@@ -37,7 +37,7 @@ public:
 	int move(); 
 	int T = 1; //多少周期后前进一格
 private:
-	Snake_Unit* snake_head = NULL; //蛇头
+	Snake_Unit* snakeHead = NULL; //蛇头
 	int timer = 0;
 };
 
@@ -67,6 +67,6 @@ public:
 	Direct dir = Direct::up; //蛇头运行方向
 	int T = 10; //多少周期后前进一格
 private:
-	Snake_Unit* snake_head = NULL; //蛇头
+	Snake_Unit* snakeHead = NULL; //蛇头
 	int timer = 0;
 };

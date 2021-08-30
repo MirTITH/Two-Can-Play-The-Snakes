@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Code\cursor.cpp" />
     <ClCompile Include="Code\keyboard.cpp" />
+    <ClCompile Include="Code\Player.cpp" />
     <ClCompile Include="Code\snake_main.cpp" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Console.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Executer.c" />
@@ -245,6 +246,7 @@
     <ClInclude Include="Code\cursor.h" />
     <ClInclude Include="Code\keyboard.h" />
     <ClInclude Include="Code\myheadfile.h" />
+    <ClInclude Include="Code\Player.h" />
     <ClInclude Include="Code\snake_main.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Executer.h" />
@@ -340,6 +342,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MultiSnake.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Note\画布坐标.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
