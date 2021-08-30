@@ -38,7 +38,7 @@ public:
 
 		defaultColor = color;
 
-		snakeLength = 1;
+		chainLength = 1;
 		lastDir = Direct::unassign;
 
 		snakeHead->color = defaultColor;
@@ -63,34 +63,22 @@ public:
 	/**
 	* @brief 在蛇尾加蛇节，并使snakeLength + 1
 	* @param snakeBlock	把该蛇节添加到蛇尾
-	* @return
+	* @return 0 成功; 1 获取蛇尾错误
 	*/
 	int AddToTail(SnakeBlock* snakeBlock);
 
-	///**
-	//* @brief 在蛇尾加蛇节，并使snakeLength + num
-	//* @param num	增加的数目
-	//* @param x,y	坐标
-	//* @param food	食物数量
-	//* @return
-	//*/
-	//int AddToTail(int num, int x, int y, int food);
-
-	///**
-	//* @brief 在蛇尾加蛇节，并使snakeLength + num
-	//* @param snakeBlock	继承该蛇节的其他属性
-	//* @param num	增加的数目
-	//* @param x,y	坐标
-	//* @param food	食物数量
-	//* @return
-	//*/
-	//int AddToTail(SnakeBlock* snakeBlock, int num, int x, int y, int food);
+	/**
+	* @brief 从order处开始向后删除所有蛇节，order也被删除
+	* @param order 蛇节的序数，0表示第1节，-1表示倒数第一节
+	* @return 删除的节数
+	*/
+	int Del(int order);
 
 	/**
-	* @brief 从pos处开始向后删除num节
-	* @return
+	* @brief 删除坐标为(x,y)及其之后的所有蛇节
+	* @return 删除的节数
 	*/
-	int Del(int pos, int num);
+	int Del(int x, int y);
 
 	/**
 	* @brief 获得上次蛇的移动方向
@@ -106,12 +94,12 @@ public:
 	* @brief 检测(x,y)处是否有蛇
 	* @return 有则返回蛇节的指针，无则返回NULL
 	*/
-	SnakeBlock* IsExistPos(int x, int y);
+	SnakeBlock* GetSnakeBlockPos(int x, int y);
 private:
 	SnakeBlock* snakeHead;
 	Direct lastDir; // 上次移动的方向
 	px_color defaultColor;
-	int snakeLength; // 蛇的长度（不计算食物，即链表的长度）
+	int chainLength; // 蛇的长度（不计算食物，即链表的长度）
 };
 
 class Player

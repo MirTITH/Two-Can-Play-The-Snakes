@@ -2,14 +2,15 @@
 
 Snake::~Snake()
 {
-	SnakeBlock* p = Get(-1);
-	int order = -1;
-	while (p != NULL)
+	SnakeBlock* p = snakeHead;
+	SnakeBlock* next_p = p->next;
+	while (next_p != NULL)
 	{
 		delete p;
-		order--;
-		p = Get(order);
+		p = next_p;
+		next_p = p->next;
 	}
+	delete p;
 }
 
 SnakeBlock* Snake::Get(int order)
@@ -26,9 +27,9 @@ SnakeBlock* Snake::Get(int order)
 	}
 	else if (order < 0)
 	{
-		if (snakeLength + order < 0) return NULL;
+		if (chainLength + order < 0) return NULL;
 		pointer = snakeHead;
-		for (int i = 0; i < snakeLength + order; i++)
+		for (int i = 0; i < chainLength + order; i++)
 		{
 			pointer = pointer->next;
 			if (pointer == NULL) break;
@@ -74,7 +75,7 @@ void Snake::Move(Direct dir)
 	}
 
 	// 移动蛇
-	if (snakeLength > 1)
+	if (chainLength > 1)
 	{
 		SnakeBlock* p = Get(-2);
 		tail_x = p->next->x;
@@ -115,4 +116,90 @@ void Snake::Move(Direct dir)
 
 		AddToTail(newTailBlock);
 	}
+}
+
+int Snake::AddToTail(SnakeBlock* snakeBlock)
+{
+	SnakeBlock* tailBlock = Get(-1);
+	if (tailBlock == NULL)
+	{
+		cerr << "Err. [Snake::AddToTail(SnakeBlock* snakeBlock)] tailBlock == NULL" << endl;
+		return 1;
+	}
+
+	tailBlock->next = snakeBlock;
+	chainLength++;
+
+	return 0;
+}
+
+int Snake::Del(int order)
+{
+	SnakeBlock* p = Get(order);
+	int delNum = 0;
+
+	if (p == NULL)
+	{
+		cerr << "Err. [Snake::Del(int order)] Get(" << order << ") == NULL" << endl;
+		return 0;
+	}
+
+	SnakeBlock* next_p = p->next;
+
+
+	while (next_p != NULL)
+	{
+		delete p;
+		delNum++;
+		p = next_p;
+		next_p = p->next;
+	}
+	delete p;
+	delNum++;
+
+	return delNum;
+}
+
+int Snake::Del(int x, int y)
+{
+	SnakeBlock* p = snakeHead;
+	int delNum = 0; // 删除的个数
+
+	// 寻找第一个满足条件的蛇节
+	while (!(p->x == x && p->y == y))
+	{
+		if (p == NULL) return 0; // 说明没有满足条件的，删除了0个
+
+		p = p->next;
+	}
+
+	// 开始删除
+	SnakeBlock* next_p = p->next;
+
+	while (next_p != NULL)
+	{
+		delete p;
+		delNum++;
+		p = next_p;
+		next_p = p->next;
+	}
+	delete p;
+	delNum++;
+
+	return delNum;
+}
+
+SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
+{
+	SnakeBlock* p = snakeHead;
+
+	// 寻找第一个满足条件的蛇节
+	while (!(p->x == x && p->y == y))
+	{
+		if (p == NULL) return NULL; // 说明没有满足条件的，删除了0个
+
+		p = p->next;
+	}
+
+	return p;
 }
