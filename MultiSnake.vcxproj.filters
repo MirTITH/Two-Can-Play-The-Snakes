@@ -309,6 +309,9 @@
     <ClCompile Include="Code\game_map.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Code\snake.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h">
@@ -597,6 +600,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Code\game_map.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\snake.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

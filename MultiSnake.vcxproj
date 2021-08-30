@@ -149,6 +149,7 @@
     <ClCompile Include="Code\game_map.cpp" />
     <ClCompile Include="Code\keyboard.cpp" />
     <ClCompile Include="Code\Player.cpp" />
+    <ClCompile Include="Code\snake.cpp" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Console.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Executer.c" />
     <ClCompile Include="PainterEngine\architecture\PainterEngine_Runtime.c" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Code\keyboard.h" />
     <ClInclude Include="Code\myheadfile.h" />
     <ClInclude Include="Code\Player.h" />
+    <ClInclude Include="Code\snake.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Executer.h" />
     <ClInclude Include="PainterEngine\architecture\PainterEngine_FoxLogo.h" />
