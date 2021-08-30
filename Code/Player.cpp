@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "Player.h"
+#include "game_map.h"
 
 Snake::~Snake()
 {
@@ -94,6 +95,11 @@ void Snake::Move(Direct dir)
 		return;
 		break;
 	}
+
+	if (newHead_x < 0) newHead_x += MAP_SIZE_X;
+	if (newHead_y < 0) newHead_y += MAP_SIZE_Y;
+	if (newHead_x >= MAP_SIZE_X) newHead_x -= MAP_SIZE_X;
+	if (newHead_y >= MAP_SIZE_Y) newHead_y -= MAP_SIZE_Y;
 
 	// ÒÆ¶¯Éß
 	if (chainLength > 1)

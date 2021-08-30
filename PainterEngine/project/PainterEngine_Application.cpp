@@ -87,8 +87,8 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 		player[i].GetInput();
 	}
 
-	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 55, 44, 77));
-	//PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
+	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 0, 0, 0));
+	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 44, 77));
 
 	// ªÊ÷∆…ﬂ
 	for (int pOrder = 0; pOrder < PLAYER_NUM; pOrder++)
@@ -99,7 +99,7 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 			snakeBlock = player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
 			// ªÊ÷∆…ﬂ
-			PX_GeoDrawCircle(pRenderSurface, PX_APPLICATION_SURFACE_WIDTH * snakeBlock->x / MAP_SIZE_X, PX_APPLICATION_SURFACE_HEIGHT * snakeBlock->y / MAP_SIZE_Y, (px_int)2, 1, snakeBlock->color);
+			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, snakeBlock->color);
 		}
 	}
 
