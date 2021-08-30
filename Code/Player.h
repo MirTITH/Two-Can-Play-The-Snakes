@@ -137,7 +137,7 @@ public:
 	{
 		snake.Init(x, y, num, color);
 		ID = pid;
-		T = 20;
+		T = 50;
 		dir = Direct::up;
 		name = "id_" + to_string(ID);
 		keyMap = _keyMap;

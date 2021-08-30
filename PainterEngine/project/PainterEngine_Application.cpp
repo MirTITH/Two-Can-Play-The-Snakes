@@ -16,7 +16,6 @@ using namespace std;
 
 PX_Application App;
 POINTER_POS cursor = { 0,0 };
-POINTER_POS ball_pos = { PX_APPLICATION_SURFACE_HEIGHT / 2, PX_APPLICATION_SURFACE_WIDTH / 2 };
 char text[20];
 
 Player player[PLAYER_NUM];
@@ -47,7 +46,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_1.skill_2 = 81;//q
 		keyMap_1.slowdown = 32;//space
 
-		player[0].Init(1, keyMap_1, MAP_SIZE_X / 1.5, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 255, 255));
+		player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 255, 255));
 	}
 
 	if (PLAYER_NUM > 1) // 初始化玩家2
@@ -63,7 +62,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_2.skill_2 = VK_NUMPAD2;
 		keyMap_2.slowdown = VK_NUMPAD0;
 			
-		player[1].Init(2, keyMap_2, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 30, PX_COLOR(255, 157, 208, 136));
+		player[1].Init(2, keyMap_2, MAP_SIZE_X / 1.5, MAP_SIZE_Y / 2, 30, PX_COLOR(255, 157, 208, 136));
 	}
 
 	InitializeCriticalSection(&g_cs);//初始化临界区
@@ -88,9 +87,10 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 		player[i].GetInput();
 	}
 
-	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 255, 255, 255));
-	PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
+	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 55, 44, 77));
+	//PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
 
+	// 绘制蛇
 	for (int pOrder = 0; pOrder < PLAYER_NUM; pOrder++)
 	{
 		SnakeBlock* snakeBlock;
@@ -98,11 +98,10 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 		{
 			snakeBlock = player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
-			PX_GeoDrawCircle(pRenderSurface, 4 * snakeBlock->x, 4 * snakeBlock->y, (px_int)2, 1, snakeBlock->color);
+			// 绘制蛇
+			PX_GeoDrawCircle(pRenderSurface, PX_APPLICATION_SURFACE_WIDTH * snakeBlock->x / MAP_SIZE_X, PX_APPLICATION_SURFACE_HEIGHT * snakeBlock->y / MAP_SIZE_Y, (px_int)2, 1, snakeBlock->color);
 		}
 	}
-
-	PX_GeoDrawCircle(pRenderSurface, (px_int)ball_pos.x, (px_int)ball_pos.y, (px_int)5, 4, PX_COLOR(255, 145, 224, 200));
 
 	
 	//sprintf_s(text,"P1:%d P2:%d", player1.input.GetDir(), player2.input.GetDir());
