@@ -5,8 +5,12 @@
 #include <thread>
 #include "cursor.h"
 #include "keyboard.h"
-#include "snake_main.h"
+//#include "snake_main.h"
+#include "Player.h"
+#include "game_map.h"
 #include <chrono>
+
+#define PLAYER_NUM 2
 
 using namespace std;
 
@@ -15,10 +19,9 @@ POINTER_POS cursor = { 0,0 };
 POINTER_POS ball_pos = { PX_APPLICATION_SURFACE_HEIGHT / 2, PX_APPLICATION_SURFACE_WIDTH / 2 };
 char text[20];
 
-CRITICAL_SECTION g_cs;
+Player player[PLAYER_NUM];
 
-Player player1(1);
-Player player2(2);
+CRITICAL_SECTION g_cs;
 
 //POINTER_POS pt_last = { 0,0 };
 
@@ -29,6 +32,40 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
 
+
+
+	if (PLAYER_NUM > 0) // 初始化玩家1
+	{
+		// 配置按键映射
+		KeyMap keyMap_1;
+		keyMap_1.up = 87;//w
+		keyMap_1.down = 83;//s
+		keyMap_1.left = 65;//a
+		keyMap_1.right = 68;//d
+		keyMap_1.accelerate = VK_LSHIFT;
+		keyMap_1.skill_1 = 69;//e
+		keyMap_1.skill_2 = 81;//q
+		keyMap_1.slowdown = 32;//space
+
+		player[0].Init(1, keyMap_1, MAP_SIZE_X / 1.5, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 255, 255));
+	}
+
+	if (PLAYER_NUM > 1) // 初始化玩家2
+	{
+		// 配置按键映射
+		KeyMap keyMap_2;
+		keyMap_2.up = VK_UP;
+		keyMap_2.down = VK_DOWN;
+		keyMap_2.left = VK_LEFT;
+		keyMap_2.right = VK_RIGHT;
+		keyMap_2.accelerate = VK_RSHIFT;
+		keyMap_2.skill_1 = VK_NUMPAD1;
+		keyMap_2.skill_2 = VK_NUMPAD2;
+		keyMap_2.slowdown = VK_NUMPAD0;
+			
+		player[1].Init(2, keyMap_2, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 30, PX_COLOR(255, 157, 208, 136));
+	}
+
 	InitializeCriticalSection(&g_cs);//初始化临界区
 	thread sys_tick(Sys_tick_f);
 	sys_tick.detach();
@@ -37,7 +74,6 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 
 px_void PX_ApplicationUpdate(PX_Application *pApp,px_dword elpased)
 {
-	
 }
 
 px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
@@ -46,23 +82,26 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	//GetCursorPos(&pt); //Windows 函数，获取鼠标绝对坐标
 	//Sleep(1000);
 
-	player1.get_input();
-	player2.get_input();
+	// 获取玩家输入
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		player[i].GetInput();
+	}
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 255, 255, 255));
 	PX_GeoDrawRect(pRenderSurface, 0, 0, 1279, 799, PX_COLOR(255, 55, 44, 77));
-	for (int i = 0; ; i++)
-	{
-		if (player1.snake(i) == NULL) break;
 
-		PX_GeoDrawCircle(pRenderSurface, 2*player1.snake(i)->x, 2 * player1.snake(i)->y, (px_int)2, 1, PX_COLOR(255, 145, 224, 200));
-	}
-	for (int i = 0; ; i++)
+	for (int pOrder = 0; pOrder < PLAYER_NUM; pOrder++)
 	{
-		if (player2.snake(i) == NULL) break;
-
-		PX_GeoDrawCircle(pRenderSurface, 2 * player2.snake(i)->x, 2 * player2.snake(i)->y, (px_int)2, 1, PX_COLOR(255, 224, 115, 200));
+		SnakeBlock* snakeBlock;
+		for (int i = 0; ; i++)
+		{
+			snakeBlock = player[pOrder].snake.Get(i);
+			if (snakeBlock == NULL) break;
+			PX_GeoDrawCircle(pRenderSurface, 4 * snakeBlock->x, 4 * snakeBlock->y, (px_int)2, 1, snakeBlock->color);
+		}
 	}
+
 	PX_GeoDrawCircle(pRenderSurface, (px_int)ball_pos.x, (px_int)ball_pos.y, (px_int)5, 4, PX_COLOR(255, 145, 224, 200));
 
 	
@@ -139,8 +178,12 @@ void Sys_tick_f()
 		until = chrono::system_clock::now();
 		until += chrono::milliseconds(1);
 		EnterCriticalSection(&g_cs);
-		player1.move();
-		player2.move();
+
+		for (int i = 0; i < PLAYER_NUM; i++)
+		{
+			player[i].Tick();
+		}
+
 		LeaveCriticalSection(&g_cs);
 		while (until > chrono::system_clock::now());
 		//this_thread::sleep_until(until);

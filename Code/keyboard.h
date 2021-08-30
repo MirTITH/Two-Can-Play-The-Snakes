@@ -24,6 +24,11 @@ typedef struct KEY_MAP
 class KeyInput
 {
 public:
+	KeyInput()
+	{
+		dir = Direct::unassign;
+	}
+
 	void up(bool IsDown);
 	void down(bool IsDown);
 	void left(bool IsDown);
@@ -35,5 +40,5 @@ private:
 	bool key_down = false;
 	bool key_left = false;
 	bool key_right = false;
-	Direct dir = Direct::unassign;
+	Direct dir;
 };

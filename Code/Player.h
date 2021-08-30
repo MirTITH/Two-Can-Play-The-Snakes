@@ -53,26 +53,11 @@ public:
 
 	/**
 	* @brief 初始化一条蛇，只能在初始化后立即执行
+	* @param x,y 坐标
 	* @param num 蛇的初始长度
 	* @param color 蛇的初始颜色
 	*/
-	void Init(int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
-	{
-		snakeHead = new SnakeBlock;
-		if (snakeHead == NULL)
-		{
-			cerr << "Err. [Snake::ReInit] snakeHead == NULL" << endl;
-		}
-
-		defaultColor = color;
-
-		chainLength = 1;
-		lastDir = Direct::unassign;
-
-		snakeHead->color = defaultColor;
-		snakeHead->food = num;
-		snakeHead->next = NULL;
-	}
+	void Init(int x, int y, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244));
 
 	// 执行一次就向 dir 方向移动一次
 	void Move(Direct dir);
@@ -129,15 +114,28 @@ class Player
 {
 public:
 	/**
-	* @brief 创建一位玩家
+	* @brief 创建一位玩家，之后需要初始化
+	*/
+	Player()
+	{
+		ID = 0;
+		T = 20;
+		dir = Direct::up;
+		nowTick = 0;
+		keyMap = { 0 };
+	}
+
+	/**
+	* @brief 初始化一位玩家
 	* @param pid 玩家ID
 	* @param _keyMap 键位映射
+	* @param x,y 坐标
 	* @param num 蛇初始长度
 	* @param color 蛇的颜色
 	*/
-	Player(uint32_t pid, KeyMap _keyMap, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
+	void Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
 	{
-		snake.Init(num, color);
+		snake.Init(x, y, num, color);
 		ID = pid;
 		T = 20;
 		dir = Direct::up;
@@ -156,9 +154,17 @@ public:
 		if (nowTick >= T)
 		{
 			nowTick = 0;
+
+			Direct temp = input.GetDir();
+			if (temp != Direct::unassign)
+			{
+				dir = input.GetDir();
+			}
 			snake.Move(dir);
 		}
 	}
+
+	void GetInput();
 
 	KeyMap keyMap;
 
@@ -169,6 +175,8 @@ public:
 	int T; // 运动周期
 
 	Snake snake;
+
+	KeyInput input;// 按键输入与输出
 private:
 	Direct dir; // 即将向该方向移动
 	int nowTick;

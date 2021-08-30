@@ -1,3 +1,4 @@
+#include <Windows.h>
 #include "Player.h"
 
 Snake::~Snake()
@@ -11,6 +12,26 @@ Snake::~Snake()
 		next_p = p->next;
 	}
 	delete p;
+}
+
+void Snake::Init(int x, int y, int num, px_color color)
+{
+	snakeHead = new SnakeBlock;
+	if (snakeHead == NULL)
+	{
+		cerr << "Err. [Snake::ReInit] snakeHead == NULL" << endl;
+	}
+
+	defaultColor = color;
+
+	chainLength = 1;
+	lastDir = Direct::unassign;
+
+	snakeHead->color = defaultColor;
+	snakeHead->food = num;
+	snakeHead->next = NULL;
+	snakeHead->x = x;
+	snakeHead->y = y;
 }
 
 SnakeBlock* Snake::Get(int order)
@@ -202,4 +223,12 @@ SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
 	}
 
 	return p;
+}
+
+void Player::GetInput()
+{
+	input.up(GetAsyncKeyState(keyMap.up));
+	input.down(GetAsyncKeyState(keyMap.down));
+	input.left(GetAsyncKeyState(keyMap.left));
+	input.right(GetAsyncKeyState(keyMap.right));
 }
