@@ -10,12 +10,12 @@ void KeyInput::up(bool IsDown)
 	{
 		if (GetDirKeyNum() == 1)
 		{
-			dir = direct::up;
+			dir = Direct::up;
 		}
 	}
 	else if (IsDown && !key_up) // 按下瞬间
 	{
-		dir = direct::up;
+		dir = Direct::up;
 	}
 	else // 未按下
 	{
@@ -31,12 +31,12 @@ void KeyInput::down(bool IsDown)
 	{
 		if (GetDirKeyNum() == 1)
 		{
-			dir = direct::down;
+			dir = Direct::down;
 		}
 	}
 	else if (IsDown && !key_down) // 按下瞬间
 	{
-		dir = direct::down;
+		dir = Direct::down;
 	}
 	else // 未按下
 	{
@@ -52,12 +52,12 @@ void KeyInput::left(bool IsDown)
 	{
 		if (GetDirKeyNum() == 1)
 		{
-			dir = direct::left;
+			dir = Direct::left;
 		}
 	}
 	else if (IsDown && !key_left) // 按下瞬间
 	{
-		dir = direct::left;
+		dir = Direct::left;
 	}
 	else // 未按下
 	{
@@ -73,12 +73,12 @@ void KeyInput::right(bool IsDown)
 	{
 		if (GetDirKeyNum() == 1)
 		{
-			dir = direct::right;
+			dir = Direct::right;
 		}
 	}
 	else if (IsDown && !key_right) // 按下瞬间
 	{
-		dir = direct::right;
+		dir = Direct::right;
 	}
 	else // 未按下
 	{
@@ -88,14 +88,14 @@ void KeyInput::right(bool IsDown)
 	return;
 }
 
-direct KeyInput::GetDir()
+Direct KeyInput::GetDir()
 {
 	if (GetDirKeyNum() != 0)
 	{
 		return dir;
 	}
 
-	return direct::unassign;
+	return Direct::unassign;
 }
 
 int KeyInput::GetDirKeyNum()

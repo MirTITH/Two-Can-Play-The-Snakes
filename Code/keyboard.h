@@ -8,7 +8,7 @@
 //} LinkList;
 
 // 按键映射
-typedef struct key_map
+typedef struct KEY_MAP
 {
 	int up;//上
 	int down;//下
@@ -28,12 +28,12 @@ public:
 	void down(bool IsDown);
 	void left(bool IsDown);
 	void right(bool IsDown);
-	direct GetDir();//获取方向
+	Direct GetDir();//获取方向
 	int GetDirKeyNum(); //获取同时按下的方向键数量
 private:
 	bool key_up = false;
 	bool key_down = false;
 	bool key_left = false;
 	bool key_right = false;
-	direct dir = direct::unassign;
+	Direct dir = Direct::unassign;
 };

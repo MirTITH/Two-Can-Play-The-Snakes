@@ -10,7 +10,7 @@ struct Snake_Unit
 {
 	int x;// x坐标
 	int y;// y坐标
-	direct Dir = direct::unassign;// 运行方向
+	Direct Dir = Direct::unassign;// 运行方向
 	int food; //这一节的食物数
 	px_color color; //颜色 
 	Snake_Unit* next;
@@ -64,7 +64,7 @@ public:
 	// 向设定的方向移动，需要执行T次才移动一格
 	int move();
 
-	direct dir = direct::up; //蛇头运行方向
+	Direct dir = Direct::up; //蛇头运行方向
 	int T = 10; //多少周期后前进一格
 private:
 	Snake_Unit* snake_head = NULL; //蛇头

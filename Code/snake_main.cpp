@@ -21,7 +21,7 @@ Player::Player(int PlayerID)
 		keymap.slowdown = 32;//space
 
 		snake_head->color = PX_COLOR(255, 30, 132, 244);
-		snake_head->Dir = direct::up;
+		snake_head->Dir = Direct::up;
 		snake_head->food = 150;
 		snake_head->next = NULL;
 		T = 10;
@@ -35,7 +35,7 @@ Player::Player(int PlayerID)
 		this->keymap.right = VK_RIGHT;
 
 		this->snake_head->color = PX_COLOR(255, 30, 132, 244);
-		this->snake_head->Dir = direct::up;
+		this->snake_head->Dir = Direct::up;
 		this->snake_head->food = 150;
 		this->snake_head->next = NULL;
 		this->T = 20;
@@ -53,7 +53,7 @@ Player::Player(int PlayerID)
 		//keymap.slowdown = 32;//space
 
 		//snake_head->color = PX_COLOR(255, 224, 99, 131);
-		//snake_head->Dir = direct::left;
+		//snake_head->Dir = Direct::left;
 		//snake_head->food = 50;
 		//snake_head->next = NULL;
 		//T = 2;
@@ -163,7 +163,7 @@ int Player::move()
 	Snake_Unit* pointer = NULL;
 	Snake_Unit* NewSnake = NULL;
 
-	if (input.GetDir() != direct::unassign)
+	if (input.GetDir() != Direct::unassign)
 	{
 		snake_head->Dir = input.GetDir();
 	}
@@ -183,25 +183,25 @@ int Player::move()
 
 	switch (snake_head->Dir)
 	{
-	case direct::up:
+	case Direct::up:
 		snake_head->y--;
 
 		break;
-	case direct::down:
+	case Direct::down:
 		snake_head->y++;
 		break;
-	case direct::left:
+	case Direct::left:
 		snake_head->x--;
 		break;
-	case direct::right:
+	case Direct::right:
 		snake_head->x++;
 		break;
 	default:
 		break;
 	}
 
-	direct last_dir1 = snake_head->Dir;
-	direct last_dir2 = snake_head->Dir;
+	Direct last_dir1 = snake_head->Dir;
+	Direct last_dir2 = snake_head->Dir;
 
 	for (int i = 1; ; i++)
 	{
@@ -212,19 +212,19 @@ int Player::move()
 
 		switch (pointer->Dir)
 		{
-		case direct::up:
+		case Direct::up:
 			pointer->y--;
 			pointer->Dir = last_dir2;
 			break;
-		case direct::down:
+		case Direct::down:
 			pointer->y++;
 			pointer->Dir = last_dir2;
 			break;
-		case direct::left:
+		case Direct::left:
 			pointer->x--;
 			pointer->Dir = last_dir2;
 			break;
-		case direct::right:
+		case Direct::right:
 			pointer->x++;
 			pointer->Dir = last_dir2;
 			break;
@@ -245,13 +245,13 @@ int Player::move()
 
 Snake::Snake(int x, int y, int length, px_color color)
 {
-	this->dir = direct::up;
+	this->dir = Direct::up;
 
 	snake_head = new Snake_Unit;
 
 	//snake_head->color = PX_COLOR(255, 30, 132, 244);
 	snake_head->color = color;
-	snake_head->Dir = direct::up;
+	snake_head->Dir = Direct::up;
 	snake_head->food = length;
 	snake_head->next = NULL;
 	//snake_head->x = MAP_SIZE_X / 3;
@@ -340,19 +340,19 @@ int Snake::move()
 
 		switch (this->dir)
 		{
-		case direct::up:
+		case Direct::up:
 			//tail_this->y = snake_head->y - 1;
 			tail_this->y--;
 			break;
-		case direct::down:
+		case Direct::down:
 			//tail_this->y = snake_head->y + 1;
 			tail_this->y++;
 			break;
-		case direct::left:
+		case Direct::left:
 			//tail_this->x = snake_head->x - 1;
 			tail_this->x--;
 			break;
-		case direct::right:
+		case Direct::right:
 			//tail_this->x = snake_head->x + 1;
 			tail_this->x++;
 			break;
@@ -379,19 +379,19 @@ int Snake::move()
 
 		switch (this->dir)
 		{
-		case direct::up:
+		case Direct::up:
 			tail_this->y = snake_head->y - 1;
 			//snake_head->y--;
 			break;
-		case direct::down:
+		case Direct::down:
 			tail_this->y = snake_head->y + 1;
 			//snake_head->y++;
 			break;
-		case direct::left:
+		case Direct::left:
 			tail_this->x = snake_head->x - 1;
 			//snake_head->x--;
 			break;
-		case direct::right:
+		case Direct::right:
 			tail_this->x = snake_head->x + 1;
 			//snake_head->x++;
 			break;
