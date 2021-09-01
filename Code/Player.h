@@ -14,14 +14,7 @@ public:
 	/**
 	* @brief 创建一位玩家，之后需要初始化
 	*/
-	Player()
-	{
-		ID = 0;
-		T = 20;
-		dir = Direct::up;
-		nowTick = 0;
-		keyMap = { 0 };
-	}
+	Player();
 
 	/**
 	* @brief 初始化一位玩家
@@ -31,16 +24,7 @@ public:
 	* @param num 蛇初始长度
 	* @param color 蛇的颜色
 	*/
-	void Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244))
-	{
-		snake.Init(x, y, num, color);
-		ID = pid;
-		T = 50;
-		dir = Direct::up;
-		name = "id_" + to_string(ID);
-		keyMap = _keyMap;
-		nowTick = 0;
-	}
+	void Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244));
 
 	/**
 	* @brief 节拍加1（节拍加T次后蛇移动一格）
@@ -48,6 +32,12 @@ public:
 	*/
 	void Tick()
 	{
+		if (!isInited)
+		{
+			cerr << hex << this << " Err. [Player::Tick()] Not initialized." << endl;
+			return;
+		}
+
 		nowTick++;
 		if (nowTick >= T)
 		{
@@ -72,10 +62,13 @@ public:
 
 	int T; // 运动周期
 
+	px_color defaultColor;
+
 	Snake snake;
 
 	KeyInput input;// 按键输入与输出
 private:
 	Direct dir; // 即将向该方向移动
 	int nowTick;
+	bool isInited; // 是否初始化
 };

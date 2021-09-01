@@ -1,6 +1,9 @@
 #pragma once
 #include "PainterEngine_Application.h"
 #include "keyboard.h"
+#include <iostream>
+
+using namespace std;
 
 // 蛇的一节
 struct SnakeBlock
@@ -19,35 +22,24 @@ class Snake
 {
 public:
 	/**
-	* @brief 定义一条蛇，之后需要执行Init()初始化
+	* @brief 创建一条蛇，之后需要执行Init()初始化
 	* @param num 蛇的初始长度
 	* @param color 蛇的初始颜色
 	*/
 	Snake()
 	{
+		isInited = false;
 		snakeHead = NULL;
-		//if (snakeHead == NULL)
-		//{
-		//	cerr << "Err. [Snake::Snake] snakeHead = new SnakeBlock fail" << endl;
-		//}
-
 		defaultColor = PX_COLOR(255, 30, 132, 244);
-
-		chainLength = 0;
 		lastDir = Direct::unassign;
 
-		//snakeHead->color = defaultColor;
-		//snakeHead->food = num;
-		//snakeHead->next = NULL;
-
-		////snakeHead->x = MAP_SIZE_X / 3;
-		////snakeHead->y = MAP_SIZE_Y / 4;
+		clog << hex << this << " Snake created." << endl;
 	}
 
 	~Snake();
 
 	/**
-	* @brief 初始化一条蛇，只能在初始化后立即执行
+	* @brief 初始化一条蛇，必须在创建后立即执行
 	* @param x,y 坐标
 	* @param num 蛇的初始长度
 	* @param color 蛇的初始颜色
@@ -64,9 +56,14 @@ public:
 	SnakeBlock* Get(int order);
 
 	/**
+	* @return 蛇的长度（不包括食物数）
+	*/
+	int GetLength();
+
+	/**
 	* @brief 在蛇尾加蛇节，并使snakeLength + 1
 	* @param snakeBlock	把该蛇节添加到蛇尾
-	* @return 0 成功; 1 获取蛇尾错误
+	* @return 0 成功; 1 获取蛇尾错误；-1 未初始化
 	*/
 	int AddToTail(SnakeBlock* snakeBlock);
 
@@ -108,5 +105,6 @@ private:
 	SnakeBlock* snakeHead;
 	Direct lastDir; // 上次移动的方向
 	px_color defaultColor;
-	int chainLength; // 蛇的长度（不计算食物，即链表的长度）
+	bool isInited; // 是否初始化
+	//int chainLength; // 蛇的长度（不计算食物，即链表的长度）
 };

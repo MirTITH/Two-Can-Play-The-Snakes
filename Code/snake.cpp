@@ -6,15 +6,18 @@ using namespace std;
 
 Snake::~Snake()
 {
-	SnakeBlock* p = snakeHead;
-	SnakeBlock* next_p = p->next;
-	while (next_p != NULL)
+	if (snakeHead != NULL)
 	{
+		SnakeBlock* p = snakeHead;
+		SnakeBlock* next_p = p->next;
+		while (next_p != NULL)
+		{
+			delete p;
+			p = next_p;
+			next_p = p->next;
+		}
 		delete p;
-		p = next_p;
-		next_p = p->next;
 	}
-	delete p;
 }
 
 void Snake::Init(int x, int y, int num, px_color color)
@@ -27,7 +30,7 @@ void Snake::Init(int x, int y, int num, px_color color)
 
 	defaultColor = color;
 
-	chainLength = 1;
+	//chainLength = 1;
 	lastDir = Direct::unassign;
 
 	snakeHead->color = defaultColor;
@@ -35,10 +38,20 @@ void Snake::Init(int x, int y, int num, px_color color)
 	snakeHead->next = NULL;
 	snakeHead->x = x;
 	snakeHead->y = y;
+
+	isInited = true;
+
+	clog << hex << this << " Snake initialized." << endl;
 }
 
 SnakeBlock* Snake::Get(int order)
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::Get(int order)] Not initialized." << endl;
+		return NULL;
+	}
+
 	SnakeBlock* pointer = snakeHead;
 
 	if (order > 0)
@@ -51,9 +64,11 @@ SnakeBlock* Snake::Get(int order)
 	}
 	else if (order < 0)
 	{
-		if (chainLength + order < 0) return NULL;
+		int length = GetLength();
+
+		if (length + order < 0) return NULL;
 		pointer = snakeHead;
-		for (int i = 0; i < chainLength + order; i++)
+		for (int i = 0; i < length + order; i++)
 		{
 			pointer = pointer->next;
 			if (pointer == NULL) break;
@@ -63,8 +78,33 @@ SnakeBlock* Snake::Get(int order)
 	return pointer;
 }
 
+int Snake::GetLength()
+{
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::GetLength()] Not initialized." << endl;
+		return 0;
+	}
+
+	int result = 0;
+	SnakeBlock* p = snakeHead;
+	while (p != NULL)
+	{
+		result++;
+		p = p->next;
+	}
+
+	return result;
+}
+
 void Snake::Move(Direct dir)
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::Move(Direct dir)] Not initialized." << endl;
+		return;
+	}
+
 	int newHead_x; //新蛇头的位置
 	int newHead_y; //新蛇头的位置
 	int tail_x; //旧蛇尾的位置
@@ -106,7 +146,7 @@ void Snake::Move(Direct dir)
 	if (newHead_y >= MAP_SIZE_Y) newHead_y -= MAP_SIZE_Y;
 
 	// 移动蛇
-	if (chainLength > 1)
+	if (GetLength() > 1)
 	{
 		SnakeBlock* p = Get(-2);
 		tail_x = p->next->x;
@@ -151,6 +191,12 @@ void Snake::Move(Direct dir)
 
 int Snake::AddToTail(SnakeBlock* snakeBlock)
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::AddToTail(SnakeBlock* snakeBlock)] Not initialized." << endl;
+		return -1;
+	}
+
 	SnakeBlock* tailBlock = Get(-1);
 	if (tailBlock == NULL)
 	{
@@ -159,13 +205,19 @@ int Snake::AddToTail(SnakeBlock* snakeBlock)
 	}
 
 	tailBlock->next = snakeBlock;
-	chainLength++;
+	//chainLength++;
 
 	return 0;
 }
 
 int Snake::Del(int order)
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::Del(int order)] Not initialized." << endl;
+		return 0;
+	}
+
 	SnakeBlock* p = Get(order);
 	int delNum = 0;
 
@@ -193,6 +245,12 @@ int Snake::Del(int order)
 
 int Snake::Del(int x, int y)
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::Del(int x, int y)] Not initialized." << endl;
+		return 0;
+	}
+
 	SnakeBlock* p = snakeHead;
 	int delNum = 0; // 删除的个数
 
@@ -222,6 +280,12 @@ int Snake::Del(int x, int y)
 
 SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::GetSnakeBlockPos(int x, int y)] Not initialized." << endl;
+		return NULL;
+	}
+
 	SnakeBlock* p = snakeHead;
 
 	// 寻找第一个满足条件的蛇节
@@ -237,6 +301,12 @@ SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
 
 Direct Snake::GetReverseLastDir()
 {
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::GetReverseLastDir()] Not initialized." << endl;
+		return Direct::unassign;
+	}
+
 	switch (lastDir)
 	{
 	case Direct::unassign:

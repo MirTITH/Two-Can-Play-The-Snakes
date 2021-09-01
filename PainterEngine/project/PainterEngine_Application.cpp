@@ -10,13 +10,13 @@
 #include "game_map.h"
 #include <chrono>
 
-#define PLAYER_NUM 2
+#define PLAYER_NUM 2 // 玩家的数量
 
 using namespace std;
 
 PX_Application App;
 POINTER_POS cursor = { 0,0 };
-char text[20];
+string text[PLAYER_NUM];
 
 Player player[PLAYER_NUM];
 
@@ -103,9 +103,10 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 		}
 	}
 
-	
-	//sprintf_s(text,"P1:%d P2:%d", player1.input.GetDir(), player2.input.GetDir());
-	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 100, PX_ALIGN_LEFTTOP, text, PX_COLOR(255, 255, 255, 255));
+	text[0] = "P1\n\n长度: " + to_string(player[0].snake.GetLength());
+	text[1] = "P2\n\n长度: " + to_string(player[1].snake.GetLength());
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), player[0].defaultColor);
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), player[1].defaultColor);
 
 	cursor_draw(pRenderSurface); //请保持鼠标最后绘制
 }
