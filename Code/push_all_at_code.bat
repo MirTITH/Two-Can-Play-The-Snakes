@@ -1,2 +1,2 @@
 cd ..
-push_all.bat
+push_all.cmd
