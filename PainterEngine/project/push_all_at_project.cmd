@@ -1,1 +1,3 @@
-../../push_all.cmd
+cd ..
+cd ..
+push_all.cmd
