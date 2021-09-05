@@ -10,7 +10,6 @@
 #include "game_map.h"
 #include <chrono>
 
-#define PLAYER_NUM 2 // 玩家的数量
 
 using namespace std;
 
@@ -18,7 +17,7 @@ PX_Application App;
 POINTER_POS cursor = { 0,0 };
 string text[PLAYER_NUM];
 
-Player player[PLAYER_NUM];
+GameMap gameMap;
 
 CRITICAL_SECTION g_cs;
 
@@ -46,7 +45,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_1.skill_2 = 81;//q
 		keyMap_1.slowdown = 32;//space
 
-		player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 255, 255));
+		gameMap.player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 100, PX_COLOR(255, 255, 255, 255));
 	}
 
 	if (PLAYER_NUM > 1) // 初始化玩家2
@@ -62,7 +61,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_2.skill_2 = VK_NUMPAD2;
 		keyMap_2.slowdown = VK_NUMPAD0;
 			
-		player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 30, PX_COLOR(255, 157, 208, 136));
+		gameMap.player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 100, PX_COLOR(255, 157, 208, 136));
 	}
 
 	InitializeCriticalSection(&g_cs);//初始化临界区
@@ -84,7 +83,7 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	// 获取玩家输入
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{
-		player[i].GetInput();
+		gameMap.player[i].GetInput();
 	}
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 0, 0, 0));
@@ -96,17 +95,17 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 		SnakeBlock* snakeBlock;
 		for (int i = 0; ; i++)
 		{
-			snakeBlock = player[pOrder].snake.Get(i);
+			snakeBlock = gameMap.player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
 			// 绘制蛇
 			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, snakeBlock->color);
 		}
 	}
 
-	text[0] = "P1\n\n长度: " + to_string(player[0].snake.GetLength());
-	text[1] = "P2\n\n长度: " + to_string(player[1].snake.GetLength());
-	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), player[0].defaultColor);
-	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), player[1].defaultColor);
+	text[0] = "P1\n\n长度: " + to_string(gameMap.player[0].snake.GetLength());
+	text[1] = "P2\n\n长度: " + to_string(gameMap.player[1].snake.GetLength());
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), gameMap.player[0].defaultColor);
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), gameMap.player[1].defaultColor);
 
 	cursor_draw(pRenderSurface); //请保持鼠标最后绘制
 }
@@ -179,10 +178,7 @@ void Sys_tick_f()
 		until += chrono::milliseconds(1);
 		EnterCriticalSection(&g_cs);
 
-		for (int i = 0; i < PLAYER_NUM; i++)
-		{
-			player[i].Tick();
-		}
+		gameMap.Update();
 
 		LeaveCriticalSection(&g_cs);
 		while (until > chrono::system_clock::now());

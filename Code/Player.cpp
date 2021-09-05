@@ -33,7 +33,7 @@ void Player::GetInput()
 void Player::Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num, px_color color)
 {
 	defaultColor = color;
-	snake.Init(x, y, num, defaultColor);
+	snake.Init(pid, x, y, num, defaultColor);
 	ID = pid;
 	T = 50;
 	dir = Direct::up;

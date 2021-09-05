@@ -20,7 +20,7 @@ Snake::~Snake()
 	}
 }
 
-void Snake::Init(int x, int y, int num, px_color color)
+void Snake::Init(uint32_t _playerID, int x, int y, int num, px_color color)
 {
 	snakeHead = new SnakeBlock;
 	if (snakeHead == NULL)
@@ -29,6 +29,8 @@ void Snake::Init(int x, int y, int num, px_color color)
 	}
 
 	defaultColor = color;
+
+	playerID = _playerID;
 
 	//chainLength = 1;
 	lastDir = Direct::unassign;
@@ -278,6 +280,26 @@ int Snake::Del(int x, int y)
 	return delNum;
 }
 
+int Snake::DelHead()
+{
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Snake::DelHead()] Not initialized." << endl;
+		return 1;
+	}
+
+	SnakeBlock* temp = snakeHead;
+	if (temp == NULL || temp->next == NULL)
+	{
+		return 1;
+	}
+
+	snakeHead = temp->next;
+	delete temp;
+
+	return 0;
+}
+
 SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
 {
 	if (!isInited)
@@ -326,6 +348,7 @@ Direct Snake::GetReverseLastDir()
 		break;
 	default:
 		cerr << "Err. [Snake::GetReverseLastDir()] switch (lastDir) default" << endl;
+		return Direct::unassign;
 		break;
 	}
 }

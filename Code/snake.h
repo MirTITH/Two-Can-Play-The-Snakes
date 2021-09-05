@@ -32,6 +32,7 @@ public:
 		snakeHead = NULL;
 		defaultColor = PX_COLOR(255, 30, 132, 244);
 		lastDir = Direct::unassign;
+		playerID = 0;
 
 		clog << hex << this << " Snake created." << endl;
 	}
@@ -44,7 +45,7 @@ public:
 	* @param num 蛇的初始长度
 	* @param color 蛇的初始颜色
 	*/
-	void Init(int x, int y, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244));
+	void Init(uint32_t _playerID, int x, int y, int num = 10, px_color color = PX_COLOR(255, 30, 132, 244));
 
 	// 执行一次就向 dir 方向移动一次
 	void Move(Direct dir);
@@ -81,6 +82,12 @@ public:
 	int Del(int x, int y);
 
 	/**
+	* @brief 删除蛇头
+	* @return 0 成功；1失败
+	*/
+	int DelHead();
+
+	/**
 	* @brief 获得上次蛇的移动方向
 	* @return
 	*/
@@ -106,5 +113,6 @@ private:
 	Direct lastDir; // 上次移动的方向
 	px_color defaultColor;
 	bool isInited; // 是否初始化
+	uint32_t playerID;
 	//int chainLength; // 蛇的长度（不计算食物，即链表的长度）
 };

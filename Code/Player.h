@@ -6,6 +6,8 @@
 #include "PainterEngine_Application.h"
 #include "snake.h"
 
+#define PLAYER_NUM 2 // 玩家的数量
+
 using namespace std;
 
 class Player
