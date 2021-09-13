@@ -16,53 +16,122 @@ GameMap::GameMap()
 	{
 		for (int y = 0; y < MAP_SIZE_Y; y++)
 		{
-			mapBlock[x][y].tryTake = false;
+			//mapBlock[x][y].tryTake = false;
 			mapBlock[x][y].isExistObstacle = false;
-			mapBlock[x][y].isExistSnake = false;
+			//mapBlock[x][y].isExistSnake = false;
 			mapBlock[x][y].obstacle_color = PX_COLOR(255, 0, 0, 0);
-			mapBlock[x][y].snakeBlock = NULL;
-			mapBlock[x][y].snake_Player = NULL;
+			//mapBlock[x][y].snakeBlock = NULL;
+			//mapBlock[x][y].snake_Player = NULL;
 		}
 	}
 }
 
-int GameMap::AddSnakeBlock(Player* _snakePlayer, SnakeBlock* _snakeBlock)
+//int GameMap::AddSnakeBlock(Player* _snakePlayer, SnakeBlock* _snakeBlock)
+//{
+//	if (mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake)
+//	{
+//		return 1;
+//	}
+//
+//	if (mapBlock[_snakeBlock->x][_snakeBlock->y].isExistObstacle)
+//	{
+//		return 2;
+//	}
+//
+//	if (mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake == false)
+//	{
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake = true;
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake = false;
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].snakeBlock = _snakeBlock;
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player = _snakePlayer;
+//	}
+//	else
+//	{
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player->snake.DelHead();
+//		_snakePlayer->snake.DelHead();
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake = false;
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake = false;
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].snakeBlock = NULL;
+//		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player = NULL;
+//	}
+//
+//	return 0;
+//}
+
+void GameMap::Update()
 {
-	if (mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake)
+	for (int i = 0; i < PLAYER_NUM; i++)
 	{
-		return 1;
+		player[i].Tick();
 	}
 
-	if (mapBlock[_snakeBlock->x][_snakeBlock->y].isExistObstacle)
+	// 蛇头与蛇头相撞
+	for (int x = 0; x < PLAYER_NUM - 1; x++)
 	{
-		return 2;
+		for (int y = x + 1; y < PLAYER_NUM; y++)
+		{
+			if (player[x].snake.Get(0)->x == player[y].snake.Get(0)->x && player[x].snake.Get(0)->y == player[y].snake.Get(0)->y)
+			{
+				player[x].snake.DelHead();
+				player[y].snake.DelHead();
+			}
+		}
 	}
 
-	if (mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake == false)
+	// 蛇头与别的蛇身相撞
+	for (int s0 = 0; s0 < PLAYER_NUM; s0++)
 	{
-		mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake = true;
-		mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake = false;
-		mapBlock[_snakeBlock->x][_snakeBlock->y].snakeBlock = _snakeBlock;
-		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player = _snakePlayer;
-	}
-	else
-	{
-		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player->snake.DelHead();
-		_snakePlayer->snake.DelHead();
-		mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake = false;
-		mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake = false;
-		mapBlock[_snakeBlock->x][_snakeBlock->y].snakeBlock = NULL;
-		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player = NULL;
+		for (int s1 = 0; s1 < PLAYER_NUM; s1++)
+		{
+			if (s1 == s0)
+			{
+				continue;
+			}
+
+			int i = 0;
+			int x0 = player[s0].snake.Get(0)->x;
+			int y0 = player[s0].snake.Get(0)->y;
+			SnakeBlock* p = player[s1].snake.Get(0);
+
+			while (p != NULL)
+			{
+				if (p->x == x0 && p->y == y0)
+				{
+					player[s0].snake.DelHead();
+				}
+
+				i++;
+				p = player[s1].snake.Get(i);
+			}
+		}
 	}
 
-	return 0;
+	// 蛇头与自己相撞
+	for (int s = 0; s < PLAYER_NUM; s++)
+	{
+		int i = 1;
+		int x0 = player[s].snake.Get(0)->x;
+		int y0 = player[s].snake.Get(0)->y;
+		SnakeBlock* p = player[s].snake.Get(i);
+
+		while (p != NULL)
+		{
+			if (p->x == x0 && p->y == y0)
+			{
+				player[s].snake.DelHead();
+			}
+
+			i++;
+			p = player[s].snake.Get(i);
+		}
+	}
 }
 
-SnakeBlock* GameMap::DelSnakeBlock(int x, int y)
-{
-	SnakeBlock* result = mapBlock[x][y].snakeBlock;
-	mapBlock[x][y].isExistSnake = false;
-	mapBlock[x][y].snakeBlock = NULL;
-	mapBlock[x][y].snake_Player = NULL;
-	return result;
-}
+//SnakeBlock* GameMap::DelSnakeBlock(int x, int y)
+//{
+//	SnakeBlock* result = mapBlock[x][y].snakeBlock;
+//	mapBlock[x][y].isExistSnake = false;
+//	mapBlock[x][y].snakeBlock = NULL;
+//	mapBlock[x][y].snake_Player = NULL;
+//	return result;
+//}

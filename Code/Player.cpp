@@ -16,6 +16,28 @@ Player::Player()
 	clog << hex << this << " Player created." << endl;
 }
 
+void Player::Tick()
+{
+	if (!isInited)
+	{
+		cerr << hex << this << " Err. [Player::Tick()] Not initialized." << endl;
+		return;
+	}
+
+	nowTick++;
+	if (nowTick >= T)
+	{
+		nowTick = 0;
+
+		Direct temp = input.GetDir();
+		if (temp != Direct::unassign && temp != snake.GetReverseLastDir())
+		{
+			dir = temp;
+		}
+		snake.Move(dir);
+	}
+}
+
 void Player::GetInput()
 {
 	if (!isInited)

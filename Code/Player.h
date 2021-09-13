@@ -32,27 +32,7 @@ public:
 	* @brief 节拍加1（节拍加T次后蛇移动一格）
 	* @return void
 	*/
-	void Tick()
-	{
-		if (!isInited)
-		{
-			cerr << hex << this << " Err. [Player::Tick()] Not initialized." << endl;
-			return;
-		}
-
-		nowTick++;
-		if (nowTick >= T)
-		{
-			nowTick = 0;
-
-			Direct temp = input.GetDir();
-			if (temp != Direct::unassign && temp != snake.GetReverseLastDir())
-			{
-				dir = temp;
-			}
-			snake.Move(dir);
-		}
-	}
+	void Tick();
 
 	void GetInput();
 
