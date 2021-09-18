@@ -1,26 +1,50 @@
 # MultiSnake
 
-#### 介绍
+Copyright (C) 2021 Xie Yang. All rights reserved. 
+
+### 介绍
 ​	多人贪吃蛇游戏。
 
 ​	*哈尔滨工业大学（深圳）创新实践项目*
 
-#### 作者
-​	谢阳(Xie Yang)
+### 使用说明
+1.  待补充
+
+### 接下来的计划
+- [x] 规范License
+- [ ] 规范每个文件的License
+- [ ] 增加蛇的加速功能
+- [ ] 给蛇技能
+- [ ] 添加随机食物
+- [ ] 添加障碍物（待定）
+- [ ] 添加倒计时
+- [ ] 添加菜单
+- [ ] 添加人机模式（待定）
+
+
+### 编译环境
+- Windows 10
+- Visual Studio
+
+### 作者
+谢阳 (Xie Yang)
 
 - E-mail: 200320620@stu.hit.edu.cn
 
-- github: [MirTITH/MultiSnake: A Greedy Snake game for multi-player (github.com)](https://github.com/MirTITH/MultiSnake)
-- gitee: [MultiSnake: A Greedy Snake game for multi-player (gitee.com)](https://gitee.com/tithchan/MultiSnake)
+- github: [MirTITH (github.com)](https://github.com/MirTITH)
+- gitee: [TITHChan (tithchan) - Gitee.com](https://gitee.com/tithchan)
 
-#### 引擎
+<!-- ### 版本说明 -->
+
+### 引擎
 ​	PainterEngine by DBinary
 
-#### 使用说明
+### License
+GPL 2.0
 
-1.  待补充
+*See LICENSE file for details.*
 
-#### 参与贡献
+### 参与贡献
 
 1.  Fork 本仓库
 2.  新建 Feat_xxx 分支
