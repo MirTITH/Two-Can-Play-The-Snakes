@@ -37,6 +37,8 @@ public:
 
 	void GetInput();
 
+	int lostControl_tick; // 无法控制的tick
+
 	string name;
 
 	uint32_t ID;
@@ -51,6 +53,8 @@ public:
 	* @param _tick 该周期持续多久（单位tick）
 	*/
 	void SetT(int newT, int _tick);
+
+	int DelHead();
 private:
 	/**
 	* @brief 更新运动周期，每个tick执行一次

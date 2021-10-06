@@ -288,6 +288,8 @@ int Snake::DelHead()
 		return 1;
 	}
 
+	
+
 	SnakeBlock* temp = snakeHead;
 	if (temp == NULL || temp->next == NULL)
 	{

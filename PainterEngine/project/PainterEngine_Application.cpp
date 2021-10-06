@@ -29,7 +29,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
 
-	srand(time(NULL));
+	srand((int)time(NULL));
 
 
 	if (PLAYER_NUM > 0) // 初始化玩家1

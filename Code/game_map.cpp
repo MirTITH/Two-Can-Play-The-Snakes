@@ -124,8 +124,8 @@ void GameMap::Update()
 		{
 			if (player[x].snake.Get(0)->x == player[y].snake.Get(0)->x && player[x].snake.Get(0)->y == player[y].snake.Get(0)->y)
 			{
-				player[x].snake.DelHead();
-				player[y].snake.DelHead();
+				player[x].DelHead();
+				player[y].DelHead();
 			}
 		}
 	}
@@ -149,7 +149,7 @@ void GameMap::Update()
 			{
 				if (p->x == x0 && p->y == y0)
 				{
-					player[s0].snake.DelHead();
+					player[s0].DelHead();
 				}
 
 				i++;
@@ -170,7 +170,7 @@ void GameMap::Update()
 		{
 			if (p->x == x0 && p->y == y0)
 			{
-				player[s].snake.DelHead();
+				player[s].DelHead();
 			}
 
 			i++;

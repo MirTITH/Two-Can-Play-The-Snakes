@@ -9,6 +9,7 @@ Player::Player()
 	T = 20;
 	defaultT = T;
 	T_tick = 0;
+	lostControl_tick = 0;
 	dir = Direct::up;
 	nowTick = 0;
 	keyMap = { 0 };
@@ -27,6 +28,10 @@ void Player::Tick()
 	}
 
 	nowTick++;
+	if (lostControl_tick > 0)
+	{
+		lostControl_tick--;
+	}
 
 	UpdateT();
 	skill_speed_up.Tick();
@@ -52,10 +57,13 @@ void Player::GetInput()
 		return;
 	}
 
-	input.up(GetAsyncKeyState(keyMap.up));
-	input.down(GetAsyncKeyState(keyMap.down));
-	input.left(GetAsyncKeyState(keyMap.left));
-	input.right(GetAsyncKeyState(keyMap.right));
+	if (lostControl_tick <= 0)
+	{
+		input.up(GetAsyncKeyState(keyMap.up));
+		input.down(GetAsyncKeyState(keyMap.down));
+		input.left(GetAsyncKeyState(keyMap.left));
+		input.right(GetAsyncKeyState(keyMap.right));
+	}
 
 	if (GetAsyncKeyState(keyMap.accelerate))
 	{
@@ -64,13 +72,18 @@ void Player::GetInput()
 			SpeedUp();
 		}
 	}
-
 }
 
 void Player::SetT(int newT, int _tick)
 {
 	T = newT;
 	T_tick = _tick;
+}
+
+int Player::DelHead()
+{
+	lostControl_tick = defaultT;
+	return snake.DelHead();
 }
 
 void Player::UpdateT()
@@ -94,7 +107,9 @@ void Player::UpdateT()
 
 void Player::SpeedUp()
 {
-	SetT((int)(defaultT / 2.5), 800);
+	int tick = 800;
+	lostControl_tick = tick;
+	SetT((int)(defaultT / 2.5), tick);
 }
 
 void Player::Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num, px_color color)
@@ -111,6 +126,7 @@ void Player::Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num, px_color 
 	name = "id_" + to_string(ID);
 	keyMap = _keyMap;
 	nowTick = 0;
+	lostControl_tick = 0;
 	isInited = true;
 
 	// 初始化技能
