@@ -12,7 +12,6 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 
 ### 接下来的计划
 - [x] 规范License
-- [ ] 规范每个文件的License
 - [ ] 增加蛇的加速功能
 - [ ] 给蛇技能
 - [ ] 添加随机食物
@@ -37,10 +36,10 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 <!-- ### 版本说明 -->
 
 ### 引擎
-​	PainterEngine by DBinary
+​PainterEngine by DBinary
 
 ### License
-GPL 2.0
+MIT
 
 *See LICENSE file for details.*
 
