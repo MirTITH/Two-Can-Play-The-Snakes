@@ -344,10 +344,6 @@
     <ClInclude Include="PainterEngine\platform\windows\px_display.h" />
     <ClInclude Include="PainterEngine\project\PainterEngine_Application.h" />
     <ClInclude Include="PainterEngine\project\PainterEngine_Startup.h" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="MultiSnake.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Note\画布坐标.md" />

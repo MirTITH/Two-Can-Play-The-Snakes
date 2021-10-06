@@ -5,7 +5,7 @@
 //Configures
 #include "platform/modules/px_file.h"
 
-#define PX_APPLICATION_NAME "PainterEngine"
+#define PX_APPLICATION_NAME "MultiSnake"
 #define PX_APPLICATION_SURFACE_SIZE 1000
 #define PX_APPLICATION_SURFACE_HEIGHT 800
 #define PX_APPLICATION_SURFACE_WIDTH 1280

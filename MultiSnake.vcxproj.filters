@@ -599,9 +599,6 @@
     <ClInclude Include="Code\keyboard.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Player.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -617,11 +614,6 @@
     <ClInclude Include="Code\game_ui.h">
       <Filter>头文件</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="MultiSnake.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Note\画布坐标.md">
