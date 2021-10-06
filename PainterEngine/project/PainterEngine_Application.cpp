@@ -8,14 +8,13 @@
 //#include "snake_main.h"
 #include "Player.h"
 #include "game_map.h"
+#include "game_ui.h"
 #include <chrono>
-
 
 using namespace std;
 
 PX_Application App;
 POINTER_POS cursor = { 0,0 };
-string text[PLAYER_NUM];
 
 GameMap gameMap;
 
@@ -72,6 +71,11 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 
 px_void PX_ApplicationUpdate(PX_Application *pApp,px_dword elpased)
 {
+	// 获取玩家输入
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		gameMap.player[i].GetInput();
+	}
 }
 
 px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
@@ -80,34 +84,12 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	//GetCursorPos(&pt); //Windows 函数，获取鼠标绝对坐标
 	//Sleep(1000);
 
-	// 获取玩家输入
-	for (int i = 0; i < PLAYER_NUM; i++)
-	{
-		gameMap.player[i].GetInput();
-	}
+	
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 0, 0, 0));
-	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 44, 77));
 
-	// 绘制蛇
-	for (int pOrder = 0; pOrder < PLAYER_NUM; pOrder++)
-	{
-		SnakeBlock* snakeBlock;
-		for (int i = 0; ; i++)
-		{
-			snakeBlock = gameMap.player[pOrder].snake.Get(i);
-			if (snakeBlock == NULL) break;
-			// 绘制蛇
-			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, snakeBlock->color);
-		}
-	}
-
-	text[0] = "P1\n\n长度: " + to_string(gameMap.player[0].snake.GetLength());
-	text[1] = "P2\n\n长度: " + to_string(gameMap.player[1].snake.GetLength());
-	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), gameMap.player[0].defaultColor);
-	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), gameMap.player[1].defaultColor);
-
-	cursor_draw(pRenderSurface); //请保持鼠标最后绘制
+	// 游戏时画面
+	Draw_Playing(pApp);
 }
 
 px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)

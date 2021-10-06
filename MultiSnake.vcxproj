@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Code\cursor.cpp" />
     <ClCompile Include="Code\game_map.cpp" />
+    <ClCompile Include="Code\game_ui.cpp" />
     <ClCompile Include="Code\keyboard.cpp" />
     <ClCompile Include="Code\Player.cpp" />
     <ClCompile Include="Code\skill.cpp" />
@@ -247,6 +248,7 @@
   <ItemGroup>
     <ClInclude Include="Code\cursor.h" />
     <ClInclude Include="Code\game_map.h" />
+    <ClInclude Include="Code\game_ui.h" />
     <ClInclude Include="Code\keyboard.h" />
     <ClInclude Include="Code\myheadfile.h" />
     <ClInclude Include="Code\Player.h" />

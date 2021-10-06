@@ -315,6 +315,9 @@
     <ClCompile Include="Code\skill.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Code\game_ui.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PainterEngine\architecture\PainterEngine_Console.h">
@@ -609,6 +612,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Code\skill.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\game_ui.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

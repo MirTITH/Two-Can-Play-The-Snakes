@@ -94,7 +94,7 @@ void Player::UpdateT()
 
 void Player::SpeedUp()
 {
-	SetT(defaultT / 2.5, 800);
+	SetT((int)(defaultT / 2.5), 800);
 }
 
 void Player::Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num, px_color color)
