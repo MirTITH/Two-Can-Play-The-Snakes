@@ -5,6 +5,7 @@
 #include <iostream>
 #include "PainterEngine_Application.h"
 #include "snake.h"
+#include "skill.h"
 
 #define PLAYER_NUM 2 // 玩家的数量
 
@@ -36,21 +37,38 @@ public:
 
 	void GetInput();
 
-	KeyMap keyMap;
-
 	string name;
 
 	uint32_t ID;
-
-	int T; // 运动周期
 
 	px_color defaultColor;
 
 	Snake snake;
 
-	KeyInput input;// 按键输入与输出
+	/**
+	* @brief 设置运动周期
+	* @param newT 新的周期
+	* @param _tick 该周期持续多久（单位tick）
+	*/
+	void SetT(int newT, int _tick);
 private:
+	/**
+	* @brief 更新运动周期，每个tick执行一次
+	*/
+	void UpdateT();
+
+	/**
+	* @brief 技能：加速
+	*/
+	void SpeedUp();
+
 	Direct dir; // 即将向该方向移动
+	KeyInput input;// 按键输入与输出
+	KeyMap keyMap;
 	int nowTick;
+	int T; // 当前运动周期
+	int defaultT; // 默认运动周期
+	int T_tick; // 还剩多久回到 defaultT
 	bool isInited; // 是否初始化
+	Skill skill_speed_up;
 };

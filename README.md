@@ -12,7 +12,7 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 
 ### 接下来的计划
 - [x] 规范License
-- [ ] 增加蛇的加速功能
+- [x] 增加蛇的加速功能
 - [ ] 给蛇技能
 - [ ] 添加随机食物
 - [ ] 添加障碍物（待定）
