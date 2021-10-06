@@ -28,14 +28,17 @@ void Snake::Init(uint32_t _playerID, int x, int y, int num, px_color color)
 		cerr << "Err. [Snake::ReInit] snakeHead == NULL" << endl;
 	}
 
-	defaultColor = color;
+	defaultColor_body = color;
+	defaultColor_head = PX_COLOR(255, 255, 255, 255);
+
+	color_body = defaultColor_body;
+	color_head = defaultColor_head;
 
 	playerID = _playerID;
 
 	//chainLength = 1;
 	lastDir = Direct::unassign;
 
-	snakeHead->color = defaultColor;
 	snakeHead->food = num;
 	snakeHead->next = NULL;
 	snakeHead->x = x;
@@ -180,7 +183,6 @@ void Snake::Move(Direct dir)
 			return;
 		}
 
-		newTailBlock->color = snakeHead->color;
 		newTailBlock->food = snakeHead->food - 1;
 		newTailBlock->next = NULL;
 		newTailBlock->x = tail_x;
@@ -321,6 +323,18 @@ SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
 	}
 
 	return p;
+}
+
+px_color Snake::GetColor(int order)
+{
+	if (order == 0)
+	{
+		return color_head;
+	}
+	else
+	{
+		return color_body;
+	}
 }
 
 Direct Snake::GetReverseLastDir()

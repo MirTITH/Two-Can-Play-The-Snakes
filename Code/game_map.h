@@ -91,6 +91,10 @@ public:
 	*/
 	void GenerateFood();
 
+	void DelFood(int x, int y);
+
+	int GetFood(int x, int y);
+
 	Player player[PLAYER_NUM];
 
 private:

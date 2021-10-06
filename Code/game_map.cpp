@@ -24,7 +24,7 @@ GameMap::GameMap()
 			//mapBlock[x][y].snake_Player = NULL;
 
 			mapBlock[x][y].foodNum = 0;
-			mapBlock[x][y].food_color = PX_COLOR(255, 0, 158, 0);
+			mapBlock[x][y].food_color = PX_COLOR(255, 199, 168, 244);
 			totalFoodNum = 0;
 		}
 	}
@@ -64,57 +64,66 @@ GameMap::GameMap()
 
 void GameMap::Update()
 {
-	for (int i = 0; i < PLAYER_NUM; i++)
-	{
-		player[i].Tick();
-	}
-	
-	// 食物相关
+	// 生成食物
 
 	if (totalFoodNum < 2)
 	{
 		GenerateFood();
 	}
 
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		player[i].Tick();
+	}
+	
+	
+
 	// 吃到食物
 	for (int s = 0; s < PLAYER_NUM; s++)
 	{
 		SnakeBlock* p = player[s].snake.Get(0);
+		int num;
 
-		if (mapBlock[p->x][p->y].foodNum != 0)
+		num = GetFood(p->x, p->y);
+		if (num != 0)
 		{
-			p->food += mapBlock[p->x][p->y].foodNum;
-			mapBlock[p->x][p->y].foodNum = 0;
-			totalFoodNum--;
+			p->food += num;
+			DelFood(p->x, p->y);
 		}
 
-		if (mapBlock[p->x+1][p->y].foodNum != 0)
+		num = GetFood(p->x+1, p->y);
+		if (num != 0)
 		{
-			p->food += mapBlock[p->x+1][p->y].foodNum;
-			mapBlock[p->x+1][p->y].foodNum = 0;
-			totalFoodNum--;
+			p->food += num;
+			DelFood(p->x+1, p->y);
 		}
 
-		if (mapBlock[p->x-1][p->y].foodNum != 0)
+		num = GetFood(p->x-1, p->y);
+		if (num != 0)
 		{
-			p->food += mapBlock[p->x-1][p->y].foodNum;
-			mapBlock[p->x-1][p->y].foodNum = 0;
-			totalFoodNum--;
+			p->food += num;
+			DelFood(p->x-1, p->y);
 		}
 
-		if (mapBlock[p->x][p->y+1].foodNum != 0)
+		num = GetFood(p->x, p->y+1);
+		if (num != 0)
 		{
-			p->food += mapBlock[p->x][p->y+1].foodNum;
-			mapBlock[p->x][p->y+1].foodNum = 0;
-			totalFoodNum--;
+			p->food += num;
+			DelFood(p->x, p->y+1);
 		}
 
-		if (mapBlock[p->x][p->y-1].foodNum != 0)
+		num = GetFood(p->x, p->y-1);
+		if (num != 0)
 		{
-			p->food += mapBlock[p->x][p->y-1].foodNum;
-			mapBlock[p->x][p->y-1].foodNum = 0;
-			totalFoodNum--;
+			p->food += num;
+			DelFood(p->x, p->y-1);
 		}
+
+		//if (p->food > 10)
+		//{
+		//	cout << "Err. Too much food." << endl;
+		//	cin.get();
+		//}
 	}
 
 	// 蛇头与蛇头相撞
@@ -181,10 +190,12 @@ void GameMap::Update()
 
 void GameMap::GenerateFood()
 {
+	int x;
+	int y;
 	while (true)
 	{
-		int x = rand() % MAP_SIZE_X;
-		int y = rand() % MAP_SIZE_Y;
+		x = rand() % MAP_SIZE_X;
+		y = rand() % MAP_SIZE_Y;
 
 		if (mapBlock[x][y].foodNum == 0)
 		{
@@ -193,6 +204,27 @@ void GameMap::GenerateFood()
 			break;
 		}
 	}
+}
+
+void GameMap::DelFood(int x, int y)
+{
+	if (x * MAP_SIZE_Y + y >= MAP_SIZE_X * MAP_SIZE_Y || x * MAP_SIZE_Y + y < 0)
+	{
+		return;
+	}
+	mapBlock[x][y].foodNum = 0;
+	totalFoodNum--;
+	return;
+}
+
+int GameMap::GetFood(int x, int y)
+{
+	if (x * MAP_SIZE_Y + y >= MAP_SIZE_X * MAP_SIZE_Y || x * MAP_SIZE_Y + y < 0)
+	{
+		return 0;
+	}
+
+	return mapBlock[x][y].foodNum;
 }
 
 //SnakeBlock* GameMap::DelSnakeBlock(int x, int y)

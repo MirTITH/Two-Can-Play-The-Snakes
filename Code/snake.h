@@ -10,7 +10,6 @@ struct SnakeBlock
 {
 	int x; // x坐标
 	int y; // y坐标
-	px_color color;
 	int food;
 	SnakeBlock* next;
 };
@@ -30,7 +29,10 @@ public:
 	{
 		isInited = false;
 		snakeHead = NULL;
-		defaultColor = PX_COLOR(255, 30, 132, 244);
+		defaultColor_head = PX_COLOR(255, 255, 255, 255);
+		defaultColor_body = PX_COLOR(255, 30, 132, 244);
+		color_body = defaultColor_body;
+		color_head = defaultColor_head;
 		lastDir = Direct::unassign;
 		playerID = 0;
 
@@ -108,10 +110,18 @@ public:
 	* @return 有则返回蛇节的指针，无则返回NULL
 	*/
 	SnakeBlock* GetSnakeBlockPos(int x, int y);
+
+	/**
+	* @brief 获取颜色
+	*/
+	px_color GetColor(int order);
 private:
 	SnakeBlock* snakeHead;
 	Direct lastDir; // 上次移动的方向
-	px_color defaultColor;
+	px_color defaultColor_head;
+	px_color defaultColor_body;
+	px_color color_head;
+	px_color color_body;
 	bool isInited; // 是否初始化
 	uint32_t playerID;
 	//int chainLength; // 蛇的长度（不计算食物，即链表的长度）

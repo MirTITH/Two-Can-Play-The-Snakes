@@ -76,8 +76,8 @@ void Player::GetInput()
 
 void Player::SetT(int newT, int _tick)
 {
-	T = newT;
 	T_tick = _tick;
+	T = newT;
 }
 
 int Player::DelHead()
@@ -88,28 +88,23 @@ int Player::DelHead()
 
 void Player::UpdateT()
 {
-	if (!isInited)
-	{
-		cerr << hex << this << " Err. [Player::UpdateT()] Not initialized." << endl;
-		return;
-	}
-
-	if (T_tick >= 0)
+	if (T_tick > 0)
 	{
 		T_tick--;
 	}
 
 	if (T_tick == 0)
 	{
+		T_tick--;
 		T = defaultT;
 	}
 }
 
 void Player::SpeedUp()
 {
-	int tick = 800;
+	int tick = 500;
 	lostControl_tick = tick;
-	SetT((int)(defaultT / 2.5), tick);
+	SetT((int)(defaultT / 4), tick);
 }
 
 void Player::Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num, px_color color)
@@ -130,7 +125,7 @@ void Player::Init(uint32_t pid, KeyMap _keyMap, int x, int y, int num, px_color 
 	isInited = true;
 
 	// 初始化技能
-	skill_speed_up.Init(1300, 0);
+	skill_speed_up.Init(1100, 0);
 
 	clog << hex << this << " Player [" << name << "] initialized." << endl;
 }

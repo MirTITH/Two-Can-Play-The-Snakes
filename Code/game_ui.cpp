@@ -12,7 +12,7 @@ void Draw_Playing(PX_Application* pApp)
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
 
 	// »æÖÆ±³¾°
-	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 44, 77));
+	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 77, 66));
 
 	DrawSnake(pApp);// »æÖÆÉß
 
@@ -37,7 +37,7 @@ void DrawSnake(PX_Application* pApp)
 			snakeBlock = gameMap.player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
 			// »æÖÆÉß
-			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, snakeBlock->color);
+			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, gameMap.player[pOrder].snake.GetColor(i));
 		}
 	}
 }

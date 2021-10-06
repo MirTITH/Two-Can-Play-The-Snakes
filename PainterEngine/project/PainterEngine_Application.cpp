@@ -45,7 +45,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_1.skill_2 = 81;//q
 		keyMap_1.slowdown = VK_LSHIFT;
 
-		gameMap.player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 255, 255));
+		gameMap.player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 155, 144));
 	}
 
 	if (PLAYER_NUM > 1) // ³õÊ¼»¯Íæ¼Ò2
@@ -162,7 +162,8 @@ void Sys_tick_f()
 		tick_remain--;
 
 		LeaveCriticalSection(&g_cs);
+		//Sleep(10);
 		while (until > chrono::system_clock::now());
-		//this_thread::sleep_until(until);
+		//this_thread::sleep_for(chrono::milliseconds(1));
 	}
 }
