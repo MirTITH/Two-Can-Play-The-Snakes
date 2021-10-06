@@ -14,3 +14,5 @@ void Draw_Playing(PX_Application* pApp);
 void DrawSnake(PX_Application* pApp);
 
 void DrawPlayerInfo(PX_Application* pApp);
+
+void DrawFood(PX_Application* pApp);

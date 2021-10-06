@@ -22,6 +22,10 @@ GameMap::GameMap()
 			mapBlock[x][y].obstacle_color = PX_COLOR(255, 0, 0, 0);
 			//mapBlock[x][y].snakeBlock = NULL;
 			//mapBlock[x][y].snake_Player = NULL;
+
+			mapBlock[x][y].foodNum = 0;
+			mapBlock[x][y].food_color = PX_COLOR(255, 0, 158, 0);
+			totalFoodNum = 0;
 		}
 	}
 }
@@ -63,6 +67,54 @@ void GameMap::Update()
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{
 		player[i].Tick();
+	}
+	
+	// 食物相关
+
+	if (totalFoodNum < 2)
+	{
+		GenerateFood();
+	}
+
+	// 吃到食物
+	for (int s = 0; s < PLAYER_NUM; s++)
+	{
+		SnakeBlock* p = player[s].snake.Get(0);
+
+		if (mapBlock[p->x][p->y].foodNum != 0)
+		{
+			p->food += mapBlock[p->x][p->y].foodNum;
+			mapBlock[p->x][p->y].foodNum = 0;
+			totalFoodNum--;
+		}
+
+		if (mapBlock[p->x+1][p->y].foodNum != 0)
+		{
+			p->food += mapBlock[p->x+1][p->y].foodNum;
+			mapBlock[p->x+1][p->y].foodNum = 0;
+			totalFoodNum--;
+		}
+
+		if (mapBlock[p->x-1][p->y].foodNum != 0)
+		{
+			p->food += mapBlock[p->x-1][p->y].foodNum;
+			mapBlock[p->x-1][p->y].foodNum = 0;
+			totalFoodNum--;
+		}
+
+		if (mapBlock[p->x][p->y+1].foodNum != 0)
+		{
+			p->food += mapBlock[p->x][p->y+1].foodNum;
+			mapBlock[p->x][p->y+1].foodNum = 0;
+			totalFoodNum--;
+		}
+
+		if (mapBlock[p->x][p->y-1].foodNum != 0)
+		{
+			p->food += mapBlock[p->x][p->y-1].foodNum;
+			mapBlock[p->x][p->y-1].foodNum = 0;
+			totalFoodNum--;
+		}
 	}
 
 	// 蛇头与蛇头相撞
@@ -123,6 +175,22 @@ void GameMap::Update()
 
 			i++;
 			p = player[s].snake.Get(i);
+		}
+	}
+}
+
+void GameMap::GenerateFood()
+{
+	while (true)
+	{
+		int x = rand() % MAP_SIZE_X;
+		int y = rand() % MAP_SIZE_Y;
+
+		if (mapBlock[x][y].foodNum == 0)
+		{
+			mapBlock[x][y].foodNum = 5;
+			totalFoodNum++;
+			break;
 		}
 	}
 }

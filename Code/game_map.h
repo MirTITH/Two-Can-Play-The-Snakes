@@ -33,6 +33,9 @@ typedef struct
 	//Player* snake_Player; // 该处蛇的玩家ID
 	//SnakeBlock* snakeBlock;
 
+	int foodNum;
+	px_color food_color;
+
 	bool isExistObstacle; // 是否存在障碍物
 	px_color obstacle_color; // 障碍物的颜色
 }MapBlock;
@@ -83,8 +86,17 @@ public:
 		return mapBlock[x][y];
 	}
 
+	/**
+	* @brief 随机生成食物
+	*/
+	void GenerateFood();
+
 	Player player[PLAYER_NUM];
 
 private:
 	MapBlock mapBlock[MAP_SIZE_X][MAP_SIZE_Y];
+
+	int totalFoodNum; // 有食物的格子总数
+
+	//int generateFood_T; //生成食物的周期
 };

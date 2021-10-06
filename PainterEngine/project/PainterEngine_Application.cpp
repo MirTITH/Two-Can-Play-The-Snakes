@@ -29,6 +29,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 	cursor_init();
 
+	srand(time(NULL));
 
 
 	if (PLAYER_NUM > 0) // 初始化玩家1
@@ -82,9 +83,6 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 {
 	px_surface *pRenderSurface=&pApp->runtime.RenderSurface;
 	//GetCursorPos(&pt); //Windows 函数，获取鼠标绝对坐标
-	//Sleep(1000);
-
-	
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 0, 0, 0));
 
