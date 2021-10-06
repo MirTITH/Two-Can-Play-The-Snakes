@@ -6,6 +6,8 @@
 
 extern GameMap gameMap;
 
+extern int tick_remain;
+
 void Draw_Playing(PX_Application* pApp);
 
 /**

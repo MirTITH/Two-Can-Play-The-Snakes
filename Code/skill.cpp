@@ -20,7 +20,7 @@ void Skill::Init(int _cd, int _energy)
 
 void Skill::Tick()
 {
-	if (total_cd > 0)
+	if (remain_cd > 0)
 	{
 		remain_cd--;
 	}

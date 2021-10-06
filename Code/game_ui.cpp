@@ -2,6 +2,8 @@
 
 string text[PLAYER_NUM];
 
+int tick_remain = 90000;
+
 /**
 * @brief 绘制游戏时画面
 */
@@ -17,6 +19,9 @@ void Draw_Playing(PX_Application* pApp)
 	DrawFood(pApp);
 
 	DrawPlayerInfo(pApp);// 绘制玩家信息
+
+	// 倒计时
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, 10, PX_ALIGN_LEFTTOP, to_string(tick_remain / 1000).c_str(), PX_COLOR(180,255,255,255));
 
 	cursor_draw(pRenderSurface); //绘制鼠标，请保持鼠标最后绘制
 }

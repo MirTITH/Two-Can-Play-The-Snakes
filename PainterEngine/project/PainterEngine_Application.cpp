@@ -159,6 +159,7 @@ void Sys_tick_f()
 		EnterCriticalSection(&g_cs);
 
 		gameMap.Update();
+		tick_remain--;
 
 		LeaveCriticalSection(&g_cs);
 		while (until > chrono::system_clock::now());
