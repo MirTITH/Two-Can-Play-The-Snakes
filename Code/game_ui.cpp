@@ -23,6 +23,10 @@ void Draw_Playing(PX_Application* pApp)
 	// 倒计时
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, 10, PX_ALIGN_LEFTTOP, to_string(tick_remain / 1000).c_str(), PX_COLOR(180,255,255,255));
 
+	if (cursor_color_A > 0)
+	{
+		cursor_color_A--;
+	}
 	cursor_draw(pRenderSurface); //绘制鼠标，请保持鼠标最后绘制
 }
 

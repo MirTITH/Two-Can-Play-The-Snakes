@@ -13,6 +13,8 @@
 
 using namespace std;
 
+bool is_pause = false;
+
 PX_Application App;
 POINTER_POS cursor = { 0,0 };
 
@@ -84,7 +86,7 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	px_surface *pRenderSurface=&pApp->runtime.RenderSurface;
 	//GetCursorPos(&pt); //Windows 函数，获取鼠标绝对坐标
 
-	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 0, 0, 0));
+	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 11, 33, 33));
 
 	// 游戏时画面
 	Draw_Playing(pApp);
@@ -97,6 +99,7 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 	switch (e.Event)
 	{
 	case PX_OBJECT_EVENT_CURSORMOVE:
+		cursor_color_A = Default_cursor_color_A;
 		cursor.x = PX_Object_Event_GetCursorX(e);
 		cursor.y = PX_Object_Event_GetCursorY(e);
 		break;
@@ -152,7 +155,7 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 void Sys_tick_f()
 {
 	chrono::system_clock::time_point until;
-	while (true)
+	while (!is_pause)
 	{
 		until = chrono::system_clock::now();
 		until += chrono::milliseconds(1);
