@@ -41,7 +41,14 @@ void DrawSnake(PX_Application* pApp)
 			snakeBlock = gameMap.player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
 			// »æÖÆÉß
-			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, gameMap.player[pOrder].snake.GetColor(i));
+			if (gameMap.player[pOrder].snake.Get(i)->food == 0)
+			{
+				PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, gameMap.player[pOrder].snake.GetColor(i));
+			}
+			else
+			{
+				PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)3, 2, gameMap.player[pOrder].snake.GetColor(i));
+			}
 		}
 	}
 }
