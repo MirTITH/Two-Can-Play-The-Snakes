@@ -40,12 +40,12 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_1.down = 83;//s
 		keyMap_1.left = 65;//a
 		keyMap_1.right = 68;//d
-		keyMap_1.accelerate = VK_LSHIFT;
+		keyMap_1.accelerate = 32; //space
 		keyMap_1.skill_1 = 69;//e
 		keyMap_1.skill_2 = 81;//q
-		keyMap_1.slowdown = 32;//space
+		keyMap_1.slowdown = VK_LSHIFT;
 
-		gameMap.player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 100, PX_COLOR(255, 255, 255, 255));
+		gameMap.player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 255, 255));
 	}
 
 	if (PLAYER_NUM > 1) // 初始化玩家2
@@ -56,12 +56,12 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_2.down = VK_DOWN;
 		keyMap_2.left = VK_LEFT;
 		keyMap_2.right = VK_RIGHT;
-		keyMap_2.accelerate = VK_RSHIFT;
+		keyMap_2.accelerate = VK_NUMPAD0;
 		keyMap_2.skill_1 = VK_NUMPAD1;
 		keyMap_2.skill_2 = VK_NUMPAD2;
-		keyMap_2.slowdown = VK_NUMPAD0;
+		keyMap_2.slowdown = VK_RCONTROL;
 			
-		gameMap.player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 100, PX_COLOR(255, 157, 208, 136));
+		gameMap.player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 157, 208, 136));
 	}
 
 	InitializeCriticalSection(&g_cs);//初始化临界区
