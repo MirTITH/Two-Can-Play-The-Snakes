@@ -1,5 +1,11 @@
 #include "game_map.h"
 
+random_device randDevice; //随机数生成设备（用于产生种子）
+default_random_engine randEngine(randDevice()); // 伪随机数生成引擎
+
+uniform_int_distribution<unsigned> rand_map_x(0, MAP_SIZE_X - 1);
+uniform_int_distribution<unsigned> rand_map_y(0, MAP_SIZE_Y - 1);
+
 px_int MapToScreen_x(int x)
 {
 	return (PX_APPLICATION_SURFACE_WIDTH - MAP_DISPLAY_X + MAP_DISPLAY_X / MAP_SIZE_X) / 2 + MAP_DISPLAY_X * x / MAP_SIZE_X;
@@ -29,38 +35,6 @@ GameMap::GameMap()
 		}
 	}
 }
-
-//int GameMap::AddSnakeBlock(Player* _snakePlayer, SnakeBlock* _snakeBlock)
-//{
-//	if (mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake)
-//	{
-//		return 1;
-//	}
-//
-//	if (mapBlock[_snakeBlock->x][_snakeBlock->y].isExistObstacle)
-//	{
-//		return 2;
-//	}
-//
-//	if (mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake == false)
-//	{
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake = true;
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake = false;
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].snakeBlock = _snakeBlock;
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player = _snakePlayer;
-//	}
-//	else
-//	{
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player->snake.DelHead();
-//		_snakePlayer->snake.DelHead();
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].tryTake = false;
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].isExistSnake = false;
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].snakeBlock = NULL;
-//		mapBlock[_snakeBlock->x][_snakeBlock->y].snake_Player = NULL;
-//	}
-//
-//	return 0;
-//}
 
 void GameMap::Update()
 {
@@ -194,8 +168,8 @@ void GameMap::GenerateFood()
 	int y;
 	while (true)
 	{
-		x = rand() % MAP_SIZE_X;
-		y = rand() % MAP_SIZE_Y;
+		x = rand_map_x(randEngine);
+		y = rand_map_y(randEngine);
 
 		if (mapBlock[x][y].foodNum == 0)
 		{

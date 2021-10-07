@@ -2,9 +2,11 @@
 
 GameMap* gameMap;
 
+Page page;
+
 string text[PLAYER_NUM];
 
-PX_Object* object_pause, * object_pause_button;
+PX_Object* object_pause, * object_button_pause, * object_button_continue;
 
 int tick_remain;
 
@@ -13,6 +15,7 @@ bool end_tick;
 bool pause_tick = false;
 
 void Button_Remake(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
+void Button_Continue(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
 void gameMap_Init();
 void pauseMenu_Init(PX_Application* pApp);
 
@@ -22,11 +25,10 @@ void Playing_init(PX_Application* pApp)
 	pauseMenu_Init(pApp);// 初始化暂停菜单
 	gameMap_Init();
 
-	srand((int)time(NULL));
 
 	thread sys_tick(Sys_tick_f);
 	sys_tick.detach();
-
+	page = Page::playing;
 }
 
 void gameMap_Init()
@@ -46,6 +48,7 @@ void gameMap_Init()
 		keyMap_1.slowdown = VK_LSHIFT;
 
 		gameMap->player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 155, 144));
+		gameMap->player[0].name = "小红";
 	}
 
 	if (PLAYER_NUM > 1) // 初始化玩家2
@@ -62,20 +65,28 @@ void gameMap_Init()
 		keyMap_2.slowdown = VK_RCONTROL;
 
 		gameMap->player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 144, 155, 255));
-
-		tick_remain = 90000;
+		gameMap->player[1].name = "小蓝";
 	}
+
+	tick_remain = 9000;
 }
 
 void pauseMenu_Init(PX_Application* pApp)
 {
 	object_pause = PX_ObjectCreate(&pApp->runtime.mp_ui, PX_NULL, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, 0, 0, 0, 0);
-	object_pause_button = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -64, 40, 128, 40, "Remake", &pApp->fm);
-	//PX_Object_PushButtonSetStyle(object_pause_button, PX_OBJECT_PUSHBUTTON_STYLE_ROUNDRECT);
-	PX_Object_PushButtonSetBackgroundColor(object_pause_button, PX_COLOR(128, 11, 33, 33));
-	PX_Object_PushButtonSetCursorColor(object_pause_button, PX_COLOR(128, 22, 66, 66));
-	PX_Object_PushButtonSetPushColor(object_pause_button, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
-	PX_ObjectRegisterEvent(object_pause_button, PX_OBJECT_EVENT_EXECUTE, Button_Remake, pApp);
+	object_button_pause = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -64, 40, 128, 40, "REMAKE", &pApp->fm);
+	//PX_Object_PushButtonSetStyle(object_button_pause, PX_OBJECT_PUSHBUTTON_STYLE_ROUNDRECT);
+	PX_Object_PushButtonSetBackgroundColor(object_button_pause, PX_COLOR(128, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_button_pause, PX_COLOR(128, 22, 66, 66));
+	PX_Object_PushButtonSetPushColor(object_button_pause, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
+	PX_ObjectRegisterEvent(object_button_pause, PX_OBJECT_EVENT_EXECUTE, Button_Remake, pApp);
+	
+	object_button_continue = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -64, 100, 128, 40, "CONTINUE", &pApp->fm);
+	PX_Object_PushButtonSetBackgroundColor(object_button_continue, PX_COLOR(128, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_button_continue, PX_COLOR(128, 22, 66, 66));
+	PX_Object_PushButtonSetPushColor(object_button_continue, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
+	PX_ObjectRegisterEvent(object_button_continue, PX_OBJECT_EVENT_EXECUTE, Button_Continue, pApp);
+
 	object_pause->Visible = PX_FALSE;
 }
 
@@ -86,14 +97,24 @@ void Playing_PostEvent(PX_Object_Event e)
 
 void Playing_KeyEsc()
 {
-	if (pause_tick == true)
+	switch (page)
 	{
-		Playing_Continue();
+	case Page::playing:
+		if (pause_tick == true)
+		{
+			Playing_Continue();
+		}
+		else
+		{
+			Playing_Pause();
+		}
+		break;
+	case Page::counting:
+		break;
+	default:
+		break;
 	}
-	else
-	{
-		Playing_Pause();
-	}
+	
 }
 
 void Playing_Pause()
@@ -106,6 +127,7 @@ void Playing_Continue()
 {
 	pause_tick = false;
 	object_pause->Visible = PX_FALSE;
+	page = Page::playing;
 }
 
 void Playing_GetInput()
@@ -116,9 +138,58 @@ void Playing_GetInput()
 	}
 }
 
+void Counting_Init()
+{
+	page = Page::counting;
+	Playing_Pause();
+
+}
+
+void Counting_Draw(PX_Application* pApp, px_dword elpased)
+{
+	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
+
+	DrawPlayerInfo(pApp);// 绘制玩家信息
+
+	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(100, 255, 255, 255));
+
+	DrawSnake(pApp);// 绘制蛇
+
+	DrawFood(pApp);
+
+	PX_ObjectRender(&pApp->runtime.RenderSurface, object_pause, elpased);
+
+	int winner;
+
+	if (gameMap->player[0].snake.GetLength() > gameMap->player[1].snake.GetLength())
+	{
+		winner = 0;
+	}
+	else if (gameMap->player[0].snake.GetLength() < gameMap->player[1].snake.GetLength())
+	{
+		winner = 1;
+	}
+	else
+	{
+		winner = -1; // 平局
+	}
+
+	if (winner >= 0)
+	{
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3 - 40, PX_ALIGN_MIDTOP, "WINNER", PX_COLOR(180, 255, 255, 255));
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, gameMap->player[winner].name.c_str(), gameMap->player[winner].defaultColor);
+	}
+	else
+	{
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "平局", PX_COLOR(180, 255, 255, 255));
+	}
+
+	cursor_draw(pRenderSurface); //绘制鼠标，请保持鼠标最后绘制
+}
+
 void DrawPlaying_Pause(PX_Application* pApp, px_dword elpased)
 {
-	PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2 - 32, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_LEFTTOP, "PAUSE", PX_COLOR(180, 255, 255, 255));
+	PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "PAUSE", PX_COLOR(180, 255, 255, 255));
 	PX_ObjectRender(&pApp->runtime.RenderSurface, object_pause, elpased);
 }
 
@@ -200,8 +271,8 @@ void DrawSnake(PX_Application* pApp)
 void DrawPlayerInfo(PX_Application* pApp)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
-	text[0] = "P1\n\n长度: " + to_string(gameMap->player[0].snake.GetLength());
-	text[1] = "P2\n\n长度: " + to_string(gameMap->player[1].snake.GetLength());
+	text[0] = "P1\n" + gameMap->player[0].name + "\n长度: " + to_string(gameMap->player[0].snake.GetLength());
+	text[1] = "P2\n" + gameMap->player[1].name + "\n长度: " + to_string(gameMap->player[1].snake.GetLength());
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), gameMap->player[0].defaultColor);
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), gameMap->player[1].defaultColor);
 }
@@ -239,6 +310,11 @@ void Sys_tick_f()
 		gameMap->Update();
 		tick_remain--;
 
+		if (page == Page::playing && tick_remain == 0)
+		{
+			Counting_Init();
+		}
+
 		//Sleep(10);
 		while (until > chrono::system_clock::now());
 	}
@@ -249,5 +325,10 @@ void Button_Remake(PX_Object *pObject, PX_Object_Event e, px_void *pApp)
 	//cout << "Hello" << endl;
 	delete gameMap;
 	gameMap_Init();
+	Playing_Continue();
+}
+
+void Button_Continue(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
+{
 	Playing_Continue();
 }

@@ -36,7 +36,18 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 11, 33, 33));
 
 	// ÓÎÏ·Ê±»­Ãæ
-	Playing_Draw(pApp, elpased);
+	switch (page)
+	{
+	case Page::playing:
+		Playing_Draw(pApp, elpased);
+		break;
+	case Page::counting:
+		Counting_Draw(pApp, elpased);
+		break;
+	default:
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "NO SIGNAL", PX_COLOR(180, 255, 255, 255));
+		break;
+	}
 }
 
 px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
@@ -53,16 +64,19 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 		cursor.y = PX_Object_Event_GetCursorY(e);
 		break;
 	case PX_OBJECT_EVENT_CURSORDRAG:
+		cursor_color_A = Default_cursor_color_A;
 		cursor.x = PX_Object_Event_GetCursorX(e);
 		cursor.y = PX_Object_Event_GetCursorY(e);
 		break;
 	case PX_OBJECT_EVENT_CURSORDOWN:
+		cursor_color_A = Default_cursor_color_A;
 		cursor_CURSORDOWN();
 		break;
 	case PX_OBJECT_EVENT_CURSORUP:
 		cursor_CURSORUP();
 		break;
 	case PX_OBJECT_EVENT_CURSORRDOWN:
+		cursor_color_A = Default_cursor_color_A;
 		cursor_CURSORRDOWN();
 		break;
 	case PX_OBJECT_EVENT_CURSORRUP:

@@ -20,7 +20,7 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 - [x] 添加倒计时
 - [ ] 添加菜单
 - [ ] 添加人机模式（待定）
-- [ ] 结算界面
+- [x] 结算界面
 - [x] 蛇渐变色
 - [ ] 被吃特效
 - [ ] CD 结束效果

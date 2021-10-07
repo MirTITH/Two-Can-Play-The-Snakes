@@ -21,6 +21,8 @@ void cursor_draw(px_surface* psurface)
 {
 	cursor_color = PX_COLOR(cursor_color_A, cursor_color_R, cursor_color_G, cursor_color_B);
 	PX_GeoDrawCircle(psurface, (px_int)cursor.x, (px_int)cursor.y, (px_int)cursor_r, 4, cursor_color);
+	PX_GeoDrawLine(psurface, cursor.x - 4, cursor.y, cursor.x + 4, cursor.y, 1, cursor_color);
+	PX_GeoDrawLine(psurface, cursor.x, cursor.y - 4, cursor.x, cursor.y + 4, 1, cursor_color);
 }
 
 void cursor_CURSORDOWN()

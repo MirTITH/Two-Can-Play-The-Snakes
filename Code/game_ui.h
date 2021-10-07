@@ -6,6 +6,14 @@
 #include "game_map.h"
 #include "cursor.h"
 
+enum class Page
+{
+	playing,
+	counting
+};
+
+
+extern Page page;
 extern int tick_remain;
 
 void Playing_init(PX_Application* pApp);
@@ -31,6 +39,8 @@ void Playing_Draw(PX_Application* pApp, px_dword elpased);
 void DrawSnake(PX_Application* pApp);
 
 void DrawPlayerInfo(PX_Application* pApp);
+
+void Counting_Draw(PX_Application* pApp, px_dword elpased);
 
 void DrawFood(PX_Application* pApp);
 
