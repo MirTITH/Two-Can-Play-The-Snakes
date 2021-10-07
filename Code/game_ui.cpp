@@ -6,7 +6,9 @@ string text[PLAYER_NUM];
 
 int tick_remain;
 
-bool is_pause = false;
+bool end_tick;
+
+bool pause_tick = false;
 
 void Playing_init()
 {
@@ -51,12 +53,39 @@ void Playing_init()
 	cursor_init();
 }
 
+void Playing_KeyEsc()
+{
+	if (pause_tick == true)
+	{
+		Playing_Continue();
+	}
+	else
+	{
+		Playing_Pause();
+	}
+}
+
+void Playing_Pause()
+{
+	pause_tick = true;
+}
+
+void Playing_Continue()
+{
+	pause_tick = false;
+}
+
 void Playing_GetInput()
 {
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{
 		gameMap.player[i].GetInput();
 	}
+}
+
+void DrawPlaying_Pause(PX_Application* pApp)
+{
+	PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 2, PX_ALIGN_LEFTTOP, "PAUSE", PX_COLOR(180, 255, 255, 255));
 }
 
 /**
@@ -78,10 +107,19 @@ void Playing_Draw(PX_Application* pApp)
 	// 倒计时
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, 10, PX_ALIGN_LEFTTOP, to_string(tick_remain / 1000).c_str(), PX_COLOR(180,255,255,255));
 
-	if (cursor_color_A > 0)
+	if (pause_tick)
 	{
-		cursor_color_A--;
+		DrawPlaying_Pause(pApp);
 	}
+	else
+	{
+		if (cursor_color_A > 0)
+		{
+			cursor_color_A--;
+		}
+	}
+
+	
 	cursor_draw(pRenderSurface); //绘制鼠标，请保持鼠标最后绘制
 }
 
@@ -152,8 +190,15 @@ void DrawFood(PX_Application* pApp)
 void Sys_tick_f()
 {
 	chrono::system_clock::time_point until;
-	while (!is_pause)
+	end_tick = false;
+
+	while (!end_tick)
 	{
+		while(pause_tick)
+		{
+			this_thread::sleep_for(chrono::milliseconds(100));
+		}
+
 		until = chrono::system_clock::now();
 		until += chrono::milliseconds(1);
 
@@ -162,6 +207,5 @@ void Sys_tick_f()
 
 		//Sleep(10);
 		while (until > chrono::system_clock::now());
-		//this_thread::sleep_for(chrono::milliseconds(1));
 	}
 }

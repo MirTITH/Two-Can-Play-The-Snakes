@@ -1,6 +1,6 @@
-#include "myheadfile.h"
-#include "PainterEngine_Application.h"
 #include <iostream>
+#include "PainterEngine_Application.h"
+#include <Windows.h>
 #include "cursor.h"
 #include "game_ui.h"
 
@@ -66,6 +66,17 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 	case PX_OBJECT_EVENT_CURSORRUP:
 		cursor_CURSORRUP();
 		break;
+	case PX_OBJECT_EVENT_KEYDOWN:
+		switch (PX_Object_Event_GetKeyDown(e))
+		{
+		case VK_ESCAPE:
+			Playing_KeyEsc();
+			break;
+		case VK_ADD:
+			break;
+		default:
+			break;
+		}
 	default:
 		break;
 	}

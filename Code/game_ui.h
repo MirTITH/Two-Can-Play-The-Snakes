@@ -1,9 +1,8 @@
 #pragma once
+
 #include <chrono>
 #include <Windows.h>
 #include <thread>
-#include "myheadfile.h"
-#include "Player.h"
 #include "game_map.h"
 #include "cursor.h"
 
@@ -16,8 +15,13 @@ void Playing_init();
 */
 void Playing_GetInput();
 
-void Playing_Draw(PX_Application* pApp);
+void Playing_Pause();
 
+void Playing_Continue();
+
+void Playing_KeyEsc();
+
+void Playing_Draw(PX_Application* pApp);
 
 /**
 * ªÊ÷∆…ﬂ
