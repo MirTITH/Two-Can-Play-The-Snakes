@@ -1,6 +1,7 @@
 #include "snake.h"
 #include <iostream>
 #include "game_map.h"
+#include "common.h"
 
 using namespace std;
 
@@ -28,8 +29,8 @@ void Snake::Init(uint32_t _playerID, int x, int y, int num, px_color color)
 		cerr << "Err. [Snake::ReInit] snakeHead == NULL" << endl;
 	}
 
-	defaultColor_body = color;
-	defaultColor_head = PX_COLOR(255, 255, 255, 255);
+	defaultColor_head = color;
+	defaultColor_body = PX_COLOR(255, 255, 255, 255);
 
 	color_body = defaultColor_body;
 	color_head = defaultColor_head;
@@ -327,14 +328,42 @@ SnakeBlock* Snake::GetSnakeBlockPos(int x, int y)
 
 px_color Snake::GetColor(int order)
 {
-	if (order == 0)
+	px_color color;
+
+	int Length = GetLength();
+
+	double pos;
+
+	if (Length == 1)
 	{
 		return color_head;
 	}
+
+
+	if (order >= 0)
+	{
+		pos = (double)order / (Length - 1);
+	}
 	else
 	{
-		return color_body;
+		pos = (double)(Length + order) / (Length - 1);
 	}
+
+	color._argb.a = LinearlyChange(color_head._argb.a, color_body._argb.a, pos);
+	color._argb.r = LinearlyChange(color_head._argb.r, color_body._argb.r, pos);
+	color._argb.g = LinearlyChange(color_head._argb.g, color_body._argb.g, pos);
+	color._argb.b = LinearlyChange(color_head._argb.b, color_body._argb.b, pos);
+
+	return color;
+
+	//if (order == 0)
+	//{
+	//	return color_head;
+	//}
+	//else
+	//{
+	//	return color_body;
+	//}
 }
 
 Direct Snake::GetReverseLastDir()

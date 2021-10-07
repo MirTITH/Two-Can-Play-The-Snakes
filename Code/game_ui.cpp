@@ -36,19 +36,36 @@ void DrawSnake(PX_Application* pApp)
 	for (int pOrder = 0; pOrder < PLAYER_NUM; pOrder++)
 	{
 		SnakeBlock* snakeBlock;
+
+		px_int r;
+		px_int lineWidth;
+
 		for (int i = 0; ; i++)
 		{
 			snakeBlock = gameMap.player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
+
 			// »æÖÆÉß
 			if (gameMap.player[pOrder].snake.Get(i)->food == 0)
 			{
-				PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)2, 1, gameMap.player[pOrder].snake.GetColor(i));
+				if (i == 0) // ÉßÍ·
+				{
+					r = 3;
+					lineWidth = 1;
+				}
+				else
+				{
+					r = 2;
+					lineWidth = 1;
+				}
 			}
 			else
 			{
-				PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), (px_int)3, 2, gameMap.player[pOrder].snake.GetColor(i));
+				r = 3;
+				lineWidth = 2;
 			}
+
+			PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(snakeBlock->x), MapToScreen_y(snakeBlock->y), r, lineWidth, gameMap.player[pOrder].snake.GetColor(i));
 		}
 	}
 }

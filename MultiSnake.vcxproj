@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Code\common.cpp" />
     <ClCompile Include="Code\cursor.cpp" />
     <ClCompile Include="Code\game_map.cpp" />
     <ClCompile Include="Code\game_ui.cpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="PainterEngine\project\PainterEngine_Startup.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\common.h" />
     <ClInclude Include="Code\cursor.h" />
     <ClInclude Include="Code\game_map.h" />
     <ClInclude Include="Code\game_ui.h" />

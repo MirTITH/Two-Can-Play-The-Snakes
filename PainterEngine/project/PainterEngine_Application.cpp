@@ -63,7 +63,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 		keyMap_2.skill_2 = VK_NUMPAD2;
 		keyMap_2.slowdown = VK_RCONTROL;
 			
-		gameMap.player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 157, 208, 136));
+		gameMap.player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 144, 155, 255));
 	}
 
 	InitializeCriticalSection(&g_cs);//初始化临界区

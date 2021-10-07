@@ -20,16 +20,18 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 - [x] 添加倒计时
 - [ ] 添加菜单
 - [ ] 添加人机模式（待定）
+- [ ] 结算界面
+- [x] 蛇渐变色
+- [ ] 被吃特效
+- [ ] CD 结束效果
 
 
 ### 编译环境
 - Windows 10
-- Visual Studio
+- Visual Studio 2019
 
 ### 作者
 谢阳 (Xie Yang)
-
-- E-mail: 200320620@stu.hit.edu.cn
 
 - github: [MirTITH (github.com)](https://github.com/MirTITH)
 - gitee: [TITHChan (tithchan) - Gitee.com](https://gitee.com/tithchan)
