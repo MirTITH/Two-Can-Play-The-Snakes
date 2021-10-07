@@ -65,7 +65,8 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 ### 版本说明
 
 #### 1.0
-	多人模式制作完毕
+> 多人模式制作完毕  
+> *已添加Tag*
 
 ### 引擎
 PainterEngine by DBinary
