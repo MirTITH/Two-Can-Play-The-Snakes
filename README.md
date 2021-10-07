@@ -1,4 +1,4 @@
-# MultiSnake
+# Two Can Play The Snakes
 
 Copyright (C) 2021 Xie Yang. All rights reserved. 
 
