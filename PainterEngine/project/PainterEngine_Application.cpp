@@ -18,19 +18,34 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_FontModuleInitialize(&pApp->runtime.mp_resources, &pApp->fm)) return PX_FALSE;//字模
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 
-	Playing_init(pApp);
+	cursor_init();
+	MainMenu_Init(pApp);
+	Playing_Init(pApp);
+	MainMenu_Start();
 
 	return PX_TRUE;
 }
 
 px_void PX_ApplicationUpdate(PX_Application *pApp,px_dword elpased)
 {
-	Playing_GetInput();
+	switch (page)
+	{
+	case Page::main_menu:
+		break;
+	case Page::playing:
+		Playing_GetInput();
+		break;
+	case Page::counting:
+		break;
+	default:
+		break;
+	}
 }
 
 px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 {
 	px_surface *pRenderSurface=&pApp->runtime.RenderSurface;
+	static int alpha = 0;
 	//GetCursorPos(&pt); //Windows 函数，获取鼠标绝对坐标
 
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 11, 33, 33));
@@ -38,14 +53,24 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	// 游戏时画面
 	switch (page)
 	{
+	case Page::main_menu:
+		MainMenu_Draw(pApp, elpased);
+		break;
 	case Page::playing:
 		Playing_Draw(pApp, elpased);
 		break;
 	case Page::counting:
 		Counting_Draw(pApp, elpased);
 		break;
+	case Page::exit:	
+		if (alpha < 255)
+		{
+			alpha++;
+		}
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 2, PX_ALIGN_MIDTOP, "SEE YOU NEXT TIME", PX_COLOR(alpha, 255, 255, 255));
+		break;
 	default:
-		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "NO SIGNAL", PX_COLOR(180, 255, 255, 255));
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 2, PX_ALIGN_MIDTOP, "NO SIGNAL", PX_COLOR(180, 255, 255, 255));
 		break;
 	}
 }
@@ -54,7 +79,21 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 {
 	PX_ApplicationEventDefault(&pApp->runtime, e);
 
-	Playing_PostEvent(e);
+	switch (page)
+	{
+	case Page::main_menu:
+		MainMenu_Post_Event(e);
+		break;
+	case Page::playing:
+		Playing_PostEvent(e);
+		break;
+	case Page::counting:
+		Counting_PostEvent(e);
+		break;
+	default:
+		break;
+	}
+	
 	
 	switch (e.Event)
 	{

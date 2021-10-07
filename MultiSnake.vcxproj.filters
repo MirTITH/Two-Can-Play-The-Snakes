@@ -315,10 +315,10 @@
     <ClCompile Include="Code\skill.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Code\game_ui.cpp">
+    <ClCompile Include="Code\common.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Code\common.cpp">
+    <ClCompile Include="Code\game_ui.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

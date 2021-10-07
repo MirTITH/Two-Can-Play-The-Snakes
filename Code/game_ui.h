@@ -8,15 +8,29 @@
 
 enum class Page
 {
+	main_menu,
 	playing,
-	counting
+	counting,
+	exit
 };
 
 
 extern Page page;
 extern int tick_remain;
 
-void Playing_init(PX_Application* pApp);
+void MainMenu_Init(PX_Application* pApp);
+
+void MainMenu_Draw(PX_Application* pApp, px_dword elpased);
+
+void MainMenu_Post_Event(PX_Object_Event e);
+
+void MainMenu_Start();
+
+void MainMenu_End();
+
+void Playing_Init(PX_Application* pApp);
+
+void Playing_EXIT(PX_Application* pApp);
 
 /**
 * @brief 获取玩家输入
@@ -39,6 +53,8 @@ void Playing_Draw(PX_Application* pApp, px_dword elpased);
 void DrawSnake(PX_Application* pApp);
 
 void DrawPlayerInfo(PX_Application* pApp);
+
+void Counting_PostEvent(PX_Object_Event e);
 
 void Counting_Draw(PX_Application* pApp, px_dword elpased);
 

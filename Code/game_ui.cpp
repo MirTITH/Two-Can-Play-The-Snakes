@@ -1,4 +1,4 @@
-#include "game_ui.h"
+ï»¿#include "game_ui.h"
 
 GameMap* gameMap;
 
@@ -6,7 +6,9 @@ Page page;
 
 string text[PLAYER_NUM];
 
-PX_Object* object_pause, * object_button_pause, * object_button_continue;
+PX_Object* object_pause, * object_button_pause, * object_button_continue, * object_button_MainMenu;
+
+PX_Object* object_MainMenu, * object_MainMenu_Text, * object_MainMenu_Title, * object_MainMenu_button_Muiti_Player, * object_MainMenu_button_EXIT;
 
 int tick_remain;
 
@@ -16,27 +18,91 @@ bool pause_tick = false;
 
 void Button_Remake(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
 void Button_Continue(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
+void Button_Playing_to_MainMenu(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
+void Botton_EXIT(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
+void Botton_TWO_CAN_PLAY(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
 void gameMap_Init();
+void Playing_Start();
+void Playing_EXIT();
 void pauseMenu_Init(PX_Application* pApp);
+void GameExit();
 
-void Playing_init(PX_Application* pApp)
+void MainMenu_Init(PX_Application* pApp)
 {
-	cursor_init();
-	pauseMenu_Init(pApp);// ³õÊ¼»¯ÔÝÍ£²Ëµ¥
+	object_MainMenu = PX_ObjectCreate(&pApp->runtime.mp_ui, PX_NULL, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, 0, 0, 0, 0);
+	object_MainMenu_Title = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -150, -60, 300, 40, "Two Can Play The Snakes!", &pApp->fm, PX_COLOR(255, 255, 255, 255));
+	PX_Object_LabelSetAlign(object_MainMenu_Title, PX_ALIGN_MIDTOP);
+	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -80, 0, 160, 40, "MAIN MENU", &pApp->fm, PX_COLOR(200, 255, 255, 255));
+	PX_Object_LabelSetAlign(object_MainMenu_Text, PX_ALIGN_MIDTOP);
+	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -125, 400, 250, 40, "Copyright (c) 2021 Xie Yang", PX_NULL, PX_COLOR(200, 255, 255, 255));
+	PX_Object_LabelSetAlign(object_MainMenu_Text, PX_ALIGN_MIDTOP);
+
+	//æŒ‰é’®ï¼šTwo Can Play!
+	object_MainMenu_button_Muiti_Player = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_MainMenu, -100, 60, 200, 60, "Two Can Play!", &pApp->fm);
+	PX_Object_PushButtonSetBackgroundColor(object_MainMenu_button_Muiti_Player, PX_COLOR(200, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_MainMenu_button_Muiti_Player, PX_COLOR(200, 11 * 2, 33 * 2, 22 * 2));
+	PX_Object_PushButtonSetPushColor(object_MainMenu_button_Muiti_Player, PX_COLOR(200, 11 * 3, 33 * 3, 22 * 3));
+	PX_ObjectRegisterEvent(object_MainMenu_button_Muiti_Player, PX_OBJECT_EVENT_EXECUTE, Botton_TWO_CAN_PLAY, pApp);
+
+	//æŒ‰é’®ï¼šEXIT
+	object_MainMenu_button_EXIT = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_MainMenu, -100, 150, 200, 60, "EXIT", &pApp->fm);
+	PX_Object_PushButtonSetBackgroundColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11 * 2, 33 * 2, 22 * 2));
+	PX_Object_PushButtonSetPushColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11 * 3, 33 * 3, 22 * 3));
+	PX_ObjectRegisterEvent(object_MainMenu_button_EXIT, PX_OBJECT_EVENT_EXECUTE, Botton_EXIT, pApp);
+
+	object_MainMenu->Visible = FALSE;
+}
+
+void MainMenu_Draw(PX_Application* pApp, px_dword elpased)
+{
+	PX_GeoDrawRect(&pApp->runtime.RenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 77, 66));
+	PX_ObjectRender(&pApp->runtime.RenderSurface, object_MainMenu, elpased);
+	cursor_draw(&pApp->runtime.RenderSurface);
+}
+
+void MainMenu_Post_Event(PX_Object_Event e)
+{
+	PX_ObjectPostEvent(object_MainMenu, e);
+}
+
+void MainMenu_Start()
+{
+	object_MainMenu->Visible = TRUE;
+	page = Page::main_menu;
+}
+
+void MainMenu_End()
+{
+	object_MainMenu->Visible = FALSE;
+}
+
+void Playing_Init(PX_Application* pApp)
+{
+	pauseMenu_Init(pApp);// åˆå§‹åŒ–æš‚åœèœå•
+}
+
+void Playing_Start()
+{
 	gameMap_Init();
-
-
 	thread sys_tick(Sys_tick_f);
 	sys_tick.detach();
 	page = Page::playing;
 }
 
+void Playing_EXIT()
+{
+	end_tick = true;
+	object_pause->Visible = FALSE;
+	delete gameMap;
+}
+
 void gameMap_Init()
 {
 	gameMap = new GameMap;
-	if (PLAYER_NUM > 0) // ³õÊ¼»¯Íæ¼Ò1
+	if (PLAYER_NUM > 0) // åˆå§‹åŒ–çŽ©å®¶1
 	{
-		// ÅäÖÃ°´¼üÓ³Éä
+		// é…ç½®æŒ‰é”®æ˜ å°„
 		KeyMap keyMap_1;
 		keyMap_1.up = 87;//w
 		keyMap_1.down = 83;//s
@@ -48,12 +114,12 @@ void gameMap_Init()
 		keyMap_1.slowdown = VK_LSHIFT;
 
 		gameMap->player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 155, 144));
-		gameMap->player[0].name = "Ð¡ºì";
+		gameMap->player[0].name = "å°çº¢";
 	}
 
-	if (PLAYER_NUM > 1) // ³õÊ¼»¯Íæ¼Ò2
+	if (PLAYER_NUM > 1) // åˆå§‹åŒ–çŽ©å®¶2
 	{
-		// ÅäÖÃ°´¼üÓ³Éä
+		// é…ç½®æŒ‰é”®æ˜ å°„
 		KeyMap keyMap_2;
 		keyMap_2.up = VK_UP;
 		keyMap_2.down = VK_DOWN;
@@ -65,27 +131,35 @@ void gameMap_Init()
 		keyMap_2.slowdown = VK_RCONTROL;
 
 		gameMap->player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 144, 155, 255));
-		gameMap->player[1].name = "Ð¡À¶";
+		gameMap->player[1].name = "å°è“";
 	}
 
-	tick_remain = 9000;
+	tick_remain = 90000;
 }
 
 void pauseMenu_Init(PX_Application* pApp)
 {
 	object_pause = PX_ObjectCreate(&pApp->runtime.mp_ui, PX_NULL, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, 0, 0, 0, 0);
-	object_button_pause = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -64, 40, 128, 40, "REMAKE", &pApp->fm);
+
+	object_button_continue = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -100, 60, 200, 60, "CONTINUE", &pApp->fm);
+	PX_Object_PushButtonSetBackgroundColor(object_button_continue, PX_COLOR(128, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_button_continue, PX_COLOR(128, 22, 66, 66));
+	PX_Object_PushButtonSetPushColor(object_button_continue, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
+	PX_ObjectRegisterEvent(object_button_continue, PX_OBJECT_EVENT_EXECUTE, Button_Continue, pApp);
+
+	object_button_pause = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -100, 150, 200, 60, "REMAKE", &pApp->fm);
 	//PX_Object_PushButtonSetStyle(object_button_pause, PX_OBJECT_PUSHBUTTON_STYLE_ROUNDRECT);
 	PX_Object_PushButtonSetBackgroundColor(object_button_pause, PX_COLOR(128, 11, 33, 33));
 	PX_Object_PushButtonSetCursorColor(object_button_pause, PX_COLOR(128, 22, 66, 66));
 	PX_Object_PushButtonSetPushColor(object_button_pause, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
 	PX_ObjectRegisterEvent(object_button_pause, PX_OBJECT_EVENT_EXECUTE, Button_Remake, pApp);
-	
-	object_button_continue = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -64, 100, 128, 40, "CONTINUE", &pApp->fm);
-	PX_Object_PushButtonSetBackgroundColor(object_button_continue, PX_COLOR(128, 11, 33, 33));
-	PX_Object_PushButtonSetCursorColor(object_button_continue, PX_COLOR(128, 22, 66, 66));
-	PX_Object_PushButtonSetPushColor(object_button_continue, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
-	PX_ObjectRegisterEvent(object_button_continue, PX_OBJECT_EVENT_EXECUTE, Button_Continue, pApp);
+
+	object_button_MainMenu = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -100, 240, 200, 60, "MAIN MENU", &pApp->fm);
+	//PX_Object_PushButtonSetStyle(object_button_pause, PX_OBJECT_PUSHBUTTON_STYLE_ROUNDRECT);
+	PX_Object_PushButtonSetBackgroundColor(object_button_MainMenu, PX_COLOR(128, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_button_MainMenu, PX_COLOR(128, 22, 66, 66));
+	PX_Object_PushButtonSetPushColor(object_button_MainMenu, PX_COLOR(128, 11 * 3, 33 * 3, 33 * 3));
+	PX_ObjectRegisterEvent(object_button_MainMenu, PX_OBJECT_EVENT_EXECUTE, Button_Playing_to_MainMenu, pApp);
 
 	object_pause->Visible = PX_FALSE;
 }
@@ -114,7 +188,7 @@ void Playing_KeyEsc()
 	default:
 		break;
 	}
-	
+
 }
 
 void Playing_Pause()
@@ -145,15 +219,20 @@ void Counting_Init()
 
 }
 
+void Counting_PostEvent(PX_Object_Event e)
+{
+	PX_ObjectPostEvent(object_pause, e);
+}
+
 void Counting_Draw(PX_Application* pApp, px_dword elpased)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
 
-	DrawPlayerInfo(pApp);// »æÖÆÍæ¼ÒÐÅÏ¢
+	DrawPlayerInfo(pApp);// ç»˜åˆ¶çŽ©å®¶ä¿¡æ¯
 
 	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(100, 255, 255, 255));
 
-	DrawSnake(pApp);// »æÖÆÉß
+	DrawSnake(pApp);// ç»˜åˆ¶è›‡
 
 	DrawFood(pApp);
 
@@ -171,7 +250,7 @@ void Counting_Draw(PX_Application* pApp, px_dword elpased)
 	}
 	else
 	{
-		winner = -1; // Æ½¾Ö
+		winner = -1; // å¹³å±€
 	}
 
 	if (winner >= 0)
@@ -181,40 +260,40 @@ void Counting_Draw(PX_Application* pApp, px_dword elpased)
 	}
 	else
 	{
-		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "Æ½¾Ö", PX_COLOR(180, 255, 255, 255));
+		PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "å¹³å±€", PX_COLOR(180, 255, 255, 255));
 	}
 
-	cursor_draw(pRenderSurface); //»æÖÆÊó±ê£¬Çë±£³ÖÊó±ê×îºó»æÖÆ
+	cursor_draw(pRenderSurface); //ç»˜åˆ¶é¼ æ ‡ï¼Œè¯·ä¿æŒé¼ æ ‡æœ€åŽç»˜åˆ¶
 }
 
-void DrawPlaying_Pause(PX_Application* pApp, px_dword elpased)
+void Playing_Pause_Draw(PX_Application* pApp, px_dword elpased)
 {
 	PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_MIDTOP, "PAUSE", PX_COLOR(180, 255, 255, 255));
 	PX_ObjectRender(&pApp->runtime.RenderSurface, object_pause, elpased);
 }
 
 /**
-* @brief »æÖÆÓÎÏ·Ê±»­Ãæ
+* @brief ç»˜åˆ¶æ¸¸æˆæ—¶ç”»é¢
 */
 void Playing_Draw(PX_Application* pApp, px_dword elpased)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
 
-	// »æÖÆ±³¾°
+	// ç»˜åˆ¶èƒŒæ™¯
 	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 77, 66));
 
-	DrawSnake(pApp);// »æÖÆÉß
+	DrawSnake(pApp);// ç»˜åˆ¶è›‡
 
 	DrawFood(pApp);
 
-	DrawPlayerInfo(pApp);// »æÖÆÍæ¼ÒÐÅÏ¢
+	DrawPlayerInfo(pApp);// ç»˜åˆ¶çŽ©å®¶ä¿¡æ¯
 
-	// µ¹¼ÆÊ±
-	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, 10, PX_ALIGN_LEFTTOP, to_string(tick_remain / 1000).c_str(), PX_COLOR(180,255,255,255));
+	// å€’è®¡æ—¶
+	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, 10, PX_ALIGN_LEFTTOP, to_string(tick_remain / 1000).c_str(), PX_COLOR(180, 255, 255, 255));
 
 	if (pause_tick)
 	{
-		DrawPlaying_Pause(pApp, elpased);
+		Playing_Pause_Draw(pApp, elpased);
 	}
 	else
 	{
@@ -224,8 +303,8 @@ void Playing_Draw(PX_Application* pApp, px_dword elpased)
 		}
 	}
 
-	
-	cursor_draw(pRenderSurface); //»æÖÆÊó±ê£¬Çë±£³ÖÊó±ê×îºó»æÖÆ
+
+	cursor_draw(pRenderSurface); //ç»˜åˆ¶é¼ æ ‡ï¼Œè¯·ä¿æŒé¼ æ ‡æœ€åŽç»˜åˆ¶
 }
 
 void DrawSnake(PX_Application* pApp)
@@ -243,10 +322,10 @@ void DrawSnake(PX_Application* pApp)
 			snakeBlock = gameMap->player[pOrder].snake.Get(i);
 			if (snakeBlock == NULL) break;
 
-			// »æÖÆÉß
+			// ç»˜åˆ¶è›‡
 			if (gameMap->player[pOrder].snake.Get(i)->food == 0)
 			{
-				if (i == 0) // ÉßÍ·
+				if (i == 0) // è›‡å¤´
 				{
 					r = 3;
 					lineWidth = 1;
@@ -271,8 +350,8 @@ void DrawSnake(PX_Application* pApp)
 void DrawPlayerInfo(PX_Application* pApp)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
-	text[0] = "P1\n" + gameMap->player[0].name + "\n³¤¶È: " + to_string(gameMap->player[0].snake.GetLength());
-	text[1] = "P2\n" + gameMap->player[1].name + "\n³¤¶È: " + to_string(gameMap->player[1].snake.GetLength());
+	text[0] = "P1\n" + gameMap->player[0].name + "\né•¿åº¦: " + to_string(gameMap->player[0].snake.GetLength());
+	text[1] = "P2\n" + gameMap->player[1].name + "\né•¿åº¦: " + to_string(gameMap->player[1].snake.GetLength());
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), gameMap->player[0].defaultColor);
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), gameMap->player[1].defaultColor);
 }
@@ -299,7 +378,7 @@ void Sys_tick_f()
 
 	while (!end_tick)
 	{
-		while(pause_tick)
+		while (pause_tick)
 		{
 			this_thread::sleep_for(chrono::milliseconds(100));
 		}
@@ -320,10 +399,11 @@ void Sys_tick_f()
 	}
 }
 
-void Button_Remake(PX_Object *pObject, PX_Object_Event e, px_void *pApp)
+void Button_Remake(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
 {
 	//cout << "Hello" << endl;
 	delete gameMap;
+	this_thread::sleep_for(chrono::milliseconds(500));
 	gameMap_Init();
 	Playing_Continue();
 }
@@ -331,4 +411,31 @@ void Button_Remake(PX_Object *pObject, PX_Object_Event e, px_void *pApp)
 void Button_Continue(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
 {
 	Playing_Continue();
+}
+
+void Button_Playing_to_MainMenu(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
+{
+	Playing_Continue();
+	this_thread::sleep_for(chrono::milliseconds(200));
+	Playing_EXIT();
+	MainMenu_Start();
+}
+
+void Botton_EXIT(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
+{
+	page = Page::exit;
+	thread game_exit(GameExit);
+	game_exit.detach();
+}
+
+void Botton_TWO_CAN_PLAY(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
+{
+	MainMenu_End();
+	Playing_Start();
+}
+
+void GameExit()
+{
+	this_thread::sleep_for(chrono::milliseconds(1000));
+	exit(0);
 }
