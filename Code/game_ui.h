@@ -8,7 +8,7 @@
 
 extern int tick_remain;
 
-void Playing_init();
+void Playing_init(PX_Application* pApp);
 
 /**
 * @brief 获取玩家输入
@@ -21,7 +21,9 @@ void Playing_Continue();
 
 void Playing_KeyEsc();
 
-void Playing_Draw(PX_Application* pApp);
+void Playing_PostEvent(PX_Object_Event e);
+
+void Playing_Draw(PX_Application* pApp, px_dword elpased);
 
 /**
 * 绘制蛇

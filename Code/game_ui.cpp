@@ -4,14 +4,29 @@ GameMap gameMap;
 
 string text[PLAYER_NUM];
 
+PX_Object* object_pause, * object_pause_button;
+
 int tick_remain;
 
 bool end_tick;
 
 bool pause_tick = false;
 
-void Playing_init()
+void Button_Remake(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
+
+void Playing_init(PX_Application* pApp)
 {
+	// 初始化暂停菜单
+	object_pause = PX_ObjectCreate(&pApp->runtime.mp_ui, PX_NULL, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, 0, 0, 0, 0);
+	object_pause_button = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_pause, -64, 40, 128, 40, "Remake", &pApp->fm);
+	//PX_Object_PushButtonSetStyle(object_pause_button, PX_OBJECT_PUSHBUTTON_STYLE_ROUNDRECT);
+	PX_Object_PushButtonSetBackgroundColor(object_pause_button, PX_COLOR(128, 11, 33, 33));
+	PX_Object_PushButtonSetCursorColor(object_pause_button, PX_COLOR(128, 22, 66, 66));
+	PX_Object_PushButtonSetPushColor(object_pause_button, PX_COLOR(128, 11*3, 33*3, 33*3));
+	PX_ObjectRegisterEvent(object_pause_button, PX_OBJECT_EVENT_EXECUTE, Button_Remake, pApp);
+	object_pause->Visible = PX_FALSE;
+
+
 	tick_remain = 90000;
 	if (PLAYER_NUM > 0) // 初始化玩家1
 	{
@@ -53,6 +68,11 @@ void Playing_init()
 	cursor_init();
 }
 
+void Playing_PostEvent(PX_Object_Event e)
+{
+	PX_ObjectPostEvent(object_pause, e);
+}
+
 void Playing_KeyEsc()
 {
 	if (pause_tick == true)
@@ -68,11 +88,13 @@ void Playing_KeyEsc()
 void Playing_Pause()
 {
 	pause_tick = true;
+	object_pause->Visible = PX_TRUE;
 }
 
 void Playing_Continue()
 {
 	pause_tick = false;
+	object_pause->Visible = PX_FALSE;
 }
 
 void Playing_GetInput()
@@ -83,15 +105,16 @@ void Playing_GetInput()
 	}
 }
 
-void DrawPlaying_Pause(PX_Application* pApp)
+void DrawPlaying_Pause(PX_Application* pApp, px_dword elpased)
 {
-	PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 2, PX_ALIGN_LEFTTOP, "PAUSE", PX_COLOR(180, 255, 255, 255));
+	PX_FontModuleDrawText(&pApp->runtime.RenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH / 2 - 32, PX_APPLICATION_SURFACE_HEIGHT / 3, PX_ALIGN_LEFTTOP, "PAUSE", PX_COLOR(180, 255, 255, 255));
+	PX_ObjectRender(&pApp->runtime.RenderSurface, object_pause, elpased);
 }
 
 /**
 * @brief 绘制游戏时画面
 */
-void Playing_Draw(PX_Application* pApp)
+void Playing_Draw(PX_Application* pApp, px_dword elpased)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
 
@@ -109,7 +132,7 @@ void Playing_Draw(PX_Application* pApp)
 
 	if (pause_tick)
 	{
-		DrawPlaying_Pause(pApp);
+		DrawPlaying_Pause(pApp, elpased);
 	}
 	else
 	{
@@ -208,4 +231,9 @@ void Sys_tick_f()
 		//Sleep(10);
 		while (until > chrono::system_clock::now());
 	}
+}
+
+void Button_Remake(PX_Object *pObject, PX_Object_Event e, px_void *pApp)
+{
+	cout << "Hello" << endl;
 }

@@ -18,7 +18,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_FontModuleInitialize(&pApp->runtime.mp_resources, &pApp->fm)) return PX_FALSE;//字模
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 
-	Playing_init();
+	Playing_init(pApp);
 
 	return PX_TRUE;
 }
@@ -36,12 +36,14 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	PX_RuntimeRenderClear(&pApp->runtime, PX_COLOR(255, 11, 33, 33));
 
 	// 游戏时画面
-	Playing_Draw(pApp);
+	Playing_Draw(pApp, elpased);
 }
 
 px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 {
 	PX_ApplicationEventDefault(&pApp->runtime, e);
+
+	Playing_PostEvent(e);
 	
 	switch (e.Event)
 	{
