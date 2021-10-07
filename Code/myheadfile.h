@@ -18,5 +18,3 @@ enum class Direct
 	right
 };
 
-// 系统时钟计时函数
-void Sys_tick_f();

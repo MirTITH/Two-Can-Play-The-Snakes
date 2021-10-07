@@ -1,13 +1,68 @@
 #include "game_ui.h"
 
+GameMap gameMap;
+
 string text[PLAYER_NUM];
 
-int tick_remain = 90000;
+int tick_remain;
+
+bool is_pause = false;
+
+void Playing_init()
+{
+	tick_remain = 90000;
+	if (PLAYER_NUM > 0) // 初始化玩家1
+	{
+		// 配置按键映射
+		KeyMap keyMap_1;
+		keyMap_1.up = 87;//w
+		keyMap_1.down = 83;//s
+		keyMap_1.left = 65;//a
+		keyMap_1.right = 68;//d
+		keyMap_1.accelerate = 32; //space
+		keyMap_1.skill_1 = 69;//e
+		keyMap_1.skill_2 = 81;//q
+		keyMap_1.slowdown = VK_LSHIFT;
+
+		gameMap.player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 155, 144));
+	}
+
+	if (PLAYER_NUM > 1) // 初始化玩家2
+	{
+		// 配置按键映射
+		KeyMap keyMap_2;
+		keyMap_2.up = VK_UP;
+		keyMap_2.down = VK_DOWN;
+		keyMap_2.left = VK_LEFT;
+		keyMap_2.right = VK_RIGHT;
+		keyMap_2.accelerate = VK_NUMPAD0;
+		keyMap_2.skill_1 = VK_NUMPAD1;
+		keyMap_2.skill_2 = VK_NUMPAD2;
+		keyMap_2.slowdown = VK_RCONTROL;
+
+		gameMap.player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 144, 155, 255));
+	}
+
+	srand((int)time(NULL));
+
+	thread sys_tick(Sys_tick_f);
+	sys_tick.detach();
+
+	cursor_init();
+}
+
+void Playing_GetInput()
+{
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		gameMap.player[i].GetInput();
+	}
+}
 
 /**
 * @brief 绘制游戏时画面
 */
-void Draw_Playing(PX_Application* pApp)
+void Playing_Draw(PX_Application* pApp)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
 
@@ -91,5 +146,22 @@ void DrawFood(PX_Application* pApp)
 				PX_GeoDrawCircle(pRenderSurface, MapToScreen_x(x), MapToScreen_y(y), (px_int)6, 3, gameMap.GetMapBlock(x, y).food_color);
 			}
 		}
+	}
+}
+
+void Sys_tick_f()
+{
+	chrono::system_clock::time_point until;
+	while (!is_pause)
+	{
+		until = chrono::system_clock::now();
+		until += chrono::milliseconds(1);
+
+		gameMap.Update();
+		tick_remain--;
+
+		//Sleep(10);
+		while (until > chrono::system_clock::now());
+		//this_thread::sleep_for(chrono::milliseconds(1));
 	}
 }
