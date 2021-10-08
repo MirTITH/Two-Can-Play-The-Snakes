@@ -9,6 +9,9 @@
 
 #define PLAYER_NUM 2 // 玩家的数量
 
+extern px_color player_color[PLAYER_NUM];
+extern string player_name[PLAYER_NUM];
+
 using namespace std;
 
 class Player

@@ -10,6 +10,11 @@ PX_Object* object_pause, * object_button_pause, * object_button_continue, * obje
 
 PX_Object* object_MainMenu, * object_MainMenu_Text, * object_MainMenu_Title, * object_MainMenu_button_Muiti_Player, * object_MainMenu_button_EXIT;
 
+PX_Object* object_Name[PLAYER_NUM], * object_Name_InputBox[PLAYER_NUM], * object_Name_Text[PLAYER_NUM], * object_Name_NAME[PLAYER_NUM], * object_Name_COLOR[PLAYER_NUM],
+* object_Name_R[PLAYER_NUM],
+* object_Name_G[PLAYER_NUM],
+* object_Name_B[PLAYER_NUM];
+
 PX_Partical_Launcher partical_launcher[PLAYER_NUM];
 px_texture partical_tex;
 
@@ -54,11 +59,55 @@ void MainMenu_Init(PX_Application* pApp)
 	PX_Object_PushButtonSetPushColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11 * 3, 33 * 3, 22 * 3));
 	PX_ObjectRegisterEvent(object_MainMenu_button_EXIT, PX_OBJECT_EVENT_EXECUTE, Botton_EXIT, pApp);
 
+	// 昵称输入框
+	object_Name[0] = PX_ObjectCreate(&pApp->runtime.mp_ui, object_MainMenu, -300, 0, 0, 0, 0, 0);
+	object_Name[1] = PX_ObjectCreate(&pApp->runtime.mp_ui, object_MainMenu, 300, 0, 0, 0, 0, 0);
+	string text[2];
+	text[0] = "P1:";
+	text[1] = "P2:";
+
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		
+		object_Name_Text[i] = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_Name[i], -80, -40, 160, 40, text[i].c_str(), &pApp->fm, player_color[i]);
+		object_Name_NAME[i] = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_Name[i], -80, 20, 160, 40, "NAME:", &pApp->fm, player_color[i]);
+		object_Name_InputBox[i] = PX_Object_EditCreate(&pApp->runtime.mp_ui, object_Name[i], -80, 60, 160, 40, &pApp->fm);
+		PX_Object_EditSetText(object_Name_InputBox[i], player_name[i].c_str());
+		PX_Object_EditSetBackgroundColor(object_Name_InputBox[i], PX_COLOR(200, 11, 33, 33));
+		PX_Object_EditSetTextColor(object_Name_InputBox[i], player_color[i]);
+
+		object_Name_COLOR[i] = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_Name[i], -80, 120, 160, 40, "COLOR:", &pApp->fm, player_color[i]);
+		object_Name_R[i] = PX_Object_EditCreate(&pApp->runtime.mp_ui, object_Name[i], -80, 160, 50, 40, &pApp->fm);
+		object_Name_G[i] = PX_Object_EditCreate(&pApp->runtime.mp_ui, object_Name[i], -25, 160, 50, 40, &pApp->fm);
+		object_Name_B[i] = PX_Object_EditCreate(&pApp->runtime.mp_ui, object_Name[i], 30, 160, 50, 40, &pApp->fm);
+		PX_Object_EditSetText(object_Name_R[i], to_string(player_color[i]._argb.r).c_str());
+		PX_Object_EditSetText(object_Name_G[i], to_string(player_color[i]._argb.g).c_str());
+		PX_Object_EditSetText(object_Name_B[i], to_string(player_color[i]._argb.b).c_str());
+		PX_Object_EditSetBackgroundColor(object_Name_R[i], PX_COLOR(255, 100, 50, 50));
+		PX_Object_EditSetBackgroundColor(object_Name_G[i], PX_COLOR(255, 50, 100, 50));
+		PX_Object_EditSetBackgroundColor(object_Name_B[i], PX_COLOR(255, 50, 50, 100));
+		PX_Object_EditSetLimit(object_Name_R[i], "0123456789");
+		PX_Object_EditSetLimit(object_Name_G[i], "0123456789");
+		PX_Object_EditSetLimit(object_Name_B[i], "0123456789");
+	}
+	
+
 	object_MainMenu->Visible = FALSE;
 }
 
 void MainMenu_Draw(PX_Application* pApp, px_dword elpased)
 {
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		player_color[i]._argb.r = PX_atoi((PX_Object_EditGetText(object_Name_R[i])));
+		player_color[i]._argb.g = PX_atoi((PX_Object_EditGetText(object_Name_G[i])));
+		player_color[i]._argb.b = PX_atoi((PX_Object_EditGetText(object_Name_B[i])));
+		PX_Object_LabelSetTextColor(object_Name_Text[i], player_color[i]);
+		PX_Object_LabelSetTextColor(object_Name_NAME[i], player_color[i]);
+		PX_Object_LabelSetTextColor(object_Name_COLOR[i], player_color[i]);
+		PX_Object_EditSetTextColor(object_Name_InputBox[i], player_color[i]);
+	}
+	
 	PX_GeoDrawRect(&pApp->runtime.RenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 77, 66));
 	PX_ObjectRender(&pApp->runtime.RenderSurface, object_MainMenu, elpased);
 	cursor_draw(&pApp->runtime.RenderSurface);
@@ -87,6 +136,8 @@ void Playing_Init(PX_Application* pApp)
 
 void Playing_Start()
 {
+	GetAsyncKeyState(VK_SPACE);
+	GetAsyncKeyState(VK_NUMPAD0);
 	gameMap_Init();
 	thread sys_tick(Sys_tick_f);
 	sys_tick.detach();
@@ -116,12 +167,12 @@ void gameMap_Init()
 		keyMap_1.skill_2 = 81;//q
 		keyMap_1.slowdown = VK_LSHIFT;
 
-		gameMap->player[0].Init(0, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 209, 183));
-		gameMap->player[0].name = "祐子";
+		gameMap->player[0].Init(0, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, player_color[0]);
+		gameMap->player[0].name = player_name[0];
 
-		partical_launcher[0].LauncherInfo.hdrR = (px_float)gameMap->player[0].defaultColor._argb.r / 255;
-		partical_launcher[0].LauncherInfo.hdrG = (px_float)gameMap->player[0].defaultColor._argb.g / 255;
-		partical_launcher[0].LauncherInfo.hdrB = (px_float)gameMap->player[0].defaultColor._argb.b / 255;
+		partical_launcher[0].LauncherInfo.hdrR = (px_float)player_color[0]._argb.r / 255;
+		partical_launcher[0].LauncherInfo.hdrG = (px_float)player_color[0]._argb.g / 255;
+		partical_launcher[0].LauncherInfo.hdrB = (px_float)player_color[0]._argb.b / 255;
 	}
 
 	if (PLAYER_NUM > 1) // 初始化玩家2
@@ -137,12 +188,12 @@ void gameMap_Init()
 		keyMap_2.skill_2 = VK_NUMPAD2;
 		keyMap_2.slowdown = VK_RCONTROL;
 
-		gameMap->player[1].Init(1, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 187, 200, 255));
-		gameMap->player[1].name = "美绪";
+		gameMap->player[1].Init(1, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, player_color[1]);
+		gameMap->player[1].name = player_name[1];
 
-		partical_launcher[1].LauncherInfo.hdrR = (px_float)gameMap->player[1].defaultColor._argb.r / 255;
-		partical_launcher[1].LauncherInfo.hdrG = (px_float)gameMap->player[1].defaultColor._argb.g / 255;
-		partical_launcher[1].LauncherInfo.hdrB = (px_float)gameMap->player[1].defaultColor._argb.b / 255;
+		partical_launcher[1].LauncherInfo.hdrR = (px_float)player_color[1]._argb.r / 255;
+		partical_launcher[1].LauncherInfo.hdrG = (px_float)player_color[1]._argb.g / 255;
+		partical_launcher[1].LauncherInfo.hdrB = (px_float)player_color[1]._argb.b / 255;
 	}
 
 	tick_remain = 90000;
@@ -363,8 +414,8 @@ void DrawSnake(PX_Application* pApp)
 void DrawPlayerInfo(PX_Application* pApp)
 {
 	px_surface* pRenderSurface = &pApp->runtime.RenderSurface;
-	text[0] = "P1\n" + gameMap->player[0].name + "\n长度: " + to_string(gameMap->player[0].snake.GetLength());
-	text[1] = "P2\n" + gameMap->player[1].name + "\n长度: " + to_string(gameMap->player[1].snake.GetLength());
+	text[0] = "P1\n" + gameMap->player[0].name + "\nLENGTH: " + to_string(gameMap->player[0].snake.GetLength());
+	text[1] = "P2\n" + gameMap->player[1].name + "\nLENGTH: " + to_string(gameMap->player[1].snake.GetLength());
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, 10, 40, PX_ALIGN_LEFTTOP, text[0].c_str(), gameMap->player[0].defaultColor);
 	PX_FontModuleDrawText(pRenderSurface, &pApp->fm, PX_APPLICATION_SURFACE_WIDTH - 130, 40, PX_ALIGN_LEFTTOP, text[1].c_str(), gameMap->player[1].defaultColor);
 }
@@ -443,6 +494,11 @@ void Botton_EXIT(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
 
 void Botton_TWO_CAN_PLAY(PX_Object* pObject, PX_Object_Event e, px_void* pApp)
 {
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		player_name[i] = PX_Object_EditGetText(object_Name_InputBox[i]);
+	}
+	
 	MainMenu_End();
 	Playing_Start();
 }

@@ -2,6 +2,9 @@
 #include <Windows.h>
 #include "game_map.h"
 
+px_color player_color[PLAYER_NUM];
+string player_name[PLAYER_NUM];
+
 Player::Player()
 {
 	isInited = false;
