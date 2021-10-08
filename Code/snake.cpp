@@ -342,11 +342,11 @@ px_color Snake::GetColor(int order)
 
 	if (order >= 0)
 	{
-		pos = (double)order / (Length - 1);
+		pos = (double)order / (Length - 1) / 1.5;
 	}
 	else
 	{
-		pos = (double)(Length + order) / (Length - 1);
+		pos = (double)(Length + order) / (Length - 1) / 1.5;
 	}
 
 	color._argb.a = LinearlyChange(color_head._argb.a, color_body._argb.a, pos);

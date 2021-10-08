@@ -33,7 +33,7 @@ public:
 	* @brief 节拍加1（节拍加T次后蛇移动一格）
 	* @return void
 	*/
-	void Tick();
+	int Tick();
 
 	void GetInput();
 

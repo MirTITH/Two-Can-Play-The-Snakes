@@ -30,8 +30,6 @@ void MainMenu_End();
 
 void Playing_Init(PX_Application* pApp);
 
-void Playing_EXIT(PX_Application* pApp);
-
 /**
 * @brief 获取玩家输入
 */
@@ -59,6 +57,9 @@ void Counting_PostEvent(PX_Object_Event e);
 void Counting_Draw(PX_Application* pApp, px_dword elpased);
 
 void DrawFood(PX_Application* pApp);
+
+void Partical_Init(PX_Application* pApp);
+void Partical_Draw(PX_Application* pApp, px_dword elpased);
 
 // 系统时钟计时函数
 void Sys_tick_f();

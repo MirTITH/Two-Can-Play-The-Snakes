@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 PX_Application App;
 POINTER_POS cursor = { 0,0 };
 
@@ -21,6 +20,7 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	cursor_init();
 	MainMenu_Init(pApp);
 	Playing_Init(pApp);
+	Partical_Init(pApp);
 	MainMenu_Start();
 
 	return PX_TRUE;

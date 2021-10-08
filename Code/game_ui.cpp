@@ -10,6 +10,9 @@ PX_Object* object_pause, * object_button_pause, * object_button_continue, * obje
 
 PX_Object* object_MainMenu, * object_MainMenu_Text, * object_MainMenu_Title, * object_MainMenu_button_Muiti_Player, * object_MainMenu_button_EXIT;
 
+PX_Partical_Launcher partical_launcher[PLAYER_NUM];
+px_texture partical_tex;
+
 int tick_remain;
 
 bool end_tick;
@@ -21,11 +24,11 @@ void Button_Continue(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
 void Button_Playing_to_MainMenu(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
 void Botton_EXIT(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
 void Botton_TWO_CAN_PLAY(PX_Object* pObject, PX_Object_Event e, px_void* pApp);
+void GameExit();
 void gameMap_Init();
 void Playing_Start();
 void Playing_EXIT();
 void pauseMenu_Init(PX_Application* pApp);
-void GameExit();
 
 void MainMenu_Init(PX_Application* pApp)
 {
@@ -113,8 +116,12 @@ void gameMap_Init()
 		keyMap_1.skill_2 = 81;//q
 		keyMap_1.slowdown = VK_LSHIFT;
 
-		gameMap->player[0].Init(1, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 155, 144));
-		gameMap->player[0].name = "小红";
+		gameMap->player[0].Init(0, keyMap_1, MAP_SIZE_X / 3, MAP_SIZE_Y / 2, 20, PX_COLOR(255, 255, 209, 183));
+		gameMap->player[0].name = "祐子";
+
+		partical_launcher[0].LauncherInfo.hdrR = (px_float)gameMap->player[0].defaultColor._argb.r / 255;
+		partical_launcher[0].LauncherInfo.hdrG = (px_float)gameMap->player[0].defaultColor._argb.g / 255;
+		partical_launcher[0].LauncherInfo.hdrB = (px_float)gameMap->player[0].defaultColor._argb.b / 255;
 	}
 
 	if (PLAYER_NUM > 1) // 初始化玩家2
@@ -130,8 +137,12 @@ void gameMap_Init()
 		keyMap_2.skill_2 = VK_NUMPAD2;
 		keyMap_2.slowdown = VK_RCONTROL;
 
-		gameMap->player[1].Init(2, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 144, 155, 255));
-		gameMap->player[1].name = "小蓝";
+		gameMap->player[1].Init(1, keyMap_2, (int)(MAP_SIZE_X / 1.5), MAP_SIZE_Y / 2, 20, PX_COLOR(255, 187, 200, 255));
+		gameMap->player[1].name = "美绪";
+
+		partical_launcher[1].LauncherInfo.hdrR = (px_float)gameMap->player[1].defaultColor._argb.r / 255;
+		partical_launcher[1].LauncherInfo.hdrG = (px_float)gameMap->player[1].defaultColor._argb.g / 255;
+		partical_launcher[1].LauncherInfo.hdrB = (px_float)gameMap->player[1].defaultColor._argb.b / 255;
 	}
 
 	tick_remain = 90000;
@@ -281,6 +292,8 @@ void Playing_Draw(PX_Application* pApp, px_dword elpased)
 
 	// 绘制背景
 	PX_GeoDrawRect(pRenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 77, 66));
+
+	Partical_Draw(pApp, elpased);
 
 	DrawSnake(pApp);// 绘制蛇
 
@@ -438,4 +451,42 @@ void GameExit()
 {
 	this_thread::sleep_for(chrono::milliseconds(1000));
 	exit(0);
+}
+
+void Partical_Init(PX_Application* pApp)
+{
+	PX_ParticalLauncher_InitializeInfo partical_info;
+	PX_LoadTextureFromFile(&pApp->runtime.mp_resources, &partical_tex, "../../Resource/particle_1.traw");
+	PX_ParticalLauncherInitializeDefault(&partical_info);
+	partical_info.tex = &partical_tex;
+	partical_info.position.x = PX_APPLICATION_SURFACE_WIDTH / 2;
+	partical_info.position.y = PX_APPLICATION_SURFACE_HEIGHT / 2;
+	partical_info.direction = PX_POINT(0, -1, 0);
+	partical_info.velocity = 80;
+	partical_info.deviation_velocity = 20;
+	partical_info.ak = 0.995;
+	partical_info.generateDuration = 10;
+	partical_info.maxCount = 300;
+	partical_info.alive = 2000;
+	partical_info.deviation_rangAngle = 30;
+	partical_info.alpha = 0.5;
+	partical_info.atomsize = 0.3;
+	partical_info.sizeincrease = 0.3;
+	partical_info.deviation_atomsize = 0.1;
+	partical_info.alphaincrease = -0.3;
+	partical_info.launchCount = 0;
+
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		PX_ParticalLauncherCreate(&partical_launcher[i], &pApp->runtime.mp_game, partical_info);
+	}
+}
+
+void Partical_Draw(PX_Application* pApp, px_dword elpased)
+{
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		PX_ParticalLauncherRender(&pApp->runtime.RenderSurface, &partical_launcher[i], elpased);
+	}
+	
 }

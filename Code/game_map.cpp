@@ -6,6 +6,8 @@ default_random_engine randEngine(randDevice()); // 伪随机数生成引擎
 uniform_int_distribution<unsigned> rand_map_x(0, MAP_SIZE_X - 1);
 uniform_int_distribution<unsigned> rand_map_y(0, MAP_SIZE_Y - 1);
 
+extern PX_Partical_Launcher partical_launcher[PLAYER_NUM];
+
 px_int MapToScreen_x(int x)
 {
 	return (PX_APPLICATION_SURFACE_WIDTH - MAP_DISPLAY_X + MAP_DISPLAY_X / MAP_SIZE_X) / 2 + MAP_DISPLAY_X * x / MAP_SIZE_X;
@@ -47,7 +49,39 @@ void GameMap::Update()
 
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{
-		player[i].Tick();
+		if (player[i].Tick())
+		{
+			SnakeBlock* head = player[i].snake.Get(0);
+			PX_ParticalLauncherSetPosition(&partical_launcher[i], PX_POINT(MapToScreen_x(head->x), MapToScreen_y(head->y), 0));
+			px_point dir;
+			switch (player[i].snake.GetLastDir())
+			{
+			case Direct::up:
+				dir = PX_POINT(0, 1, 0);
+				break;
+			case Direct::down:
+				dir = PX_POINT(0, -1, 0);
+				break;
+			case Direct::left:
+				dir = PX_POINT(1, 0, 0);
+				break;
+			case Direct::right:
+				dir = PX_POINT(-1, 0, 0);
+				break;
+			default:
+				break;
+			}
+			PX_ParticalLauncherSetDirection(&partical_launcher[i], dir);
+		}
+
+		if (player[i].lostControl_tick != 0)
+		{
+			partical_launcher[i].LauncherInfo.launchCount = -1;
+		}
+		else
+		{
+			partical_launcher[i].LauncherInfo.launchCount = 0;
+		}
 	}
 	
 	
@@ -200,12 +234,3 @@ int GameMap::GetFood(int x, int y)
 
 	return mapBlock[x][y].foodNum;
 }
-
-//SnakeBlock* GameMap::DelSnakeBlock(int x, int y)
-//{
-//	SnakeBlock* result = mapBlock[x][y].snakeBlock;
-//	mapBlock[x][y].isExistSnake = false;
-//	mapBlock[x][y].snakeBlock = NULL;
-//	mapBlock[x][y].snake_Player = NULL;
-//	return result;
-//}
