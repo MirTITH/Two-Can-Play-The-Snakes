@@ -211,7 +211,7 @@ void gameMap_Init()
 		partical_launcher[1].LauncherInfo.hdrB = (px_float)player_color[1]._argb.b / 255;
 	}
 
-	tick_remain = 9000;
+	tick_remain = 60000;
 }
 
 void pauseMenu_Init(PX_Application* pApp)
