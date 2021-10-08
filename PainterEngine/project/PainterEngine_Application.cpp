@@ -18,9 +18,9 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	if (!PX_LoadFontModuleFromFile(&pApp->fm, "../../Resource/gbk_32.pxf")) return PX_FALSE;//加载中文字模
 
 	player_name[0] = "祐子";
-	player_color[0] = PX_COLOR(255, 255, 209, 183);
+	player_color[0] = PX_COLOR(255, 255, 200, 180);
 	player_name[1] = "美绪";
-	player_color[1] = PX_COLOR(255, 187, 200, 255);
+	player_color[1] = PX_COLOR(255, 180, 200, 255);
 
 	cursor_init();
 	MainMenu_Init(pApp);
@@ -140,32 +140,4 @@ px_void PX_ApplicationPostEvent(PX_Application *pApp,PX_Object_Event e)
 	default:
 		break;
 	}
-
-	//if (e.Event == PX_OBJECT_EVENT_KEYDOWN)
-	//{
-	//	keyboard.put(PX_Object_Event_GetKeyDown(e));
-	//	/*switch ()
-	//	{
-	//	case 87:
-	//		ball_pos.y -= 5;
-	//		break;
-	//	case 83:
-	//		ball_pos.y += 5;
-	//		break;
-	//	case 65:
-	//		ball_pos.x -= 5;
-	//		break;
-	//	case 68:
-	//		ball_pos.x += 5;
-	//		break;
-	//	default:
-	//		break;
-	//	}*/
-	//	
-	//}
-
-	//pt_last.x = pt.x;
-	//pt_last.y = pt.y;
-
-	
 }

@@ -38,30 +38,30 @@ void pauseMenu_Init(PX_Application* pApp);
 void MainMenu_Init(PX_Application* pApp)
 {
 	object_MainMenu = PX_ObjectCreate(&pApp->runtime.mp_ui, PX_NULL, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 3, 0, 0, 0, 0);
-	object_MainMenu_Title = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -150, -60, 300, 40, "Two Can Play The Snakes!", &pApp->fm, PX_COLOR(255, 255, 255, 255));
+	object_MainMenu_Title = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -150, -150, 300, 40, "Two Can Play The Snakes!", &pApp->fm, PX_COLOR(255, 255, 255, 255));
 	PX_Object_LabelSetAlign(object_MainMenu_Title, PX_ALIGN_MIDTOP);
-	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -80, 0, 160, 40, "MAIN MENU", &pApp->fm, PX_COLOR(200, 255, 255, 255));
+	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -80, -80, 160, 40, "MAIN MENU", &pApp->fm, PX_COLOR(200, 255, 255, 255));
 	PX_Object_LabelSetAlign(object_MainMenu_Text, PX_ALIGN_MIDTOP);
 	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -125, 400, 250, 40, "Copyright (c) 2021 Xie Yang", PX_NULL, PX_COLOR(200, 255, 255, 255));
 	PX_Object_LabelSetAlign(object_MainMenu_Text, PX_ALIGN_MIDTOP);
 
 	//按钮：Two Can Play!
-	object_MainMenu_button_Muiti_Player = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_MainMenu, -100, 60, 200, 60, "Two Can Play!", &pApp->fm);
+	object_MainMenu_button_Muiti_Player = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_MainMenu, -100, 60, 200, 60, "Play!", &pApp->fm);
 	PX_Object_PushButtonSetBackgroundColor(object_MainMenu_button_Muiti_Player, PX_COLOR(200, 11, 33, 33));
 	PX_Object_PushButtonSetCursorColor(object_MainMenu_button_Muiti_Player, PX_COLOR(200, 11 * 2, 33 * 2, 22 * 2));
 	PX_Object_PushButtonSetPushColor(object_MainMenu_button_Muiti_Player, PX_COLOR(200, 11 * 3, 33 * 3, 22 * 3));
 	PX_ObjectRegisterEvent(object_MainMenu_button_Muiti_Player, PX_OBJECT_EVENT_EXECUTE, Botton_TWO_CAN_PLAY, pApp);
 
 	//按钮：EXIT
-	object_MainMenu_button_EXIT = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_MainMenu, -100, 150, 200, 60, "EXIT", &pApp->fm);
+	object_MainMenu_button_EXIT = PX_Object_PushButtonCreate(&pApp->runtime.mp_ui, object_MainMenu, -100, 200, 200, 60, "EXIT", &pApp->fm);
 	PX_Object_PushButtonSetBackgroundColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11, 33, 33));
 	PX_Object_PushButtonSetCursorColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11 * 2, 33 * 2, 22 * 2));
 	PX_Object_PushButtonSetPushColor(object_MainMenu_button_EXIT, PX_COLOR(200, 11 * 3, 33 * 3, 22 * 3));
 	PX_ObjectRegisterEvent(object_MainMenu_button_EXIT, PX_OBJECT_EVENT_EXECUTE, Botton_EXIT, pApp);
 
 	// 昵称输入框
-	object_Name[0] = PX_ObjectCreate(&pApp->runtime.mp_ui, object_MainMenu, -300, 0, 0, 0, 0, 0);
-	object_Name[1] = PX_ObjectCreate(&pApp->runtime.mp_ui, object_MainMenu, 300, 0, 0, 0, 0, 0);
+	object_Name[0] = PX_ObjectCreate(&pApp->runtime.mp_ui, object_MainMenu, -300, 30, 0, 0, 0, 0);
+	object_Name[1] = PX_ObjectCreate(&pApp->runtime.mp_ui, object_MainMenu, 300, 30, 0, 0, 0, 0);
 	string text[2];
 	text[0] = "P1:";
 	text[1] = "P2:";
@@ -196,7 +196,7 @@ void gameMap_Init()
 		partical_launcher[1].LauncherInfo.hdrB = (px_float)player_color[1]._argb.b / 255;
 	}
 
-	tick_remain = 90000;
+	tick_remain = 9000;
 }
 
 void pauseMenu_Init(PX_Application* pApp)
