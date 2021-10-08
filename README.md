@@ -67,6 +67,11 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 
 ### 版本说明
 
+#### 1.1
+> 完善UI  
+> 游戏时间改为 60s  
+> *已添加Tag*
+
 #### 1.0
 > 多人模式制作完毕  
 > *已添加Tag*
