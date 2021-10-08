@@ -346,9 +346,16 @@
     <ClInclude Include="PainterEngine\platform\windows\px_display.h" />
     <ClInclude Include="PainterEngine\project\PainterEngine_Application.h" />
     <ClInclude Include="PainterEngine\project\PainterEngine_Startup.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Note\画布坐标.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MultiSnake.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
