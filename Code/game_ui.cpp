@@ -15,10 +15,18 @@ PX_Object* object_Name[PLAYER_NUM], * object_Name_InputBox[PLAYER_NUM], * object
 * object_Name_G[PLAYER_NUM],
 * object_Name_B[PLAYER_NUM];
 
+PX_Object* object_Welcome, * object_Welcome_Text, * object_Welcome_PRESENT;
+
 PX_Partical_Launcher partical_launcher[PLAYER_NUM];
 px_texture partical_tex;
 
 int tick_remain;
+
+int mainMenu_alpha;
+
+int welcome_alpha;
+
+bool welcome_flag;
 
 bool end_tick;
 
@@ -42,7 +50,7 @@ void MainMenu_Init(PX_Application* pApp)
 	PX_Object_LabelSetAlign(object_MainMenu_Title, PX_ALIGN_MIDTOP);
 	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -80, -80, 160, 40, "MAIN MENU", &pApp->fm, PX_COLOR(200, 255, 255, 255));
 	PX_Object_LabelSetAlign(object_MainMenu_Text, PX_ALIGN_MIDTOP);
-	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -125, 400, 250, 40, "Copyright (c) 2021 Xie Yang", PX_NULL, PX_COLOR(200, 255, 255, 255));
+	object_MainMenu_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_MainMenu, -125, 400, 250, 40, "Copyright (c) 2021 X. Y. GAMES", PX_NULL, PX_COLOR(200, 255, 255, 255));
 	PX_Object_LabelSetAlign(object_MainMenu_Text, PX_ALIGN_MIDTOP);
 
 	//按钮：Two Can Play!
@@ -111,6 +119,12 @@ void MainMenu_Draw(PX_Application* pApp, px_dword elpased)
 	PX_GeoDrawRect(&pApp->runtime.RenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(255, 55, 77, 66));
 	PX_ObjectRender(&pApp->runtime.RenderSurface, object_MainMenu, elpased);
 	cursor_draw(&pApp->runtime.RenderSurface);
+	PX_GeoDrawRect(&pApp->runtime.RenderSurface, MAP_EDGE_TO_SCREEN_L, MAP_EDGE_TO_SCREEN_U, MAP_EDGE_TO_SCREEN_R, MAP_EDGE_TO_SCREEN_D, PX_COLOR(mainMenu_alpha, 11, 33, 33));
+
+	if (mainMenu_alpha > 1)
+	{
+		mainMenu_alpha -= 2;
+	}
 }
 
 void MainMenu_Post_Event(PX_Object_Event e)
@@ -120,6 +134,7 @@ void MainMenu_Post_Event(PX_Object_Event e)
 
 void MainMenu_Start()
 {
+	mainMenu_alpha = 255;
 	object_MainMenu->Visible = TRUE;
 	page = Page::main_menu;
 }
@@ -545,4 +560,58 @@ void Partical_Draw(PX_Application* pApp, px_dword elpased)
 		PX_ParticalLauncherRender(&pApp->runtime.RenderSurface, &partical_launcher[i], elpased);
 	}
 	
+}
+
+void Welcome_Init(PX_Application* pApp)
+{
+	object_Welcome = PX_ObjectCreate(&pApp->runtime.mp_ui, PX_NULL, PX_APPLICATION_SURFACE_WIDTH / 2, PX_APPLICATION_SURFACE_HEIGHT / 2, 0, 0, 0, 0);
+	object_Welcome_Text = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_Welcome, -80, -60, 160, 40, "X. Y. GAMES", &pApp->fm, PX_COLOR(200, 255, 255, 255));
+	PX_Object_LabelSetAlign(object_Welcome_Text, PX_ALIGN_CENTER);
+
+	object_Welcome_PRESENT = PX_Object_LabelCreate(&pApp->runtime.mp_ui, object_Welcome, -80, 60, 160, 40, "PRESENT", &pApp->fm, PX_COLOR(200, 255, 255, 255));
+	PX_Object_LabelSetAlign(object_Welcome_PRESENT, PX_ALIGN_CENTER);
+	object_Welcome->Visible = FALSE;
+}
+
+void Welcome_Draw(PX_Application* pApp, px_dword elpased)
+{
+	if (welcome_flag)
+	{
+		if (welcome_alpha < 252)
+		{
+			welcome_alpha += 2;
+		}
+		else
+		{
+			this_thread::sleep_for(chrono::milliseconds(1000));
+			welcome_flag = false;
+		}
+	}
+	else
+	{
+		if (welcome_alpha > 3)
+		{
+			welcome_alpha -= 4;
+		}
+		else
+		{
+			this_thread::sleep_for(chrono::milliseconds(200));
+			MainMenu_Start();
+		}
+	}
+	
+
+
+	PX_Object_LabelSetTextColor(object_Welcome_Text, PX_COLOR(welcome_alpha,255,255,255));
+	PX_Object_LabelSetTextColor(object_Welcome_PRESENT, PX_COLOR(welcome_alpha, 255, 255, 255));
+
+	PX_ObjectRender(&pApp->runtime.RenderSurface, object_Welcome, elpased);
+}
+
+void Welcome_Start()
+{
+	welcome_flag = true;
+	welcome_alpha = 0;
+	object_Welcome->Visible = TRUE;
+	page = Page::welcome;
 }

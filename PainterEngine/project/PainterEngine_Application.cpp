@@ -23,10 +23,11 @@ px_bool PX_ApplicationInitialize(PX_Application *pApp,px_int screen_width,px_int
 	player_color[1] = PX_COLOR(255, 180, 200, 255);
 
 	cursor_init();
+	Welcome_Init(pApp);
 	MainMenu_Init(pApp);
 	Playing_Init(pApp);
 	Partical_Init(pApp);
-	MainMenu_Start();
+	Welcome_Start();
 
 	return PX_TRUE;
 }
@@ -35,6 +36,8 @@ px_void PX_ApplicationUpdate(PX_Application *pApp,px_dword elpased)
 {
 	switch (page)
 	{
+	case Page::welcome:
+		break;
 	case Page::main_menu:
 		break;
 	case Page::playing:
@@ -58,6 +61,9 @@ px_void PX_ApplicationRender(PX_Application *pApp,px_dword elpased)
 	// ”Œœ∑ ±ª≠√Ê
 	switch (page)
 	{
+	case Page::welcome:
+		Welcome_Draw(pApp, elpased);
+		break;
 	case Page::main_menu:
 		MainMenu_Draw(pApp, elpased);
 		break;

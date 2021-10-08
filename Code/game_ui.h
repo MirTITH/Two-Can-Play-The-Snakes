@@ -8,6 +8,7 @@
 
 enum class Page
 {
+	welcome,
 	main_menu,
 	playing,
 	counting,
@@ -60,6 +61,12 @@ void DrawFood(PX_Application* pApp);
 
 void Partical_Init(PX_Application* pApp);
 void Partical_Draw(PX_Application* pApp, px_dword elpased);
+
+void Welcome_Init(PX_Application* pApp);
+
+void Welcome_Draw(PX_Application* pApp, px_dword elpased);
+
+void Welcome_Start();
 
 // 系统时钟计时函数
 void Sys_tick_f();
