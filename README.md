@@ -33,6 +33,11 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 
    - 在限定的时间内达到更长的长度
 
+### 下载发行版
+
+- github: [Releases · MirTITH/Two-Can-Play-The-Snakes (github.com)](https://github.com/MirTITH/Two-Can-Play-The-Snakes/releases)
+- gitee: [Two Can Play The Snakes 发行版 - Gitee.com](https://gitee.com/tithchan/MultiSnake/releases/)
+
 ### 接下来的计划
 - [x] 规范License
 - [x] 增加蛇的加速功能
