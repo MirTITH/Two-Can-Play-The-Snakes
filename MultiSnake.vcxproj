@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Code\common.cpp" />
     <ClCompile Include="Code\cursor.cpp" />
     <ClCompile Include="Code\game_map.cpp" />
     <ClCompile Include="Code\game_ui.cpp" />
