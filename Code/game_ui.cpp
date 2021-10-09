@@ -575,8 +575,15 @@ void Welcome_Init(PX_Application* pApp)
 
 void Welcome_Draw(PX_Application* pApp, px_dword elpased)
 {
+	static int counter = 0;
 	if (welcome_flag)
 	{
+		//if (welcome_alpha == 0 && counter < 144)
+		//{
+		//	counter++;
+		//	return;
+		//}
+
 		if (welcome_alpha < 252)
 		{
 			welcome_alpha += 2;
