@@ -71,15 +71,15 @@ Copyright (C) 2021 Xie Yang. All rights reserved.
 - gitee: [TITHChan (tithchan) - Gitee.com](https://gitee.com/tithchan)
 
 ### 版本说明
+#### 1.2
+> 添加图标
 
 #### 1.1
 > 完善UI  
 > 游戏时间改为 60s  
-> *已添加Tag*
 
 #### 1.0
 > 多人模式制作完毕  
-> *已添加Tag*
 
 ### 引擎
 PainterEngine by DBinary

@@ -635,7 +635,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico">
+    <Image Include="Resource\Two_Can_Play_The_Snakes.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
